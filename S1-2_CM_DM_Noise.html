@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Common-Mode and Differential-Mode Noise | Section 1 — What Is EMC?</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
+.main-row { display: flex; gap: 12px; align-items: stretch; }
+.diagram-panel { flex: 0 0 540px; background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.diagram-banner { background: #1a3660; color: #88aacc; padding: 5px 14px; font-size: 9px; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; flex-shrink: 0; }
+.diagram-body { flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px; }
+.card-stack { flex: 1; display: flex; flex-direction: column; gap: 6px; justify-content: space-between; }
+.info-card { background: #fff; border: 1.5px solid #c8d8e8; border-left: 4px solid #002060; border-radius: 0 7px 7px 0; padding: 7px 12px 7px 14px; display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.card-head { font-size: 9.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.4px; color: #1a3660; }
+.card-body { font-size: 9px; color: #334466; line-height: 1.6; }
+.card-body strong { color: #002060; }
+.accent-navy   { border-left-color: #002060; }
+.accent-blue   { border-left-color: #1d5fa8; }
+.accent-amber  { border-left-color: #cc8800; }
+.accent-red    { border-left-color: #cc3d00; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">Common-Mode and Differential-Mode Noise</div>
+  <div class="header-tag">Section 1 — What Is EMC?</div>
+</div>
+<div class="outer">
+  <div class="main-row">
+    <div class="diagram-panel">
+      <div class="diagram-banner">Noise Current Paths — Differential-Mode vs. Common-Mode</div>
+      <div class="diagram-body">
+        <svg width="512" height="350" viewBox="0 0 512 350" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif">
+          <!-- Background -->
+          <rect width="512" height="350" rx="6" fill="#f4f8fc"/>
+
+          <!-- === DIFFERENTIAL MODE (top half) === -->
+          <text x="256" y="20" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a3660" letter-spacing="1">DIFFERENTIAL-MODE NOISE</text>
+
+          <!-- Conductors A and B -->
+          <rect x="30" y="38" width="220" height="16" rx="3" fill="#1d5fa8"/>
+          <text x="140" y="49" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">CONDUCTOR A</text>
+          <rect x="30" y="66" width="220" height="16" rx="3" fill="#1d5fa8"/>
+          <text x="140" y="77" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">CONDUCTOR B</text>
+
+          <!-- DM arrows — opposite directions -->
+          <defs>
+            <marker id="arrowR" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#cc3d00"/></marker>
+            <marker id="arrowL" markerWidth="7" markerHeight="7" refX="1" refY="3.5" orient="auto-start-reverse"><polygon points="0 0, 7 3.5, 0 7" fill="#cc3d00"/></marker>
+          </defs>
+          <line x1="40" y1="46" x2="240" y2="46" stroke="#cc3d00" stroke-width="2" marker-end="url(#arrowR)"/>
+          <line x1="240" y1="74" x2="40" y2="74" stroke="#cc3d00" stroke-width="2" marker-end="url(#arrowL)"/>
+
+          <text x="140" y="96" text-anchor="middle" font-size="8.5" fill="#8b2000">Currents flow in <tspan font-weight="bold">opposite</tspan> directions — series with the useful signal</text>
+
+          <!-- Source / Load boxes for DM -->
+          <rect x="262" y="34" width="80" height="54" rx="4" fill="#eef3f8" stroke="#3d7fbd" stroke-width="1.5"/>
+          <text x="302" y="57" text-anchor="middle" font-size="9" fill="#334466" font-weight="bold">NOISE</text>
+          <text x="302" y="70" text-anchor="middle" font-size="9" fill="#334466" font-weight="bold">SOURCE</text>
+          <rect x="352" y="34" width="80" height="54" rx="4" fill="#eef3f8" stroke="#3d7fbd" stroke-width="1.5"/>
+          <text x="392" y="57" text-anchor="middle" font-size="9" fill="#334466" font-weight="bold">VICTIM</text>
+          <text x="392" y="70" text-anchor="middle" font-size="9" fill="#334466" font-weight="bold">CIRCUIT</text>
+          <line x1="312" y1="46" x2="352" y2="46" stroke="#cc3d00" stroke-width="2" marker-end="url(#arrowR)"/>
+          <line x1="352" y1="74" x2="312" y2="74" stroke="#cc3d00" stroke-width="2" marker-end="url(#arrowL)"/>
+
+          <!-- Divider line -->
+          <line x1="10" y1="114" x2="502" y2="114" stroke="#c8d8e8" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+          <!-- === COMMON MODE (bottom half) === -->
+          <text x="256" y="130" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a3660" letter-spacing="1">COMMON-MODE NOISE</text>
+
+          <!-- Conductors A and B (CM) -->
+          <rect x="30" y="148" width="220" height="16" rx="3" fill="#1d5fa8"/>
+          <text x="140" y="159" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">CONDUCTOR A</text>
+          <rect x="30" y="176" width="220" height="16" rx="3" fill="#1d5fa8"/>
+          <text x="140" y="187" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">CONDUCTOR B</text>
+
+          <!-- PE/Ground return -->
+          <rect x="30" y="210" width="220" height="14" rx="3" fill="#1a7040"/>
+          <text x="140" y="220" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">PROTECTIVE EARTH (GROUND RETURN)</text>
+
+          <!-- CM arrows — same direction on both conductors -->
+          <defs>
+            <marker id="arrowR2" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#cc3d00"/></marker>
+          </defs>
+          <line x1="40" y1="156" x2="240" y2="156" stroke="#cc3d00" stroke-width="2" marker-end="url(#arrowR2)"/>
+          <line x1="40" y1="184" x2="240" y2="184" stroke="#cc3d00" stroke-width="2" marker-end="url(#arrowR2)"/>
+          <!-- Return arrow on PE -->
+          <defs>
+            <marker id="arrowL2" markerWidth="7" markerHeight="7" refX="1" refY="3.5" orient="auto-start-reverse"><polygon points="0 0, 7 3.5, 0 7" fill="#1a7040"/></marker>
+          </defs>
+          <line x1="240" y1="217" x2="40" y2="217" stroke="#1a7040" stroke-width="2" marker-end="url(#arrowL2)"/>
+
+          <text x="140" y="238" text-anchor="middle" font-size="8.5" fill="#1a5c30">Currents flow in the <tspan font-weight="bold">same</tspan> direction — return via ground/PE</text>
+
+          <!-- Source / Load boxes for CM -->
+          <rect x="262" y="144" width="80" height="90" rx="4" fill="#eef3f8" stroke="#3d7fbd" stroke-width="1.5"/>
+          <text x="302" y="185" text-anchor="middle" font-size="9" fill="#334466" font-weight="bold">NOISE</text>
+          <text x="302" y="198" text-anchor="middle" font-size="9" fill="#334466" font-weight="bold">SOURCE</text>
+          <rect x="352" y="144" width="80" height="90" rx="4" fill="#eef3f8" stroke="#3d7fbd" stroke-width="1.5"/>
+          <text x="392" y="185" text-anchor="middle" font-size="9" fill="#334466" font-weight="bold">VICTIM</text>
+          <text x="392" y="198" text-anchor="middle" font-size="9" fill="#334466" font-weight="bold">CIRCUIT</text>
+          <line x1="312" y1="156" x2="352" y2="156" stroke="#cc3d00" stroke-width="2" marker-end="url(#arrowR2)"/>
+          <line x1="312" y1="184" x2="352" y2="184" stroke="#cc3d00" stroke-width="2" marker-end="url(#arrowR2)"/>
+
+          <!-- RFI note at bottom -->
+          <rect x="10" y="260" width="492" height="32" rx="5" fill="#f0f4ff" stroke="#3d7fbd" stroke-width="1"/>
+          <text x="256" y="272" text-anchor="middle" font-size="8.5" fill="#334466"><tspan font-weight="bold">RFI (Radio Frequency Interference)</tspan> = older term; refers specifically to interference with radio signals.</text>
+          <text x="256" y="285" text-anchor="middle" font-size="8.5" fill="#334466">EMC is the broader, modern term. In practice the two are used interchangeably in most contexts.</text>
+
+          <!-- Divider label -->
+          <text x="256" y="310" text-anchor="middle" font-size="8" fill="#8899aa">Drives produce predominantly common-mode noise — managed via shielded cable and 360° termination</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="card-stack">
+      <div class="info-card accent-navy">
+        <div class="card-head">Differential-Mode</div>
+        <div class="card-body">Noise current flows in <strong>opposite directions</strong> on the two conductors of a circuit. It behaves like a signal and appears in series with the useful voltage. Filtered by series inductors and capacitors across the line.</div>
+      </div>
+      <div class="info-card accent-blue">
+        <div class="card-head">Common-Mode</div>
+        <div class="card-body">Noise current flows in the <strong>same direction</strong> on all conductors. Its return path is via the ground/PE conductor or equipment chassis. This is the dominant mode in AC drive systems — driven by parasitic capacitance to motor frame.</div>
+      </div>
+      <div class="info-card accent-amber">
+        <div class="card-head">Why CM Is the Problem</div>
+        <div class="card-body">CM current from a drive returns through the PE system. Without a local, low-impedance return path (shielded cable), it flows through the mains supply — causing interference in other equipment connected to the same supply.</div>
+      </div>
+      <div class="info-card accent-red">
+        <div class="card-head">RFI vs. EMC</div>
+        <div class="card-body"><strong>RFI</strong> (Radio Frequency Interference) is an older, narrower term for interference with radio reception. <strong>EMC</strong> is the modern, broader standard covering all electrical equipment. 46&nbsp;CFR&nbsp;§143.575 uses the term "radio reception interference" — meaning RFI control is a regulatory requirement on vessels.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">AC drives produce primarily <strong>common-mode</strong> noise — current that flows on all output conductors simultaneously with its return path via ground. The correct solution is a low-impedance ground return path provided by a shielded motor cable with 360° terminations at both ends.</div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')';
+      document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit();
+    window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

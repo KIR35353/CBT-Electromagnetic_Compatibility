@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>{{SCREEN_TITLE}} | {{SECTION_LABEL}}</title>
+<!--
+  LAYOUT: VERTICAL PROCESS / HIERARCHY LAYERS
+  ─────────────────────────────────────────────────────────────
+  Use when: you need to show a sequential process, a protection
+  hierarchy, a decision chain, or a layered system where the
+  ORDER and RELATIONSHIP between steps matters.
+
+  Inspired by S4-5 Protection Coordination Summary — six
+  protection layers from ROCOF detection to turbine trip,
+  with arrows between each layer and commentary on the right.
+
+  Left panel: 540 px — vertical stack of N layers with arrows
+  Right panel: flex 1 — 2–3 principle/note boxes
+
+  LAYER ACCENT COLOURS
+  Each layer has a coloured left-bar and matching border.
+  Suggested palette for ordered severity sequences:
+    Stage 1 (earliest/fastest): amber   #cc8800
+    Stage 2:                    orange  #cc6000
+    Stage 3 (primary response): navy    #1a3660
+    Stage 4:                    red     #cc3d00
+    Stage 5 (last resort):      dark red #8b2000
+  Or use blue/green/amber for informational hierarchies.
+
+  ARROWS
+  CSS arrow between layers — no SVG needed.
+  Uses a pseudo-element on .layer-arrow divs.
+─────────────────────────────────────────────────────────────-->
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #f8fafb;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 1040px;
+  min-height: 510px;
+  overflow: hidden;
+}
+
+/* ── HEADER ──────────────────────────────────────────────── */
+.header {
+  background: #002060; color: #fff;
+  height: 50px; display: flex; align-items: center;
+  padding: 0 24px; justify-content: space-between;
+}
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag {
+  background: #1a3660; border: 1px solid #3d7fbd;
+  border-radius: 12px; padding: 4px 16px;
+  font-size: 10px; font-weight: bold; color: #88aacc;
+  letter-spacing: 0.5px; white-space: nowrap;
+}
+
+/* ── OUTER ───────────────────────────────────────────────── */
+.outer {
+  padding: 10px 16px 0;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.main-row { display: flex; gap: 14px; align-items: flex-start; }
+
+/* ── LEFT: LAYERS PANEL ──────────────────────────────────── */
+.layers-panel {
+  flex: 0 0 530px;
+  display: flex; flex-direction: column; gap: 0;
+}
+
+/* Each coloured layer row */
+.layer {
+  display: flex; align-items: stretch;
+  border-radius: 4px; overflow: hidden;
+  border: 1.5px solid #c8d8e8;
+  margin-bottom: 0;
+}
+
+.layer-bar {
+  width: 8px;
+  flex-shrink: 0;
+  /* background set per-layer via inline style or class */
+}
+
+.layer-inner {
+  flex: 1;
+  display: flex; align-items: center;
+  padding: 6px 12px;
+  gap: 10px;
+  background: #fff;
+}
+
+.layer-badge {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: bold; color: #fff;
+  flex-shrink: 0;
+  /* background set per-layer */
+}
+
+.layer-content { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.layer-title   { font-size: 9px; font-weight: bold; color: #1a3660; letter-spacing: 0.3px; }
+.layer-desc    { font-size: 8.5px; color: #334466; line-height: 1.5; }
+
+.layer-timing {
+  text-align: right; flex-shrink: 0; display: flex; flex-direction: column;
+  align-items: flex-end; justify-content: center; gap: 2px;
+}
+.layer-timing-val  { font-size: 8px; font-weight: bold; color: #1a3660; }
+.layer-timing-label{ font-size: 7.5px; color: #778899; }
+
+/* Arrow connector between layers */
+.layer-arrow {
+  display: flex; align-items: center; justify-content: center;
+  height: 10px; margin: 0 0 0 12px;
+}
+.layer-arrow::before {
+  content: '';
+  display: block;
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 7px solid #8899aa;
+}
+
+/* ── RIGHT: NOTES PANEL ──────────────────────────────────── */
+.notes-panel {
+  flex: 1;
+  display: flex; flex-direction: column;
+  gap: 8px;
+}
+
+.note-box {
+  background: #fff;
+  border: 1.5px solid #c8d8e8;
+  border-left: 4px solid #002060;
+  border-radius: 0 7px 7px 0;
+  padding: 8px 12px 8px 14px;
+}
+.note-head { font-size: 9.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.4px; color: #1a3660; margin-bottom: 4px; }
+.note-body { font-size: 8.5px; color: #334466; line-height: 1.65; }
+.note-body strong { color: #002060; }
+
+.note-box-dark {
+  background: #002060;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 12px;
+}
+.note-box-dark .note-head { color: #cc8800; }
+.note-box-dark .note-body { color: #dce7f5; }
+.note-box-dark .note-body strong { color: #fff; }
+
+/* ── KEY CONCEPT BAR ─────────────────────────────────────── */
+.key-concept-bar {
+  background: #fff4ee;
+  border: 1px solid #e8c0a8;
+  border-left: 4px solid #cc3d00;
+  border-radius: 7px;
+  padding: 8px 18px 8px 22px;
+}
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+
+/* ── ACCENT HELPER CLASSES ───────────────────────────────── */
+/* Apply to .layer to colour the left bar and badge:
+   Add style="--lc:#cc8800" and use var(--lc) in inline style,
+   or just set the background directly.
+
+   Quick palette classes for common uses: */
+.layer-amber  .layer-bar, .layer-amber  .layer-badge { background: #cc8800; }
+.layer-amber  .layer-inner { background: #fff8e0; border-color: #cc8800; }
+.layer-orange .layer-bar, .layer-orange .layer-badge { background: #cc6000; }
+.layer-orange .layer-inner { background: #fff0e8; border-color: #cc6000; }
+.layer-navy   .layer-bar, .layer-navy   .layer-badge { background: #1a3660; }
+.layer-navy   .layer-inner { background: #e8f0f8; border-color: #1a3660; }
+.layer-red    .layer-bar, .layer-red    .layer-badge { background: #cc3d00; }
+.layer-red    .layer-inner { background: #ffe8e0; border-color: #cc3d00; }
+.layer-darkred.layer-bar, .layer-darkred.layer-badge { background: #8b2000; }
+.layer-darkred.layer-inner { background: #fee8e8; border-color: #8b2000; }
+.layer-green  .layer-bar, .layer-green  .layer-badge { background: #1a7040; }
+.layer-green  .layer-inner { background: #e8f8ee; border-color: #1a7040; }
+.layer-blue   .layer-bar, .layer-blue   .layer-badge { background: #1d5fa8; }
+.layer-blue   .layer-inner { background: #eef4fb; border-color: #3d7fbd; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-title">{{SCREEN_TITLE}}</div>
+  <div class="header-tag">{{SECTION_LABEL}}</div>
+</div>
+
+<div class="outer">
+  <div class="main-row">
+
+    <!-- ── LEFT: PROCESS / HIERARCHY LAYERS ─────────────────
+         Each .layer has a colour class (e.g. layer-amber).
+         Inside: .layer-bar (coloured left edge) + .layer-inner.
+         .layer-inner contains: badge number, title+desc, timing.
+         Between layers: .layer-arrow (CSS down-arrow).
+
+         Add or remove layers to match your content.
+         Typical range: 4–7 layers.
+         Keep .layer-desc to 1–2 lines for legibility.
+    ─────────────────────────────────────────────────────── -->
+    <div class="layers-panel">
+
+      <div class="layer layer-amber">
+        <div class="layer-bar"></div>
+        <div class="layer-inner">
+          <div class="layer-badge">1</div>
+          <div class="layer-content">
+            <div class="layer-title">① Layer 1 Title — First / Fastest Stage</div>
+            <div class="layer-desc">Brief description of what happens at this stage. Who or what triggers it, and what action it takes.</div>
+          </div>
+          <div class="layer-timing">
+            <div class="layer-timing-val">&lt; 200 ms</div>
+            <div class="layer-timing-label">response</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer-arrow"></div>
+
+      <div class="layer layer-orange">
+        <div class="layer-bar"></div>
+        <div class="layer-inner">
+          <div class="layer-badge">2</div>
+          <div class="layer-content">
+            <div class="layer-title">② Layer 2 Title — Second Stage</div>
+            <div class="layer-desc">What this layer does and under what conditions it activates. How long it takes to act.</div>
+          </div>
+          <div class="layer-timing">
+            <div class="layer-timing-val">0.5 s</div>
+            <div class="layer-timing-label">per step</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer-arrow"></div>
+
+      <div class="layer layer-navy">
+        <div class="layer-bar"></div>
+        <div class="layer-inner">
+          <div class="layer-badge">3</div>
+          <div class="layer-content">
+            <div class="layer-title">③ Layer 3 Title — Primary Response</div>
+            <div class="layer-desc">The main corrective action. Describe the mechanism and expected outcome if all is well.</div>
+          </div>
+          <div class="layer-timing">
+            <div class="layer-timing-val">5–10 s</div>
+            <div class="layer-timing-label">ramp time</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer-arrow"></div>
+
+      <div class="layer layer-red">
+        <div class="layer-bar"></div>
+        <div class="layer-inner">
+          <div class="layer-badge">4</div>
+          <div class="layer-content">
+            <div class="layer-title">④ Layer 4 Title — Emergency Stage</div>
+            <div class="layer-desc">Activated only if earlier layers were insufficient. Shorter time, deeper intervention.</div>
+          </div>
+          <div class="layer-timing">
+            <div class="layer-timing-val">0.1–0.3 s</div>
+            <div class="layer-timing-label">per step</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer-arrow"></div>
+
+      <div class="layer layer-darkred">
+        <div class="layer-bar"></div>
+        <div class="layer-inner">
+          <div class="layer-badge">5</div>
+          <div class="layer-content">
+            <div class="layer-title">⑤ Layer 5 Title — Last Resort</div>
+            <div class="layer-desc">The outcome all previous layers exist to prevent. Describe the consequence clearly so learners understand what is at stake.</div>
+          </div>
+          <div class="layer-timing">
+            <div class="layer-timing-val">Outcome</div>
+            <div class="layer-timing-label">if all fail</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /layers-panel -->
+
+    <!-- ── RIGHT: NOTES / PRINCIPLES ────────────────────────
+         2–3 boxes explaining the coordination logic or
+         the key implication of the layer structure above.
+         Use .note-box-dark for a high-contrast warning box.
+    ─────────────────────────────────────────────────────── -->
+    <div class="notes-panel">
+
+      <div class="note-box" style="border-left-color:#1d5fa8;">
+        <div class="note-head">Coordination Principle</div>
+        <div class="note-body">
+          Explain how the layers must work together.
+          <strong>Bold the key constraint.</strong>
+          This is not independent operation — each layer assumes
+          the earlier ones behaved as designed.
+        </div>
+      </div>
+
+      <div class="note-box" style="border-left-color:#cc3d00;">
+        <div class="note-head" style="color:#8b2000;">Gaps and Overlaps</div>
+        <div class="note-body">
+          Describe what goes wrong if two layers are not calibrated
+          against each other. A gap leaves a range where nothing
+          acts. An overlap causes conflicting actions.
+        </div>
+      </div>
+
+      <div class="note-box note-box-dark">
+        <div class="note-head">⚠ Responsibility Note</div>
+        <div class="note-body">
+          Who owns each layer? State who is responsible for ensuring
+          the layers are <strong>coordinated as a system</strong>
+          rather than specified in isolation by separate suppliers
+          or engineers.
+        </div>
+      </div>
+
+    </div><!-- /notes-panel -->
+
+  </div><!-- /main-row -->
+
+  <!-- KEY CONCEPT BAR -->
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">
+      Replace with the single most important takeaway.
+      For a hierarchy screen this is typically the coordination
+      principle: "Each layer must be calibrated against the others —
+      [consequence of gaps] and [consequence of overlaps]."
+    </div>
+  </div>
+
+</div><!-- /outer -->
+
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')';
+      document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit();
+    window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>EMI vs. EMC | Section 1 — What Is EMC?</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
+.intro-bar { background: #f0f4ff; border: 1px solid #3d7fbd; border-radius: 6px; padding: 6px 14px; font-size: 8.5px; color: #334466; line-height: 1.5; }
+.intro-bar strong { color: #1a3a80; }
+.columns-row { display: flex; gap: 10px; flex: 1; }
+.col { flex: 1; background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.col-header { padding: 7px 14px 6px; font-size: 9px; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; color: #fff; display: flex; align-items: center; gap: 8px; }
+.col-icon { font-size: 13px; line-height: 1; }
+.col-header-red    { background: #8b2000; }
+.col-header-green  { background: #1a5c30; }
+.col-body { flex: 1; padding: 8px 12px; display: flex; flex-direction: column; gap: 5px; overflow: hidden; }
+.col-item { display: flex; align-items: flex-start; gap: 9px; padding: 6px 8px; background: #f8fafb; border-radius: 5px; border-left: 3px solid transparent; }
+.col-item-navy   { border-left-color: #002060; }
+.col-item-green  { border-left-color: #1a7040; }
+.col-item-blue   { border-left-color: #1d5fa8; }
+.col-item-red    { border-left-color: #cc3d00; }
+.col-item-amber  { border-left-color: #cc8800; }
+.col-item-icon { font-size: 14px; flex-shrink: 0; line-height: 1.4; }
+.col-item-text { flex: 1; font-size: 9px; color: #334466; line-height: 1.6; }
+.col-item-text strong { color: #1a3660; }
+.vs-divider { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 0 0 26px; }
+.vs-badge { width: 24px; height: 24px; border-radius: 50%; background: #8899aa; color: #fff; font-size: 9px; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+.compat-bar { background: #1a3660; border-radius: 7px; padding: 7px 16px; }
+.compat-bar-text { font-size: 8.5px; color: #88aacc; line-height: 1.55; }
+.compat-bar-text strong { color: #fff; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">EMI vs. EMC — Two Sides of the Same Problem</div>
+  <div class="header-tag">Section 1 — What Is EMC?</div>
+</div>
+<div class="outer">
+  <div class="intro-bar">
+    <strong>Concept:</strong> A device must be <em>controlled in emission</em> (what it puts out) and <em>adequate in immunity</em> (what it can tolerate). The gap between these two levels is the <strong>compatibility margin</strong> — the wider it is, the safer the installation.
+  </div>
+  <div class="columns-row">
+
+    <div class="col">
+      <div class="col-header col-header-red">
+        <span class="col-icon">&#128308;</span>
+        Emission — What the Device Outputs
+      </div>
+      <div class="col-body">
+        <div class="col-item col-item-red">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text"><strong>Definition:</strong> Electromagnetic energy unintentionally radiated or conducted by a device into its environment.</div>
+        </div>
+        <div class="col-item col-item-red">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text"><strong>AC Drive Source:</strong> The inverter's high-frequency PWM switching generates common-mode and differential-mode conducted noise on the supply leads and radiated emissions from motor cables.</div>
+        </div>
+        <div class="col-item col-item-amber">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text"><strong>Regulatory Limit:</strong> EN&nbsp;55011 / CISPR&nbsp;11 defines conducted and radiated emission limits by environment class. Drives must meet these limits — tested as a complete system including motor cable.</div>
+        </div>
+        <div class="col-item col-item-navy">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text"><strong>Controlled By:</strong> RFI filter on mains input, shielded motor cable, 360° shield termination, and drive-to-backplate metal bonding.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vs-divider"><div class="vs-badge">vs</div></div>
+
+    <div class="col">
+      <div class="col-header col-header-green">
+        <span class="col-icon">&#128994;</span>
+        Immunity — What the Device Can Tolerate
+      </div>
+      <div class="col-body">
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text"><strong>Definition:</strong> The ability of a device to continue operating correctly when exposed to electromagnetic disturbances from its environment.</div>
+        </div>
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text"><strong>Tested Against:</strong> IEC&nbsp;61000-4 series — electrostatic discharge (ESD), radiated and conducted RF, fast transients, surges, voltage dips, and magnetic fields.</div>
+        </div>
+        <div class="col-item col-item-blue">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text"><strong>Performance Criteria:</strong> Class A = operates normally during test. Class B = temporary degradation, self-recovers. Class C = requires reset but no data loss. Drives must meet Class&nbsp;A for most industrial immunity tests.</div>
+        </div>
+        <div class="col-item col-item-navy">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text"><strong>Marine Relevance:</strong> On a vessel, immunity matters — the drive must not misoperate due to the radio transmitters, radar, or lightning surges present in the marine electromagnetic environment.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="compat-bar">
+    <div class="compat-bar-text"><strong>Compatibility Margin:</strong> The gap between the victim device's immunity level and the source device's emission level. A positive margin means the system coexists correctly. The wider the margin, the more robust the installation against unexpected disturbances.</div>
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">EMC requires both controlled <strong>emission</strong> and adequate <strong>immunity</strong>. An AC drive installation must meet published emission limits AND ensure that the drive itself, and connected equipment (AIS, VHF radio, GPS), are not degraded by the drive's electromagnetic output.</div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')';
+      document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit();
+    window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

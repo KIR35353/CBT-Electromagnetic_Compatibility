@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>EDM — The Key Numbers | Section 4 — Bearing Electric Stress</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 10px; }
+.stat-row { display: flex; gap: 10px; }
+.stat-card { flex: 1; background: #fff; border: 1.5px solid #c8d8e8; border-top: 4px solid #002060; border-radius: 8px; padding: 10px 12px 8px; display: flex; flex-direction: column; gap: 4px; text-align: center; }
+.stat-navy  { border-top-color: #002060; }
+.stat-blue  { border-top-color: #1d5fa8; }
+.stat-amber { border-top-color: #cc8800; background: #fffbf2; }
+.stat-red   { border-top-color: #cc3d00; background: #fff8f5; }
+.stat-green { border-top-color: #1a7040; background: #f4fdf7; }
+.stat-super { font-size: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.6px; color: #778899; margin-bottom: 2px; }
+.stat-val { font-size: 30px; font-weight: bold; line-height: 1; color: #002060; }
+.stat-green .stat-val { color: #1a5c30; }
+.stat-amber .stat-val { color: #7a5000; }
+.stat-red   .stat-val { color: #8b2000; }
+.stat-navy  .stat-val, .stat-blue .stat-val { color: #002060; }
+.stat-unit { font-size: 12px; font-weight: bold; color: #8899aa; margin-left: 2px; }
+.stat-label { font-size: 9px; font-weight: bold; color: #1a3660; text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px; }
+.stat-context { font-size: 7.5px; color: #778899; line-height: 1.5; margin-top: 2px; }
+.detail-row { display: flex; gap: 10px; }
+.support-panel { flex: 1; background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.support-banner { background: #1a3660; color: #88aacc; padding: 5px 14px; font-size: 9px; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; flex-shrink: 0; }
+.support-body { flex: 1; padding: 8px 12px; font-size: 9px; color: #334466; line-height: 1.65; display: flex; flex-direction: column; gap: 5px; }
+.support-body strong { color: #002060; }
+.bar-row { display: flex; align-items: center; gap: 8px; }
+.bar-label { font-size: 8.5px; color: #334466; width: 160px; flex-shrink: 0; }
+.bar-track { flex: 1; height: 12px; background: #eef2f8; border-radius: 6px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 6px; }
+.bar-value { font-size: 8.5px; font-weight: bold; color: #002060; width: 46px; text-align: right; flex-shrink: 0; }
+.row-item { display: flex; align-items: flex-start; gap: 8px; padding: 4px 6px; background: #f8fafb; border-radius: 4px; border-left: 3px solid #c8d8e8; }
+.row-item-r { border-left-color: #cc3d00; }
+.row-item-a { border-left-color: #cc8800; }
+.row-item-g { border-left-color: #1a7040; }
+.row-item-n { border-left-color: #002060; }
+.row-icon { flex-shrink: 0; font-size: 11px; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">Bearing Electric Stress — Key Numbers</div>
+  <div class="header-tag">Section 4 — Bearing Electric Stress</div>
+</div>
+<div class="outer">
+  <div class="stat-row">
+    <div class="stat-card stat-blue">
+      <div class="stat-super">Lubricant film thickness</div>
+      <div class="stat-val">0.5<span class="stat-unit">μm</span></div>
+      <div class="stat-label">Bearing Oil Film Thickness</div>
+      <div class="stat-context">The Hertzian contact zone — thinner than a human hair. This thin film separates the rolling element from the race. At this thickness, dielectric breakdown occurs at very low voltages.</div>
+    </div>
+    <div class="stat-card stat-amber">
+      <div class="stat-super">EDM threshold voltage</div>
+      <div class="stat-val">~10<span class="stat-unit">V</span></div>
+      <div class="stat-label">Bearing Breakdown Voltage</div>
+      <div class="stat-context">At ~10 V across the 0.5 μm film, the lubricant's dielectric strength is exceeded. The film punctures and a current discharge occurs — electroerosion of the metal surface.</div>
+    </div>
+    <div class="stat-card stat-red">
+      <div class="stat-super">Typical shaft voltage</div>
+      <div class="stat-val">10–50<span class="stat-unit">V</span></div>
+      <div class="stat-label">Drive-Induced Shaft Voltage</div>
+      <div class="stat-context">The CM voltage produced by a modern inverter-driven motor creates a capacitively-coupled shaft voltage. Without mitigation, this routinely exceeds the 10 V EDM threshold.</div>
+    </div>
+    <div class="stat-card stat-navy">
+      <div class="stat-super">Motor size risk threshold</div>
+      <div class="stat-val">75<span class="stat-unit">kW</span></div>
+      <div class="stat-label">Minimum Risk — Shaft Grounding</div>
+      <div class="stat-context">Motors &gt; 75 kW have sufficient rotor-to-stator capacitance to develop damaging shaft voltages in most VSD applications. Mitigation is mandatory above this size.</div>
+    </div>
+  </div>
+
+  <div class="detail-row">
+    <div class="support-panel">
+      <div class="support-banner">Bearing Failure Rate Contribution</div>
+      <div class="support-body">
+        <p>EDM is the <strong>fastest-growing cause</strong> of motor bearing failure in modern VSD applications.</p>
+        <div class="bar-row">
+          <span class="bar-label">Mechanical (misalignment, overload)</span>
+          <div class="bar-track"><div class="bar-fill" style="width:45%; background:#3d7fbd;"></div></div>
+          <span class="bar-value">~45%</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">Lubrication failure</span>
+          <div class="bar-track"><div class="bar-fill" style="width:25%; background:#1d5fa8;"></div></div>
+          <span class="bar-value">~25%</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">Contamination</span>
+          <div class="bar-track"><div class="bar-fill" style="width:15%; background:#cc8800;"></div></div>
+          <span class="bar-value">~15%</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">Electrical stress (EDM)</span>
+          <div class="bar-track"><div class="bar-fill" style="width:15%; background:#cc3d00;"></div></div>
+          <span class="bar-value">~15%</span>
+        </div>
+        <p style="font-size:8px; color:#778899; margin-top:3px;">EDM share grows significantly in VSD-driven applications &gt; 75 kW</p>
+      </div>
+    </div>
+    <div class="support-panel">
+      <div class="support-banner">Why EDM Matters in Marine Applications</div>
+      <div class="support-body">
+        <div class="row-item row-item-r">
+          <span class="row-icon">!</span>
+          <div><strong>Propulsion bearing EDM = mission-critical failure.</strong> A propulsion motor bearing failure on a towboat pushing laden tank barges is not a maintenance event — it is a safety emergency. 46&nbsp;CFR&nbsp;§143.585 requires single-fault tolerance for propulsion control.</div>
+        </div>
+        <div class="row-item row-item-a">
+          <span class="row-icon">!</span>
+          <div><strong>Shaft grounding brushes</strong> on marine propulsion motors provide double protection: they reduce bearing EDM risk AND provide a low-impedance path for stray CM current — preventing stray current corrosion of bronze propellers and sea chests.</div>
+        </div>
+        <div class="row-item row-item-g">
+          <span class="row-icon">&#10003;</span>
+          <div><strong>Maintenance interval:</strong> Bearings in drives or motors operating in continuous marine service should be inspected every 2,000–4,000 hours or at annual dry-dock — whichever comes first — regardless of EDM mitigation.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">The bearing oil film is only <strong>0.5 μm</strong> thick and breaks down at <strong>~10 V</strong>. Drive-induced shaft voltages of 10–50 V routinely exceed this threshold. For motors &gt; 75 kW, <strong>EDM mitigation is mandatory</strong> — especially on marine propulsion systems where bearing failure has direct safety consequences.</div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

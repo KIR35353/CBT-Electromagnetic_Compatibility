@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 1 &middot; What Is EMC? | Electromagnetic Compatibility for AC Drive Systems</title>
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   KIRBY CORPORATION BRAND PALETTE
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --k-navy:        #002060;
+  --k-navy-mid:    #1a3a6e;
+  --k-navy-light:  #274d8a;
+  --k-blue:        #1d5fa8;
+  --k-steel:       #3d7fbd;
+  --k-steel-lt:    #80b4dc;
+  --k-orange:      #cc3d00;
+  --k-orange-lt:   #e06828;
+  --k-orange-glow: rgba(204,61,0,0.28);
+  --k-white:       #ffffff;
+  --k-offwhite:    #f3f6fb;
+  --k-mid:         #dce7f5;
+  --k-text-dark:   #0d1d33;
+  --k-muted:       #6a7d94;
+  --k-border:      rgba(255,255,255,0.13);
+  --r:             10px;
+  --t:             0.38s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--k-navy);
+}
+
+body {
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  color: var(--k-white);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   HEADER
+───────────────────────────────────────────────────────────── */
+header {
+  flex-shrink: 0;
+  background: #001245;
+  border-bottom: 3px solid var(--k-orange);
+  padding: 9px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hdr-left { display: flex; align-items: center; gap: 14px; }
+.hdr-logo { height: 36px; opacity: 0.93; }
+.hdr-titles { line-height: 1.3; }
+.hdr-id {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--k-orange-lt);
+}
+.hdr-course { font-size: 12.5px; font-weight: 600; color: var(--k-white); }
+
+/* Progress dots */
+.hdr-right { display: flex; align-items: center; gap: 12px; }
+.dots { display: flex; gap: 9px; }
+.dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--k-steel); background: transparent;
+  cursor: pointer; padding: 0;
+  transition: background var(--t), border-color var(--t), transform 0.2s;
+}
+.dot:hover { border-color: var(--k-steel-lt); }
+.dot.visited { background: var(--k-steel); border-color: var(--k-steel-lt); }
+.dot.active  { background: var(--k-orange); border-color: var(--k-orange-lt); transform: scale(1.3); }
+.dot-counter { font-size: 11px; color: var(--k-muted); white-space: nowrap; }
+
+/* ─────────────────────────────────────────────────────────────
+   STAGE
+───────────────────────────────────────────────────────────── */
+.stage { flex: 1; overflow: hidden; position: relative; }
+
+.screen {
+  position: absolute; inset: 0;
+  padding: 20px 44px 14px;
+  display: none; flex-direction: column; gap: 12px;
+  opacity: 0; transition: opacity 0.35s ease;
+  overflow-y: auto;
+}
+.screen.active  { display: flex; }
+.screen.visible { opacity: 1; }
+
+.scrn-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.8px;
+  text-transform: uppercase; color: var(--k-orange-lt); opacity: 0.85; flex-shrink: 0;
+}
+.scrn-h1 { font-size: 22px; font-weight: 800; line-height: 1.15; color: var(--k-white); }
+.rule { width: 64px; height: 3px; background: var(--k-orange); border-radius: 2px; margin-top: 4px; }
+
+/* ─────────────────────────────────────────────────────────────
+   IFRAME SCREENS
+───────────────────────────────────────────────────────────── */
+.iframe-screen {
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  background: var(--k-navy);
+  overflow: auto;
+}
+.iframe-screen iframe {
+  display: block;
+  border: none;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   QUIZ SCREEN
+───────────────────────────────────────────────────────────── */
+.quiz-screen {
+  background: linear-gradient(160deg, #001a4a 0%, var(--k-navy) 100%);
+}
+.quiz-body {
+  flex: 1; min-height: 0; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 18px; padding-bottom: 12px;
+}
+.quiz-progress { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.qp-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid var(--k-steel);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--k-muted);
+  transition: all 0.3s; user-select: none;
+}
+.qp-dot.active  { border-color: var(--k-orange);  color: var(--k-orange-lt); background: rgba(204,61,0,0.12); }
+.qp-dot.correct { border-color: #22a06b; color: #22a06b; background: rgba(34,160,107,0.12); }
+.qp-dot.wrong   { border-color: #e03131; color: #e03131; background: rgba(224,49,49,0.12); }
+
+.q-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; padding: 18px 20px;
+  display: none; flex-direction: column; gap: 14px;
+}
+.q-card.active { display: flex; }
+.q-number {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--k-orange-lt); margin-bottom: 4px;
+}
+.q-stem { font-size: 14.5px; font-weight: 600; color: var(--k-white); line-height: 1.5; }
+.q-options { display: flex; flex-direction: column; gap: 8px; }
+.q-opt {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 14px; border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);
+  cursor: pointer; transition: background 0.18s, border-color 0.18s;
+  font-size: 13px; line-height: 1.45; color: var(--k-offwhite); user-select: none;
+}
+.q-opt:hover:not(.locked) { background: rgba(61,127,189,0.12); border-color: var(--k-steel); }
+.q-opt.selected { background: rgba(61,127,189,0.15); border-color: var(--k-steel-lt); }
+.q-opt.correct  { background: rgba(34,160,107,0.14); border-color: #22a06b; color: #a8f4cf; }
+.q-opt.wrong    { background: rgba(224,49,49,0.12);  border-color: #e03131; color: #ffa8a8; }
+.q-opt.locked   { cursor: default; }
+.q-opt-key {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1.5px solid currentColor;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.q-feedback {
+  display: none; padding: 10px 14px; border-radius: 7px;
+  font-size: 12.5px; line-height: 1.55;
+}
+.q-feedback.show        { display: block; }
+.q-feedback.fb-correct  { background: rgba(34,160,107,0.12); border: 1px solid #22a06b; color: #a8f4cf; }
+.q-feedback.fb-wrong    { background: rgba(224,49,49,0.10);  border: 1px solid #e03131; color: #ffa8a8; }
+.q-feedback.fb-retry    { background: rgba(204,61,0,0.10);   border: 1px solid var(--k-orange); color: var(--k-orange-lt); }
+.q-actions { display: flex; justify-content: flex-end; gap: 10px; }
+.btn-check {
+  background: var(--k-orange); color: var(--k-white);
+  border: none; border-radius: 7px; padding: 7px 20px;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.btn-check:hover:not(:disabled) { background: var(--k-orange-lt); }
+.btn-check:disabled { opacity: 0.35; cursor: default; }
+.btn-qnext {
+  background: rgba(61,127,189,0.15); color: var(--k-steel-lt);
+  border: 1px solid var(--k-steel); border-radius: 7px; padding: 7px 20px;
+  font-size: 13px; font-weight: 600; cursor: pointer; display: none; transition: background 0.2s;
+}
+.btn-qnext:hover { background: rgba(61,127,189,0.25); }
+.btn-qnext.show  { display: inline-block; }
+.score-panel {
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  gap: 16px; text-align: center; padding: 20px; flex: 1;
+}
+.score-panel.show { display: flex; }
+.score-big { font-size: 64px; font-weight: 900; line-height: 1; }
+.score-big.pass { color: #22a06b; }
+.score-big.fail { color: #e03131; }
+.score-label { font-size: 14px; color: var(--k-muted); max-width: 420px; line-height: 1.6; }
+.btn-review {
+  background: rgba(255,255,255,0.07); color: var(--k-steel-lt);
+  border: 1px solid var(--k-steel); border-radius: 7px; padding: 8px 24px;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.btn-review:hover { background: rgba(255,255,255,0.14); }
+
+/* ─────────────────────────────────────────────────────────────
+   VO BAR
+───────────────────────────────────────────────────────────── */
+.vo-bar {
+  flex-shrink: 0; background: rgba(0,0,0,0.38);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 9px 28px; display: flex; align-items: center; gap: 14px; min-height: 54px;
+}
+.vo-mic {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--k-navy-mid); border: 2px solid var(--k-steel);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: border-color 0.25s, background 0.25s;
+}
+.vo-mic svg { width: 17px; height: 17px; fill: var(--k-steel-lt); transition: fill 0.25s; }
+.vo-bar.live .vo-mic { background: var(--k-orange-glow); border-color: var(--k-orange-lt); }
+.vo-bar.live .vo-mic svg { fill: var(--k-orange-lt); }
+.vo-text { flex: 1; overflow: hidden; }
+.vo-label-tag {
+  font-size: 9px; font-weight: 700; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--k-muted); margin-bottom: 2px;
+}
+.vo-caption { font-size: 12px; color: var(--k-muted); line-height: 1.45; font-style: italic; transition: color 0.25s; }
+.vo-bar.live .vo-caption { color: var(--k-white); }
+.wave { display: flex; gap: 2px; align-items: center; height: 18px; opacity: 0; transition: opacity 0.25s; }
+.vo-bar.live .wave { opacity: 1; }
+.wave span {
+  display: block; width: 3px; border-radius: 2px; background: var(--k-orange-lt);
+  animation: wv 0.75s ease-in-out infinite;
+}
+.wave span:nth-child(1) { height: 5px;  animation-delay: 0s;    }
+.wave span:nth-child(2) { height: 13px; animation-delay: 0.15s; }
+.wave span:nth-child(3) { height: 8px;  animation-delay: 0.05s; }
+.wave span:nth-child(4) { height: 16px; animation-delay: 0.2s;  }
+.wave span:nth-child(5) { height: 6px;  animation-delay: 0.1s;  }
+@keyframes wv {
+  0%,100% { transform: scaleY(1); }
+  50%      { transform: scaleY(0.3); }
+}
+.btn-pause {
+  flex-shrink: 0; background: transparent; color: var(--k-steel-lt);
+  font-size: 12px; font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.14); border-radius: 7px; padding: 7px 14px;
+  cursor: pointer; transition: color 0.2s, border-color 0.2s, opacity 0.2s;
+}
+.btn-pause:hover:not(:disabled) { color: var(--k-white); border-color: var(--k-steel); }
+.btn-pause:disabled { opacity: 0.35; cursor: default; }
+.btn-pause.paused { color: var(--k-orange-lt); border-color: var(--k-orange-lt); }
+
+/* ─────────────────────────────────────────────────────────────
+   FOOTER NAV
+───────────────────────────────────────────────────────────── */
+footer {
+  flex-shrink: 0; background: #001245;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 8px 28px; display: flex; align-items: center; justify-content: space-between;
+}
+.btn {
+  border: none; border-radius: 7px; padding: 7px 20px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+.btn:disabled { opacity: 0.32; cursor: default; }
+.btn-back { background: rgba(255,255,255,0.07); color: var(--k-steel-lt); }
+.btn-back:hover:not(:disabled) { background: rgba(255,255,255,0.14); }
+.btn-next { background: var(--k-orange); color: var(--k-white); }
+.btn-next:hover:not(:disabled) { background: var(--k-orange-lt); }
+.btn-replay {
+  background: transparent; color: var(--k-muted); font-size: 12px;
+  border: 1px solid rgba(255,255,255,0.14); border-radius: 7px; padding: 7px 14px;
+  cursor: pointer; transition: color 0.2s, border-color 0.2s;
+}
+.btn-replay:hover { color: var(--k-white); border-color: var(--k-steel); }
+.ftr-centre { font-size: 11px; color: var(--k-muted); }
+
+/* ─────────────────────────────────────────────────────────────
+   AUDIO GATE OVERLAY
+───────────────────────────────────────────────────────────── */
+.audio-gate {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 22px; background: rgba(0,18,69,0.88); backdrop-filter: blur(3px);
+  transition: opacity 0.4s ease;
+}
+.audio-gate.hidden { opacity: 0; pointer-events: none; }
+.audio-gate-label {
+  font-size: 12px; font-weight: 700; letter-spacing: 1.6px;
+  text-transform: uppercase; color: var(--k-steel-lt);
+}
+.audio-gate-title {
+  font-size: 19px; font-weight: 700; color: var(--k-white);
+  text-align: center; max-width: 560px; line-height: 1.4;
+}
+.audio-gate-btn {
+  margin-top: 8px; padding: 13px 36px;
+  background: var(--k-orange); color: var(--k-white);
+  font-size: 15px; font-weight: 700; border: none; border-radius: var(--r);
+  cursor: pointer; letter-spacing: 0.5px; transition: background 0.2s;
+}
+.audio-gate-btn:hover { background: var(--k-orange-lt); }
+</style>
+</head>
+<body>
+
+<!-- ═══ AUDIO GATE ══════════════════════════════════════════ -->
+<div class="audio-gate" id="audioGate" role="dialog" aria-modal="true"
+     aria-label="Click to begin Section 1">
+  <div class="audio-gate-label">Section 1 of 6</div>
+  <div class="audio-gate-title">What Is EMC?</div>
+  <button class="audio-gate-btn" id="audioGateBtn">&#9654;&nbsp; Begin Section 1</button>
+</div>
+
+<!-- ═══ HEADER ══════════════════════════════════════════════ -->
+<header>
+  <div class="hdr-left">
+    <img src="kirbyflag_imagefile.png" alt="Kirby Corporation" class="hdr-logo">
+    <div class="hdr-titles">
+      <div class="hdr-id">KIR-EMC-001 &nbsp;&middot;&nbsp; Section 1 of 6</div>
+      <div class="hdr-course">Electromagnetic Compatibility for AC Drive Systems</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="dots" id="dots" role="tablist" aria-label="Section 1 screens"></div>
+    <span class="dot-counter" id="dotCounter">Screen 1 of 5</span>
+  </div>
+</header>
+
+<!-- ═══ STAGE ═══════════════════════════════════════════════ -->
+<div class="stage">
+
+
+  <!-- â”€â”€ SCREEN 1: FOUR COUPLING MECHANISMS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen active" id="s-s1-0"
+       role="tabpanel" aria-label="Four Coupling Mechanisms">
+    <iframe src="S1-0_Coupling_Mechanisms.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="Four Coupling Mechanisms"></iframe>
+  </div>
+  <!-- â”€â”€ SCREEN 2: EMI VS. EMC â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen" id="s-s1-1"
+       role="tabpanel" aria-label="EMI vs. EMC">
+    <iframe src="S1-1_EMI_vs_EMC.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="EMI vs. EMC"></iframe>
+  </div>
+  <!-- â”€â”€ SCREEN 3: COMMON-MODE AND DIFFERENTIAL-MODE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen" id="s-s1-2"
+       role="tabpanel" aria-label="Common-Mode and Differential-Mode">
+    <iframe src="S1-2_CM_DM_Noise.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="Common-Mode and Differential-Mode"></iframe>
+  </div>
+  <!-- â”€â”€ SCREEN 4: WHY AC DRIVES GENERATE EMI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen" id="s-s1-3"
+       role="tabpanel" aria-label="Why AC Drives Generate EMI">
+    <iframe src="S1-3_AC_Drives_EMI.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="Why AC Drives Generate EMI"></iframe>
+  </div>
+
+  <!-- ── QUIZ SCREEN ──────────────────────────────────────── -->
+  <div class="screen quiz-screen" id="s-quiz1"
+       role="tabpanel" aria-label="Section Quiz 1">
+
+    <span class="scrn-eyebrow">Section 1 &middot; Screen 5 of 5 &middot; Section Quiz</span>
+    <div>
+      <div class="scrn-h1">Section Quiz 1 &mdash; 4 Questions</div>
+      <div class="rule"></div>
+    </div>
+
+    <!-- Quiz progress dots and question cards are generated by buildQuiz() -->
+    <div class="quiz-progress" id="qProgress" aria-label="Quiz progress"></div>
+    <div class="quiz-body" id="quizBody"></div>
+
+    <div class="score-panel" id="scorePanel">
+      <div class="score-big" id="scoreBig"></div>
+      <div class="score-label" id="scoreLabel"></div>
+      <button class="btn-review" id="btnReviewSect">&#8635; Review Section 1</button>
+    </div>
+
+  </div><!-- /quiz screen -->
+
+</div><!-- /stage -->
+
+
+<!-- ═══ VO BAR ══════════════════════════════════════════════ -->
+<div class="vo-bar" id="voBar">
+  <div class="vo-mic" id="voMic">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 1a4 4 0 014 4v6a4 4 0 01-8 0V5a4 4 0 014-4zm-1.5 14.93A8.001 8.001 0 0120 10.5a.75.75 0 011.5 0 8 8 0 01-7.25 7.95V21h2.5a.75.75 0 010 1.5h-6.5a.75.75 0 010-1.5H12.75v-2.57A8.001 8.001 0 014 10.5a.75.75 0 011.5 0 6.5 6.5 0 005 6.34V18a2 2 0 002 0v-1.07z"/>
+    </svg>
+  </div>
+  <div class="vo-text">
+    <div class="vo-label-tag">Narration &nbsp;&middot;&nbsp; Google UK English Female</div>
+    <div class="vo-caption" id="voCaption">Press Space or click Replay VO to start narration for this screen.</div>
+  </div>
+  <div class="wave" id="wave" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <button class="btn-pause" id="btnPause" aria-label="Pause narration" disabled>&#9646;&#9646; Pause</button>
+</div>
+
+
+<!-- ═══ FOOTER NAV ═══════════════════════════════════════════ -->
+<footer>
+  <button class="btn btn-back" id="btnBack" disabled>&#8592; Back</button>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <button class="btn-replay" id="btnReplay" aria-label="Replay narration">&#8635; Replay VO</button>
+    <span class="ftr-centre" id="ftrLabel">Section 1 &nbsp;&middot;&nbsp; What Is EMC? &nbsp;&middot;&nbsp; 7 minutes</span>
+  </div>
+  <button class="btn btn-next" id="btnNext">Next &#8594;</button>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════════ -->
+<script>
+/* ── SCREENS ARRAY ────────────────────────────────────────────
+   Each entry: { id, label, vo }
+   • id     — must match the HTML element id of the iframe-screen div
+   • label  — shown in dot tooltips and aria-labels
+   • vo     — full narration text (use [PAUSE] for mid-speech pauses)
+   The quiz screen is always last; add it here too so VO plays on entry.
+─────────────────────────────────────────────────────────── */
+const SCREENS = [
+  {
+    id:    's-s1-0',
+    label: 'Four Coupling Mechanisms',
+    vo:    'Section one: What is EMC. Before we can control interference, we need to understand how it travels. There are four coupling mechanisms. Galvanic coupling — two circuits share a conductive connection. Capacitive coupling — noise transfers between conductors through parasitic capacitances. Inductive coupling — a current-carrying conductor induces voltage in a nearby conductor. And electromagnetic coupling — energy radiates from a transmitting conductor and is picked up by a receiving conductor. Every EMI problem has a source, a coupling path, and a victim. [PAUSE] Identifying which coupling mechanism is active is the first step in fixing the problem.'
+  },
+  {
+    id:    's-s1-1',
+    label: 'EMI vs. EMC',
+    vo:    'Electromagnetic interference is the degradation of equipment performance caused by electromagnetic disturbance. Electromagnetic compatibility — or EMC — is the ability of equipment to operate correctly in its electromagnetic environment without itself causing unacceptable disturbance to other equipment. EMC has two sides. Emission: the unintended electromagnetic output of a device must be limited. And immunity: the device must tolerate a reasonable level of interference from its environment. The gap between the emission level and the immunity threshold is called the compatibility gap. The wider that gap, the more margin you have. AC drives must be both controlled in emission and adequately immune — and the installation you design affects both.'
+  },
+  {
+    id:    's-s1-2',
+    label: 'Common-Mode and Differential-Mode',
+    vo:    'When we talk about conducted interference, two terms come up constantly: common-mode and differential-mode. Differential-mode noise travels on both conductors of a circuit in opposite directions — it\'s in series with the useful signal. Common-mode noise travels on both conductors in the same direction, with its return path through the reference ground. [PAUSE] You\'ll also hear the term RFI — radio frequency interference. RFI is an older term referring specifically to interference with radio signals. EMC is the broader, modern term covering interference with any electrical equipment. For our purposes, you can treat them as interchangeable in most conversations.'
+  },
+  {
+    id:    's-s1-3',
+    label: 'Why AC Drives Generate EMI',
+    vo:    'AC drives switch voltages at rates measured in thousands of volts per microsecond. This high rate of change — the du/dt — is applied across parasitic capacitances to ground in the motor cable and motor windings. The result is a common-mode current that must return to its source in the DC link. [PAUSE] Inside the drive, common-mode capacitors — one in the RFI filter circuit, one in the DC link — provide a local return path. When a shielded motor cable is correctly connected at both ends, most of that current returns through the cable shield and the drive chassis. Without a shielded cable, the current returns through the mains supply, causing interference in other connected equipment.'
+  },
+  {
+    id:    's-quiz1',
+    label: 'Section Quiz 1',
+    vo:    'Before moving on to Section two, let\'s check your understanding of the EMC fundamentals we\'ve just covered. You\'ll be presented with four questions drawn from a pool. You need three correct answers to proceed.'
+  }
+];
+
+let cur         = 0;
+let quizPassed  = false;
+let hasGestured = false;
+let voPaused    = false;
+let curVoText   = '';
+let voiceUK     = null;
+const synth     = window.speechSynthesis;
+
+function loadVoice() {
+  const v = synth.getVoices();
+  voiceUK =
+    v.find(x => x.name === 'Google UK English Female') ||
+    v.find(x => x.lang === 'en-GB' && /female/i.test(x.name)) ||
+    v.find(x => x.lang === 'en-GB') ||
+    v.find(x => /en.gb/i.test(x.lang)) ||
+    v.find(x => x.lang.startsWith('en'));
+}
+loadVoice();
+if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = loadVoice;
+}
+
+function speakOne(text) {
+  synth.cancel();
+  curVoText = text;
+  voPaused = false;
+  updatePauseBtn();
+  const segments = text.split('[PAUSE]').map(s => s.trim()).filter(s => s.length > 0);
+  function speakSegment(i) {
+    if (i >= segments.length) { setLive(false); return; }
+    const u = new SpeechSynthesisUtterance(segments[i]);
+    if (voiceUK) u.voice = voiceUK;
+    u.lang = 'en-GB'; u.rate = 0.93; u.pitch = 1.0; u.volume = 1.0;
+    if (i === 0) u.onstart = () => setLive(true, text);
+    u.onend = () => { if (i < segments.length - 1) { setTimeout(() => speakSegment(i + 1), 700); } else { setLive(false); } };
+    u.onerror = () => setLive(false);
+    synth.speak(u);
+  }
+  speakSegment(0);
+}
+
+function setLive(on, text) {
+  const bar = document.getElementById('voBar');
+  const cap = document.getElementById('voCaption');
+  if (on) { bar.classList.add('live'); cap.textContent = text || '\u2026'; }
+  else    { bar.classList.remove('live'); voPaused = false; }
+  updatePauseBtn();
+}
+
+function updatePauseBtn() {
+  const btn = document.getElementById('btnPause');
+  if (!btn) return;
+  if (voPaused) {
+    btn.textContent = '\u25b6 Resume'; btn.classList.add('paused'); btn.disabled = false;
+  } else if (synth.speaking) {
+    btn.textContent = '\u23f8 Pause'; btn.classList.remove('paused'); btn.disabled = false;
+  } else {
+    btn.textContent = '\u23f8 Pause'; btn.classList.remove('paused'); btn.disabled = true;
+  }
+}
+
+function pauseResume() {
+  if (voPaused) {
+    synth.resume();
+    voPaused = false;
+    document.getElementById('voBar').classList.add('live');
+    updatePauseBtn();
+  } else if (synth.speaking) {
+    synth.pause(); voPaused = true;
+    document.getElementById('voBar').classList.remove('live');
+    updatePauseBtn();
+  }
+}
+
+function goTo(idx, autoSpeak) {
+  if (idx < 0 || idx >= SCREENS.length) return;
+  const oldEl = document.getElementById(SCREENS[cur].id);
+  oldEl.classList.remove('visible');
+  setTimeout(() => { oldEl.classList.remove('active'); }, 360);
+  cur = idx;
+  const newEl = document.getElementById(SCREENS[cur].id);
+  newEl.classList.add('active');
+  requestAnimationFrame(() => { requestAnimationFrame(() => { newEl.classList.add('visible'); }); });
+  updateDots(); updateNav();
+  synth.cancel();
+  if (autoSpeak !== false && hasGestured) {
+    setTimeout(() => speakOne(SCREENS[cur].vo), 400);
+  }
+}
+
+function updateNav() {
+  document.getElementById('btnBack').disabled = (cur === 0);
+  const nextBtn = document.getElementById('btnNext');
+  if (cur === SCREENS.length - 1) {
+    /* ── QUIZ SCREEN: gate Next behind quiz pass ── */
+    if (quizPassed) {
+      nextBtn.textContent = 'Section 2 ▸';
+      nextBtn.disabled    = false;
+      nextBtn.onclick     = () => { window.location.href = 'S2_Section2.html'; };
+    } else {
+      nextBtn.textContent = 'Pass Quiz to Continue';
+      nextBtn.disabled    = true;
+      nextBtn.onclick     = null;
+    }
+  } else {
+    nextBtn.textContent = 'Next \u2192';
+    nextBtn.disabled    = false;
+    nextBtn.onclick     = null;
+  }
+  document.getElementById('dotCounter').textContent =
+    'Screen ' + (cur + 1) + ' of ' + SCREENS.length;
+}
+
+function buildDots() {
+  const container = document.getElementById('dots');
+  SCREENS.forEach((s, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'dot' + (i === 0 ? ' active' : '');
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-label', 'Screen ' + (i + 1) + ': ' + s.label);
+    btn.title = s.label;
+    btn.addEventListener('click', () => goTo(i));
+    container.appendChild(btn);
+  });
+}
+
+function updateDots() {
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.classList.remove('active', 'visited');
+    if      (i === cur) d.classList.add('active');
+    else if (i < cur)   d.classList.add('visited');
+  });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { if (cur < SCREENS.length - 1) goTo(cur + 1); }
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { if (cur > 0) goTo(cur - 1); }
+  else if (e.key === ' ') { e.preventDefault(); speakOne(SCREENS[cur].vo); }
+});
+
+document.getElementById('btnBack').addEventListener('click', () => { if (cur > 0) goTo(cur - 1); });
+document.getElementById('btnNext').addEventListener('click', () => { if (cur < SCREENS.length - 1) goTo(cur + 1); });
+document.getElementById('btnReplay').addEventListener('click', () => { hasGestured = true; speakOne(SCREENS[cur].vo); });
+document.getElementById('btnPause').addEventListener('click', pauseResume);
+
+buildDots();
+updateNav();
+requestAnimationFrame(() => { requestAnimationFrame(() => { document.getElementById(SCREENS[0].id).classList.add('visible'); }); });
+
+document.getElementById('audioGateBtn').addEventListener('click', () => {
+  hasGestured = true;
+  const gate = document.getElementById('audioGate');
+  gate.classList.add('hidden');
+  gate.addEventListener('transitionend', () => gate.remove(), { once: true });
+  speakOne(SCREENS[0].vo);
+});
+
+/* ─── QUIZ LOGIC ──────────────────────────────────────────────
+   QUIZ_POOL — full bank of questions for this section.
+   The builder selects QUIZ_PICK items at random each attempt.
+
+   Each question object:
+   {
+     stem:    'Question text?',
+     options: [ { val: 'A', text: '...' }, { val: 'B', text: '...' }, ... ],
+     correct: 'B',           // must match a val
+     feedback: {
+       correct: '✓ Correct. Explanation...',
+       wrong:   '✗ Not quite. Explanation...',
+       retry:   'Incorrect — try again.'
+     }
+   }
+─────────────────────────────────────────────────────────── */
+const QUIZ_POOL = [
+  {
+    stem: 'A noise source and its victim circuit share a direct conductive connection. Which coupling mechanism is this?',
+    options: [
+      { val: 'A', text: 'Capacitive coupling' },
+      { val: 'B', text: 'Galvanic coupling' },
+      { val: 'C', text: 'Inductive coupling' },
+      { val: 'D', text: 'Electromagnetic coupling' }
+    ],
+    correct: 'B',
+    feedback: {
+      correct: '✓ Correct. Galvanic coupling occurs when two circuits share a common conductive connection, allowing noise to travel directly between them.',
+      wrong:   '✗ Not quite. Galvanic coupling is the mechanism where noise travels via a shared conductive path between source and victim.',
+      retry:   'Incorrect — think about which mechanism involves a direct electrical connection between source and victim.'
+    }
+  },
+  {
+    stem: 'Which of the following best describes electromagnetic compatibility (EMC)?',
+    options: [
+      { val: 'A', text: 'The ability of equipment to emit no electromagnetic interference at all' },
+      { val: 'B', text: 'A legal requirement to obtain CE marking in the EU' },
+      { val: 'C', text: 'The ability of equipment to function in its electromagnetic environment without causing unacceptable disturbance to other equipment' },
+      { val: 'D', text: 'A measure of how well an RFI filter suppresses high-frequency noise' }
+    ],
+    correct: 'C',
+    feedback: {
+      correct: '✓ Correct. EMC encompasses both immunity (functioning in the presence of interference) and emission (not causing unacceptable disturbance to others).',
+      wrong:   '✗ Not quite. EMC is defined as the ability to function satisfactorily in the electromagnetic environment without introducing intolerable disturbances. It covers both emission and immunity.',
+      retry:   'Incorrect — consider that EMC has two sides: how much a device emits, and how well it tolerates interference.'
+    }
+  },
+  {
+    stem: 'Common-mode noise in a cable is characterised by:',
+    options: [
+      { val: 'A', text: 'Noise travelling on both conductors in opposite directions' },
+      { val: 'B', text: 'Noise travelling on both conductors in the same direction, returning via the reference ground' },
+      { val: 'C', text: 'Noise that only appears on the shielded conductor' },
+      { val: 'D', text: 'Noise caused by magnetic coupling from an adjacent power cable' }
+    ],
+    correct: 'B',
+    feedback: {
+      correct: '✓ Correct. Common-mode noise travels on both conductors in the same direction and returns through the common reference ground.',
+      wrong:   '✗ Not quite. Common-mode noise uses both conductors as the forward path and the reference ground as the return path. Differential-mode travels in opposite directions on each conductor.',
+      retry:   'Incorrect — consider how the currents on each conductor compare in common-mode versus differential-mode.'
+    }
+  },
+  {
+    stem: 'In an AC drive installation, what is the primary source of common-mode current?',
+    options: [
+      { val: 'A', text: 'The mains supply transformer' },
+      { val: 'B', text: 'The DC-link capacitors discharging into the load' },
+      { val: 'C', text: 'The high du/dt switching voltage applied across parasitic capacitances to ground in the motor cable and motor' },
+      { val: 'D', text: 'The motor\'s back-EMF during regenerative braking' }
+    ],
+    correct: 'C',
+    feedback: {
+      correct: '✓ Correct. The inverter\'s high du/dt voltage is applied across parasitic capacitances to ground, driving a common-mode current proportional to C × du/dt.',
+      wrong:   '✗ Not quite. The common-mode current is generated by the steep voltage switching (high du/dt) of the inverter acting on parasitic capacitances between the conductors and ground.',
+      retry:   'Incorrect — think about what the inverter does to the output voltage and what that means for capacitively coupled paths to ground.'
+    }
+  },
+  {
+    stem: 'Why is a 4–20 mA current reference preferred over a 0–10 V voltage reference in an AC drive installation?',
+    options: [
+      { val: 'A', text: 'Current signals are cheaper to wire' },
+      { val: 'B', text: 'Current signals are less susceptible to common-mode noise than voltage signals' },
+      { val: 'C', text: 'Voltage signals require a separate power supply' },
+      { val: 'D', text: 'The 0–10 V range is outside the drive\'s input specification' }
+    ],
+    correct: 'B',
+    feedback: {
+      correct: '✓ Correct. Current signals are less susceptible to noise than voltage signals, making 4–20 mA the preferred choice when analogue references cannot be avoided.',
+      wrong:   '✗ Not quite. The advantage of a current loop signal is its greater immunity to electromagnetic noise compared to a voltage reference.',
+      retry:   'Incorrect — consider which signal type is inherently less affected by voltage noise induced on the signal cable.'
+    }
+  },
+  {
+    stem: 'What is the purpose of the common-mode capacitors inside an AC drive?',
+    options: [
+      { val: 'A', text: 'To smooth the DC-link voltage ripple at power frequency' },
+      { val: 'B', text: 'To provide a local return path for high-frequency common-mode currents' },
+      { val: 'C', text: 'To block differential-mode noise from reaching the motor' },
+      { val: 'D', text: 'To limit the peak output voltage of the inverter' }
+    ],
+    correct: 'B',
+    feedback: {
+      correct: '✓ Correct. Common-mode capacitors (in the RFI filter and DC link) give high-frequency common-mode currents a low-impedance return path to the DC link, keeping them out of the mains supply.',
+      wrong:   '✗ Not quite. The common-mode capacitors provide a local HF return path so that common-mode currents circulate within the drive and cable rather than returning through the mains.',
+      retry:   'Incorrect — think about where the common-mode current needs to return to, and what component helps it do so locally.'
+    }
+  },
+  {
+    stem: 'What is the \'compatibility gap\' in the context of EMC?',
+    options: [
+      { val: 'A', text: 'The physical clearance required between power and signal cables' },
+      { val: 'B', text: 'The frequency band not covered by the EMC standard' },
+      { val: 'C', text: 'The difference between the emission level and the immunity threshold' },
+      { val: 'D', text: 'The margin between the rated voltage and the breakdown voltage of the cable insulation' }
+    ],
+    correct: 'C',
+    feedback: {
+      correct: '✓ Correct. The compatibility gap is the margin between the emission level of a source and the immunity threshold of the victim. A wider gap means more EMC margin.',
+      wrong:   '✗ Not quite. The compatibility gap describes the difference between how much interference a device emits and how much another device can tolerate.',
+      retry:   'Incorrect — think about the relationship between emission margin and immunity margin on the EMC level diagram.'
+    }
+  }
+];
+
+/* Number of questions selected per attempt (≤ QUIZ_POOL.length) */
+const QUIZ_PICK = 4;
+
+let QUIZ   = [];
+let qState = {};
+
+function buildQuiz() {
+  /* Fisher-Yates shuffle, then slice QUIZ_PICK items */
+  const pool = QUIZ_POOL.slice();
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  QUIZ = pool.slice(0, QUIZ_PICK);
+  const n = QUIZ.length;
+
+  /* Regenerate progress dots */
+  const prog = document.getElementById('qProgress');
+  prog.innerHTML = '';
+  for (let i = 0; i < n; i++) {
+    const d = document.createElement('div');
+    d.className = 'qp-dot' + (i === 0 ? ' active' : '');
+    d.id = 'qpd-' + i;
+    d.textContent = i + 1;
+    prog.appendChild(d);
+  }
+
+  /* Regenerate question cards */
+  const body = document.getElementById('quizBody');
+  body.innerHTML = '';
+  QUIZ.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card' + (i === 0 ? ' active' : '');
+    card.id = 'qcard-' + i;
+    card.innerHTML =
+      '<div><div class="q-number">Question ' + (i + 1) + ' of ' + n + '</div>' +
+      '<div class="q-stem">' + q.stem + '</div></div>' +
+      '<div class="q-options" id="qopts-' + i + '">' +
+      q.options.map(o =>
+        '<div class="q-opt" data-q="' + i + '" data-val="' + o.val + '">' +
+        '<span class="q-opt-key">' + o.val + '</span><span>' + o.text + '</span></div>'
+      ).join('') +
+      '</div><div class="q-feedback" id="qfb-' + i + '"></div>' +
+      '<div class="q-actions">' +
+      '<button class="btn-check" id="qchk-' + i + '" disabled>Check Answer</button>' +
+      '<button class="btn-qnext" id="qnxt-' + i + '">' +
+      (i === n - 1 ? 'View Results &#x2192;' : 'Next Question &#x2192;') +
+      '</button></div>';
+    body.appendChild(card);
+  });
+
+  qState = {
+    cur:      0,
+    scores:   Array(n).fill(null),
+    attempts: Array(n).fill(0),
+    selected: Array(n).fill(null)
+  };
+
+  document.querySelectorAll('.q-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const q = parseInt(opt.dataset.q);
+      if (qState.scores[q] !== null || qState.attempts[q] >= 2) return;
+      document.querySelectorAll('[data-q="' + q + '"]').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      qState.selected[q] = opt.dataset.val;
+      document.getElementById('qchk-' + q).disabled = false;
+    });
+  });
+
+  for (let i = 0; i < n; i++) {
+    document.getElementById('qchk-' + i).addEventListener('click', () => checkAnswer(i));
+    document.getElementById('qnxt-' + i).addEventListener('click', () => advanceQuiz(i));
+  }
+}
+
+function quizInit() {
+  buildQuiz();
+  document.getElementById('btnReviewSect').addEventListener('click', () => { resetQuiz(); goTo(0); });
+}
+
+function checkAnswer(q) {
+  const sel = qState.selected[q];
+  if (!sel) return;
+  const data = QUIZ[q];
+  qState.attempts[q]++;
+  const opts = document.querySelectorAll('[data-q="' + q + '"]');
+  const fb   = document.getElementById('qfb-' + q);
+  const chk  = document.getElementById('qchk-' + q);
+  const nxt  = document.getElementById('qnxt-' + q);
+  if (sel === data.correct) {
+    qState.scores[q] = 1;
+    opts.forEach(o => { o.classList.add('locked'); if (o.dataset.val === data.correct) o.classList.add('correct'); });
+    fb.textContent = data.feedback.correct; fb.className = 'q-feedback show fb-correct';
+    chk.disabled = true; nxt.classList.add('show');
+    updateQDot(q, 'correct');
+  } else if (qState.attempts[q] >= 2) {
+    qState.scores[q] = 0;
+    opts.forEach(o => {
+      o.classList.add('locked');
+      if (o.dataset.val === sel)          o.classList.add('wrong');
+      if (o.dataset.val === data.correct) o.classList.add('correct');
+    });
+    fb.textContent = data.feedback.wrong; fb.className = 'q-feedback show fb-wrong';
+    chk.disabled = true; nxt.classList.add('show');
+    updateQDot(q, 'wrong');
+  } else {
+    opts.forEach(o => o.classList.remove('selected'));
+    qState.selected[q] = null;
+    fb.textContent = data.feedback.retry; fb.className = 'q-feedback show fb-retry';
+    chk.disabled = true;
+  }
+}
+
+function advanceQuiz(q) {
+  if (q < QUIZ.length - 1) {
+    document.getElementById('qcard-' + q).classList.remove('active');
+    document.getElementById('qpd-'   + q).classList.remove('active');
+    const next = q + 1;
+    document.getElementById('qcard-' + next).classList.add('active');
+    document.getElementById('qpd-'   + next).classList.add('active');
+    qState.cur = next;
+  } else {
+    document.getElementById('qcard-' + q).classList.remove('active');
+    document.getElementById('quizBody').style.display  = 'none';
+    document.getElementById('qProgress').style.display = 'none';
+    showScore();
+  }
+}
+
+function updateQDot(q, state) {
+  const dot = document.getElementById('qpd-' + q);
+  dot.classList.remove('active'); dot.classList.add(state);
+}
+
+function showScore() {
+  const correct = qState.scores.filter(s => s === 1).length;
+  const panel   = document.getElementById('scorePanel');
+  const big     = document.getElementById('scoreBig');
+  const lbl     = document.getElementById('scoreLabel');
+  big.textContent = correct + ' / ' + QUIZ.length;
+  big.className = 'score-big ' + (correct >= 3 ? 'pass' : 'fail');
+  lbl.textContent = correct >= 3
+    ? 'Well done — you have a solid grasp of EMC fundamentals. Proceed to Section 2.'
+    : 'Review the section and try again. Focus on the coupling mechanisms and the role of common-mode current.';
+  panel.classList.add('show');
+  if (correct >= 3) { quizPassed = true; }
+  updateNav();
+}
+
+function resetQuiz() {
+  document.getElementById('scorePanel').classList.remove('show');
+  document.getElementById('quizBody').style.display  = '';
+  document.getElementById('qProgress').style.display = '';
+  buildQuiz();
+}
+
+  quizInit();
+</script>
+
+<style>
+.iframe-screen { overflow: hidden !important; }
+</style>
+<script>
+function scaleIframes() {
+  var stage = document.querySelector('.stage');
+  if (!stage) return;
+  var sw = stage.clientWidth, sh = stage.clientHeight;
+  var s  = Math.min(sw / 1040, sh / 510);
+  var ox = (sw - 1040 * s) / 2;
+  var oy = (sh -  510 * s) / 2;
+  document.querySelectorAll('.iframe-screen iframe').forEach(function (fr) {
+    fr.style.position        = 'absolute';
+    fr.style.left            = ox + 'px';
+    fr.style.top             = oy + 'px';
+    fr.style.transformOrigin = '0 0';
+    fr.style.transform       = 'scale(' + s + ')';
+  });
+}
+window.addEventListener('resize', scaleIframes);
+window.addEventListener('load',   scaleIframes);
+if (window.ResizeObserver) {
+  new ResizeObserver(scaleIframes).observe(document.querySelector('.vo-bar'));
+}
+</script>
+</body>
+</html>

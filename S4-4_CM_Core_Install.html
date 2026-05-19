@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>CM Core Installation | Section 4 — Bearing Electric Stress</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
+.main-row { display: flex; gap: 12px; align-items: stretch; }
+.diagram-panel { flex: 0 0 540px; background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.diagram-banner { background: #1a3660; color: #88aacc; padding: 5px 14px; font-size: 9px; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; flex-shrink: 0; }
+.diagram-body { flex: 1; display: flex; align-items: center; justify-content: center; padding: 6px 10px; }
+.card-stack { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.info-card { background: #fff; border: 1.5px solid #c8d8e8; border-left: 4px solid #002060; border-radius: 0 7px 7px 0; padding: 7px 12px 7px 14px; display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.card-head { font-size: 9.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.4px; color: #1a3660; }
+.card-body { font-size: 9px; color: #334466; line-height: 1.6; }
+.card-body strong { color: #002060; }
+.accent-green  { border-left-color: #1a7040; }
+.accent-red    { border-left-color: #cc3d00; }
+.accent-amber  { border-left-color: #cc8800; }
+.accent-navy   { border-left-color: #002060; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">CM Core Installation — Correct vs. Incorrect</div>
+  <div class="header-tag">Section 4 — Bearing Electric Stress</div>
+</div>
+<div class="outer">
+  <div class="main-row">
+    <div class="diagram-panel">
+      <div class="diagram-banner">Cross-Section — Correct and Incorrect Core Installation</div>
+      <div class="diagram-body">
+        <svg width="516" height="330" viewBox="0 0 516 330" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif" font-size="8.5">
+          <rect width="516" height="330" rx="5" fill="#f4f8fc"/>
+          <defs>
+            <marker id="chk" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0,6 3,0 6" fill="#1a7040"/></marker>
+            <marker id="crs" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0,6 3,0 6" fill="#cc3d00"/></marker>
+          </defs>
+
+          <!-- CORRECT panel -->
+          <rect x="8" y="8" width="240" height="310" rx="6" fill="#f4fdf7" stroke="#1a7040" stroke-width="2"/>
+          <text x="128" y="24" text-anchor="middle" font-size="9" font-weight="bold" fill="#1a5c30">&#10003; CORRECT</text>
+          <text x="128" y="36" text-anchor="middle" font-size="7.5" fill="#334466">All 3 phases through core, PE outside</text>
+
+          <!-- Core ring -->
+          <ellipse cx="128" cy="100" rx="60" ry="25" fill="none" stroke="#1d5fa8" stroke-width="7"/>
+          <text x="128" y="100" text-anchor="middle" font-size="8" fill="#1a3660">CORE</text>
+          <text x="128" y="113" text-anchor="middle" font-size="7" fill="#1d5fa8">nanocrystalline</text>
+
+          <!-- Phase conductors (U, V, W) passing through -->
+          <circle cx="108" cy="100" r="6" fill="#cc3d00" stroke="#fff" stroke-width="1.5"/>
+          <text x="108" y="104" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">U</text>
+          <circle cx="128" cy="100" r="6" fill="#1d5fa8" stroke="#fff" stroke-width="1.5"/>
+          <text x="128" y="104" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">V</text>
+          <circle cx="148" cy="100" r="6" fill="#1a7040" stroke="#fff" stroke-width="1.5"/>
+          <text x="148" y="104" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">W</text>
+
+          <!-- PE conductor outside core -->
+          <circle cx="195" cy="100" r="6" fill="#778899" stroke="#fff" stroke-width="1.5"/>
+          <text x="195" y="104" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">PE</text>
+          <text x="195" y="120" text-anchor="middle" font-size="7" fill="#778899">outside core</text>
+
+          <!-- Stacked cores note -->
+          <rect x="48" y="140" width="160" height="50" rx="4" fill="#fff" stroke="#1a7040" stroke-width="1"/>
+          <text x="128" y="157" text-anchor="middle" font-size="8" font-weight="bold" fill="#1a5c30">Multiple cores stacked</text>
+          <text x="128" y="170" text-anchor="middle" font-size="8" fill="#334466">Stack 2–4 cores for higher</text>
+          <text x="128" y="182" text-anchor="middle" font-size="8" fill="#334466">attenuation (follow datasheet)</text>
+
+          <!-- CM vs DM explanation -->
+          <text x="128" y="208" text-anchor="middle" font-size="8" font-weight="bold" fill="#1a3660">DM flux: U+V+W sum = 0</text>
+          <line x1="50" y1="212" x2="206" y2="212" stroke="#1a7040" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="128" y="224" text-anchor="middle" font-size="8" fill="#1a5c30">&#x2192; No net DM flux in core</text>
+          <text x="128" y="238" text-anchor="middle" font-size="8" fill="#1a5c30">&#x2192; Zero impedance to DM current</text>
+          <text x="128" y="256" text-anchor="middle" font-size="8" font-weight="bold" fill="#1a3660">CM flux: all phases same dir.</text>
+          <line x1="50" y1="260" x2="206" y2="260" stroke="#cc3d00" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="128" y="273" text-anchor="middle" font-size="8" fill="#8b2000">&#x2192; High CM flux in core</text>
+          <text x="128" y="287" text-anchor="middle" font-size="8" fill="#8b2000">&#x2192; High impedance to CM &#x2192; attenuated</text>
+
+          <!-- INCORRECT panel -->
+          <rect x="268" y="8" width="240" height="310" rx="6" fill="#fff8f5" stroke="#cc3d00" stroke-width="2"/>
+          <text x="388" y="24" text-anchor="middle" font-size="9" font-weight="bold" fill="#8b2000">&#10007; INCORRECT</text>
+          <text x="388" y="36" text-anchor="middle" font-size="7.5" fill="#334466">Two common installation errors</text>
+
+          <!-- Error 1: PE inside core -->
+          <rect x="280" y="46" width="216" height="118" rx="4" fill="#fff" stroke="#cc8800" stroke-width="1"/>
+          <text x="388" y="60" text-anchor="middle" font-size="8" font-weight="bold" fill="#8b2000">Error 1: PE conductor through core</text>
+          <!-- Core -->
+          <ellipse cx="388" cy="108" rx="55" ry="22" fill="none" stroke="#1d5fa8" stroke-width="6"/>
+          <!-- Phases + PE all inside -->
+          <circle cx="360" cy="108" r="5.5" fill="#cc3d00" stroke="#fff" stroke-width="1.5"/>
+          <text x="360" y="112" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">U</text>
+          <circle cx="378" cy="108" r="5.5" fill="#1d5fa8" stroke="#fff" stroke-width="1.5"/>
+          <text x="378" y="112" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">V</text>
+          <circle cx="396" cy="108" r="5.5" fill="#1a7040" stroke="#fff" stroke-width="1.5"/>
+          <text x="396" y="112" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">W</text>
+          <circle cx="416" cy="108" r="5.5" fill="#cc8800" stroke="#fff" stroke-width="1.5"/>
+          <text x="416" y="112" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">PE</text>
+          <!-- Red cross overlay -->
+          <line x1="416" y1="96" x2="430" y2="122" stroke="#cc3d00" stroke-width="2.5"/>
+          <line x1="430" y1="96" x2="416" y2="122" stroke="#cc3d00" stroke-width="2.5"/>
+          <text x="388" y="150" text-anchor="middle" font-size="7.5" fill="#8b2000">PE carries return CM current in opposite direction</text>
+          <text x="388" y="162" text-anchor="middle" font-size="7.5" fill="#8b2000">&#x2192; DM cancellation disrupted &#x2192; filter does not work</text>
+
+          <!-- Error 2: Missing phase -->
+          <rect x="280" y="176" width="216" height="118" rx="4" fill="#fff" stroke="#cc8800" stroke-width="1"/>
+          <text x="388" y="190" text-anchor="middle" font-size="8" font-weight="bold" fill="#8b2000">Error 2: Only two phases through core</text>
+          <!-- Core -->
+          <ellipse cx="388" cy="240" rx="55" ry="22" fill="none" stroke="#1d5fa8" stroke-width="6"/>
+          <!-- Only 2 phases inside -->
+          <circle cx="370" cy="240" r="5.5" fill="#cc3d00" stroke="#fff" stroke-width="1.5"/>
+          <text x="370" y="244" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">U</text>
+          <circle cx="390" cy="240" r="5.5" fill="#1d5fa8" stroke="#fff" stroke-width="1.5"/>
+          <text x="390" y="244" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">V</text>
+          <!-- W missing -->
+          <circle cx="430" cy="240" r="5.5" fill="#1a7040" stroke="#fff" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <text x="430" y="244" text-anchor="middle" font-size="7" font-weight="bold" fill="#1a7040">W</text>
+          <text x="436" y="230" font-size="8" fill="#cc3d00">?</text>
+          <!-- Red cross overlay -->
+          <line x1="430" y1="228" x2="444" y2="254" stroke="#cc3d00" stroke-width="2.5"/>
+          <line x1="444" y1="228" x2="430" y2="254" stroke="#cc3d00" stroke-width="2.5"/>
+          <text x="388" y="276" text-anchor="middle" font-size="7.5" fill="#8b2000">W returns outside — DM sum ≠ 0</text>
+          <text x="388" y="288" text-anchor="middle" font-size="7.5" fill="#8b2000">&#x2192; Core saturates &#x2192; overheating &#x2192; fire risk</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="card-stack">
+      <div class="info-card accent-green">
+        <div class="card-head">Correct Installation</div>
+        <div class="card-body">Pass <strong>all three phase conductors</strong> (U, V, W) through the core in the same direction. The PE conductor, cable screen, and any control cables must pass <strong>outside</strong> the core. Multiple cores may be stacked — consult the product datasheet for minimum number and stacking order.</div>
+      </div>
+      <div class="info-card accent-red">
+        <div class="card-head">Critical Error — PE Inside Core</div>
+        <div class="card-body">The PE conductor carries the CM return current in the <strong>opposite direction</strong> to the phase conductors. If PE passes through the core, it cancels the CM flux attenuation. The filter will appear installed but provide no reduction in bearing voltage. Confirm PE routing in your installation checklist.</div>
+      </div>
+      <div class="info-card accent-amber">
+        <div class="card-head">Critical Error — Missing Phase</div>
+        <div class="card-body">If only two phases pass through, the three-phase current sum is no longer zero for differential-mode current. The core <strong>saturates</strong> — its permeability collapses, it generates heat, and in severe cases the core can overheat and damage adjacent wiring. This error also voids the product warranty.</div>
+      </div>
+      <div class="info-card accent-navy">
+        <div class="card-head">Verification After Installation</div>
+        <div class="card-body">After fitting: measure shaft-to-ground voltage with an oscilloscope before returning to service. Target: <strong>V<sub>shaft</sub> &lt; 10 V peak</strong>. Also measure core surface temperature during first 30 minutes of operation — it should not exceed 60 °C. A hotter core indicates a wiring error.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text"><strong>All three phase conductors must pass through the core — PE must not.</strong> If PE passes through the core the filter is defeated. If a phase is missing the core saturates and overheats. Verify with shaft voltage measurement and core temperature check after installation.</div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 6 &middot; Marine and Mobile Application Considerations | Electromagnetic Compatibility for AC Drive Systems</title>
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   KIRBY CORPORATION BRAND PALETTE
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --k-navy:        #002060;
+  --k-navy-mid:    #1a3a6e;
+  --k-navy-light:  #274d8a;
+  --k-blue:        #1d5fa8;
+  --k-steel:       #3d7fbd;
+  --k-steel-lt:    #80b4dc;
+  --k-orange:      #cc3d00;
+  --k-orange-lt:   #e06828;
+  --k-orange-glow: rgba(204,61,0,0.28);
+  --k-white:       #ffffff;
+  --k-offwhite:    #f3f6fb;
+  --k-mid:         #dce7f5;
+  --k-text-dark:   #0d1d33;
+  --k-muted:       #6a7d94;
+  --k-border:      rgba(255,255,255,0.13);
+  --r:             10px;
+  --t:             0.38s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--k-navy);
+}
+
+body {
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  color: var(--k-white);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   HEADER
+───────────────────────────────────────────────────────────── */
+header {
+  flex-shrink: 0;
+  background: #001245;
+  border-bottom: 3px solid var(--k-orange);
+  padding: 9px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hdr-left { display: flex; align-items: center; gap: 14px; }
+.hdr-logo { height: 36px; opacity: 0.93; }
+.hdr-titles { line-height: 1.3; }
+.hdr-id {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--k-orange-lt);
+}
+.hdr-course { font-size: 12.5px; font-weight: 600; color: var(--k-white); }
+
+/* Progress dots */
+.hdr-right { display: flex; align-items: center; gap: 12px; }
+.dots { display: flex; gap: 9px; }
+.dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--k-steel); background: transparent;
+  cursor: pointer; padding: 0;
+  transition: background var(--t), border-color var(--t), transform 0.2s;
+}
+.dot:hover { border-color: var(--k-steel-lt); }
+.dot.visited { background: var(--k-steel); border-color: var(--k-steel-lt); }
+.dot.active  { background: var(--k-orange); border-color: var(--k-orange-lt); transform: scale(1.3); }
+.dot-counter { font-size: 11px; color: var(--k-muted); white-space: nowrap; }
+
+/* ─────────────────────────────────────────────────────────────
+   STAGE
+───────────────────────────────────────────────────────────── */
+.stage { flex: 1; overflow: hidden; position: relative; }
+
+.screen {
+  position: absolute; inset: 0;
+  padding: 20px 44px 14px;
+  display: none; flex-direction: column; gap: 12px;
+  opacity: 0; transition: opacity 0.35s ease;
+  overflow-y: auto;
+}
+.screen.active  { display: flex; }
+.screen.visible { opacity: 1; }
+
+.scrn-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.8px;
+  text-transform: uppercase; color: var(--k-orange-lt); opacity: 0.85; flex-shrink: 0;
+}
+.scrn-h1 { font-size: 22px; font-weight: 800; line-height: 1.15; color: var(--k-white); }
+.rule { width: 64px; height: 3px; background: var(--k-orange); border-radius: 2px; margin-top: 4px; }
+
+/* ─────────────────────────────────────────────────────────────
+   IFRAME SCREENS
+───────────────────────────────────────────────────────────── */
+.iframe-screen {
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  background: var(--k-navy);
+  overflow: auto;
+}
+.iframe-screen iframe {
+  display: block;
+  border: none;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   QUIZ SCREEN
+───────────────────────────────────────────────────────────── */
+.quiz-screen {
+  background: linear-gradient(160deg, #001a4a 0%, var(--k-navy) 100%);
+}
+.quiz-body {
+  flex: 1; min-height: 0; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 18px; padding-bottom: 12px;
+}
+.quiz-progress { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.qp-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid var(--k-steel);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--k-muted);
+  transition: all 0.3s; user-select: none;
+}
+.qp-dot.active  { border-color: var(--k-orange);  color: var(--k-orange-lt); background: rgba(204,61,0,0.12); }
+.qp-dot.correct { border-color: #22a06b; color: #22a06b; background: rgba(34,160,107,0.12); }
+.qp-dot.wrong   { border-color: #e03131; color: #e03131; background: rgba(224,49,49,0.12); }
+
+.q-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; padding: 18px 20px;
+  display: none; flex-direction: column; gap: 14px;
+}
+.q-card.active { display: flex; }
+.q-number {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--k-orange-lt); margin-bottom: 4px;
+}
+.q-stem { font-size: 14.5px; font-weight: 600; color: var(--k-white); line-height: 1.5; }
+.q-options { display: flex; flex-direction: column; gap: 8px; }
+.q-opt {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 14px; border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);
+  cursor: pointer; transition: background 0.18s, border-color 0.18s;
+  font-size: 13px; line-height: 1.45; color: var(--k-offwhite); user-select: none;
+}
+.q-opt:hover:not(.locked) { background: rgba(61,127,189,0.12); border-color: var(--k-steel); }
+.q-opt.selected { background: rgba(61,127,189,0.15); border-color: var(--k-steel-lt); }
+.q-opt.correct  { background: rgba(34,160,107,0.14); border-color: #22a06b; color: #a8f4cf; }
+.q-opt.wrong    { background: rgba(224,49,49,0.12);  border-color: #e03131; color: #ffa8a8; }
+.q-opt.locked   { cursor: default; }
+.q-opt-key {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1.5px solid currentColor;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.q-feedback {
+  display: none; padding: 10px 14px; border-radius: 7px;
+  font-size: 12.5px; line-height: 1.55;
+}
+.q-feedback.show        { display: block; }
+.q-feedback.fb-correct  { background: rgba(34,160,107,0.12); border: 1px solid #22a06b; color: #a8f4cf; }
+.q-feedback.fb-wrong    { background: rgba(224,49,49,0.10);  border: 1px solid #e03131; color: #ffa8a8; }
+.q-feedback.fb-retry    { background: rgba(204,61,0,0.10);   border: 1px solid var(--k-orange); color: var(--k-orange-lt); }
+.q-actions { display: flex; justify-content: flex-end; gap: 10px; }
+.btn-check {
+  background: var(--k-orange); color: var(--k-white);
+  border: none; border-radius: 7px; padding: 7px 20px;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.btn-check:hover:not(:disabled) { background: var(--k-orange-lt); }
+.btn-check:disabled { opacity: 0.35; cursor: default; }
+.btn-qnext {
+  background: rgba(61,127,189,0.15); color: var(--k-steel-lt);
+  border: 1px solid var(--k-steel); border-radius: 7px; padding: 7px 20px;
+  font-size: 13px; font-weight: 600; cursor: pointer; display: none; transition: background 0.2s;
+}
+.btn-qnext:hover { background: rgba(61,127,189,0.25); }
+.btn-qnext.show  { display: inline-block; }
+.score-panel {
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  gap: 16px; text-align: center; padding: 20px; flex: 1;
+}
+.score-panel.show { display: flex; }
+.score-big { font-size: 64px; font-weight: 900; line-height: 1; }
+.score-big.pass { color: #22a06b; }
+.score-big.fail { color: #e03131; }
+.score-label { font-size: 14px; color: var(--k-muted); max-width: 420px; line-height: 1.6; }
+.btn-review {
+  background: rgba(255,255,255,0.07); color: var(--k-steel-lt);
+  border: 1px solid var(--k-steel); border-radius: 7px; padding: 8px 24px;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.btn-review:hover { background: rgba(255,255,255,0.14); }
+
+/* ─────────────────────────────────────────────────────────────
+   VO BAR
+───────────────────────────────────────────────────────────── */
+.vo-bar {
+  flex-shrink: 0; background: rgba(0,0,0,0.38);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 9px 28px; display: flex; align-items: center; gap: 14px; min-height: 54px;
+}
+.vo-mic {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--k-navy-mid); border: 2px solid var(--k-steel);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: border-color 0.25s, background 0.25s;
+}
+.vo-mic svg { width: 17px; height: 17px; fill: var(--k-steel-lt); transition: fill 0.25s; }
+.vo-bar.live .vo-mic { background: var(--k-orange-glow); border-color: var(--k-orange-lt); }
+.vo-bar.live .vo-mic svg { fill: var(--k-orange-lt); }
+.vo-text { flex: 1; overflow: hidden; }
+.vo-label-tag {
+  font-size: 9px; font-weight: 700; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--k-muted); margin-bottom: 2px;
+}
+.vo-caption { font-size: 12px; color: var(--k-muted); line-height: 1.45; font-style: italic; transition: color 0.25s; }
+.vo-bar.live .vo-caption { color: var(--k-white); }
+.wave { display: flex; gap: 2px; align-items: center; height: 18px; opacity: 0; transition: opacity 0.25s; }
+.vo-bar.live .wave { opacity: 1; }
+.wave span {
+  display: block; width: 3px; border-radius: 2px; background: var(--k-orange-lt);
+  animation: wv 0.75s ease-in-out infinite;
+}
+.wave span:nth-child(1) { height: 5px;  animation-delay: 0s;    }
+.wave span:nth-child(2) { height: 13px; animation-delay: 0.15s; }
+.wave span:nth-child(3) { height: 8px;  animation-delay: 0.05s; }
+.wave span:nth-child(4) { height: 16px; animation-delay: 0.2s;  }
+.wave span:nth-child(5) { height: 6px;  animation-delay: 0.1s;  }
+@keyframes wv {
+  0%,100% { transform: scaleY(1); }
+  50%      { transform: scaleY(0.3); }
+}
+.btn-pause {
+  flex-shrink: 0; background: transparent; color: var(--k-steel-lt);
+  font-size: 12px; font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.14); border-radius: 7px; padding: 7px 14px;
+  cursor: pointer; transition: color 0.2s, border-color 0.2s, opacity 0.2s;
+}
+.btn-pause:hover:not(:disabled) { color: var(--k-white); border-color: var(--k-steel); }
+.btn-pause:disabled { opacity: 0.35; cursor: default; }
+.btn-pause.paused { color: var(--k-orange-lt); border-color: var(--k-orange-lt); }
+
+/* ─────────────────────────────────────────────────────────────
+   FOOTER NAV
+───────────────────────────────────────────────────────────── */
+footer {
+  flex-shrink: 0; background: #001245;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 8px 28px; display: flex; align-items: center; justify-content: space-between;
+}
+.btn {
+  border: none; border-radius: 7px; padding: 7px 20px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+.btn:disabled { opacity: 0.32; cursor: default; }
+.btn-back { background: rgba(255,255,255,0.07); color: var(--k-steel-lt); }
+.btn-back:hover:not(:disabled) { background: rgba(255,255,255,0.14); }
+.btn-next { background: var(--k-orange); color: var(--k-white); }
+.btn-next:hover:not(:disabled) { background: var(--k-orange-lt); }
+.btn-replay {
+  background: transparent; color: var(--k-muted); font-size: 12px;
+  border: 1px solid rgba(255,255,255,0.14); border-radius: 7px; padding: 7px 14px;
+  cursor: pointer; transition: color 0.2s, border-color 0.2s;
+}
+.btn-replay:hover { color: var(--k-white); border-color: var(--k-steel); }
+.ftr-centre { font-size: 11px; color: var(--k-muted); }
+
+/* ─────────────────────────────────────────────────────────────
+   AUDIO GATE OVERLAY
+───────────────────────────────────────────────────────────── */
+.audio-gate {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 22px; background: rgba(0,18,69,0.88); backdrop-filter: blur(3px);
+  transition: opacity 0.4s ease;
+}
+.audio-gate.hidden { opacity: 0; pointer-events: none; }
+.audio-gate-label {
+  font-size: 12px; font-weight: 700; letter-spacing: 1.6px;
+  text-transform: uppercase; color: var(--k-steel-lt);
+}
+.audio-gate-title {
+  font-size: 19px; font-weight: 700; color: var(--k-white);
+  text-align: center; max-width: 560px; line-height: 1.4;
+}
+.audio-gate-btn {
+  margin-top: 8px; padding: 13px 36px;
+  background: var(--k-orange); color: var(--k-white);
+  font-size: 15px; font-weight: 700; border: none; border-radius: var(--r);
+  cursor: pointer; letter-spacing: 0.5px; transition: background 0.2s;
+}
+.audio-gate-btn:hover { background: var(--k-orange-lt); }
+</style>
+</head>
+<body>
+
+<!-- ═══ AUDIO GATE ══════════════════════════════════════════ -->
+<div class="audio-gate" id="audioGate" role="dialog" aria-modal="true"
+     aria-label="Click to begin Section 6">
+  <div class="audio-gate-label">Section 6 of 6</div>
+  <div class="audio-gate-title">Marine and Mobile Application Considerations</div>
+  <button class="audio-gate-btn" id="audioGateBtn">&#9654;&nbsp; Begin Section 6</button>
+</div>
+
+<!-- ═══ HEADER ══════════════════════════════════════════════ -->
+<header>
+  <div class="hdr-left">
+    <img src="kirbyflag_imagefile.png" alt="Kirby Corporation" class="hdr-logo">
+    <div class="hdr-titles">
+      <div class="hdr-id">KIR-EMC-001 &nbsp;&middot;&nbsp; Section 6 of 6</div>
+      <div class="hdr-course">Electromagnetic Compatibility for AC Drive Systems</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="dots" id="dots" role="tablist" aria-label="Section 6 screens"></div>
+    <span class="dot-counter" id="dotCounter">Screen 1 of 5</span>
+  </div>
+</header>
+
+<!-- ═══ STAGE ═══════════════════════════════════════════════ -->
+<div class="stage">
+
+
+  <!-- â”€â”€ SCREEN 1: DRIVE FAULTS IN SAFETY-CRITICAL APPLICATIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen active" id="s-s6-0"
+       role="tabpanel" aria-label="Drive Faults in Safety-Critical Applications">
+    <iframe src="S6-0_Drive_Fault_Consequences.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="Drive Faults in Safety-Critical Applications"></iframe>
+  </div>
+  <!-- â”€â”€ SCREEN 2: STRAY CURRENT CORROSION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen" id="s-s6-1"
+       role="tabpanel" aria-label="Stray Current Corrosion">
+    <iframe src="S6-1_Stray_Current_Corrosion.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="Stray Current Corrosion"></iframe>
+  </div>
+  <!-- â”€â”€ SCREEN 3: IT DISTRIBUTION SYSTEM COMPATIBILITY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen" id="s-s6-2"
+       role="tabpanel" aria-label="IT Distribution System Compatibility">
+    <iframe src="S6-2_IT_System_Conflicts.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="IT Distribution System Compatibility"></iframe>
+  </div>
+  <!-- â”€â”€ SCREEN 4: ENVIRONMENTAL AND MECHANICAL REQUIREMENTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen" id="s-s6-3"
+       role="tabpanel" aria-label="Environmental and Mechanical Requirements">
+    <iframe src="S6-3_Environmental_Requirements.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="Environmental and Mechanical Requirements"></iframe>
+  </div>
+
+  <!-- ── QUIZ SCREEN ──────────────────────────────────────── -->
+  <div class="screen quiz-screen" id="s-quiz6"
+       role="tabpanel" aria-label="Section Quiz 6">
+
+    <span class="scrn-eyebrow">Section 6 &middot; Screen 5 of 5 &middot; Section Quiz</span>
+    <div>
+      <div class="scrn-h1">Section Quiz 6 &mdash; 3 Questions</div>
+      <div class="rule"></div>
+    </div>
+
+    <!-- Quiz progress dots and question cards are generated by buildQuiz() -->
+    <div class="quiz-progress" id="qProgress" aria-label="Quiz progress"></div>
+    <div class="quiz-body" id="quizBody"></div>
+
+    <div class="score-panel" id="scorePanel">
+      <div class="score-big" id="scoreBig"></div>
+      <div class="score-label" id="scoreLabel"></div>
+      <button class="btn-review" id="btnReviewSect">&#8635; Review Section 6</button>
+    </div>
+
+  </div><!-- /quiz screen -->
+
+</div><!-- /stage -->
+
+
+<!-- ═══ VO BAR ══════════════════════════════════════════════ -->
+<div class="vo-bar" id="voBar">
+  <div class="vo-mic" id="voMic">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 1a4 4 0 014 4v6a4 4 0 01-8 0V5a4 4 0 014-4zm-1.5 14.93A8.001 8.001 0 0120 10.5a.75.75 0 011.5 0 8 8 0 01-7.25 7.95V21h2.5a.75.75 0 010 1.5h-6.5a.75.75 0 010-1.5H12.75v-2.57A8.001 8.001 0 014 10.5a.75.75 0 011.5 0 6.5 6.5 0 005 6.34V18a2 2 0 002 0v-1.07z"/>
+    </svg>
+  </div>
+  <div class="vo-text">
+    <div class="vo-label-tag">Narration &nbsp;&middot;&nbsp; Google UK English Female</div>
+    <div class="vo-caption" id="voCaption">Press Space or click Replay VO to start narration for this screen.</div>
+  </div>
+  <div class="wave" id="wave" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <button class="btn-pause" id="btnPause" aria-label="Pause narration" disabled>&#9646;&#9646; Pause</button>
+</div>
+
+
+<!-- ═══ FOOTER NAV ═══════════════════════════════════════════ -->
+<footer>
+  <button class="btn btn-back" id="btnBack" disabled>&#8592; Back</button>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <button class="btn-replay" id="btnReplay" aria-label="Replay narration">&#8635; Replay VO</button>
+    <span class="ftr-centre" id="ftrLabel">Section 6 &nbsp;&middot;&nbsp; Marine and Mobile Application Considerations &nbsp;&middot;&nbsp; 8 minutes</span>
+  </div>
+  <button class="btn btn-next" id="btnNext">Next &#8594;</button>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════════ -->
+<script>
+/* ── SCREENS ARRAY ────────────────────────────────────────────
+   Each entry: { id, label, vo }
+   • id     — must match the HTML element id of the iframe-screen div
+   • label  — shown in dot tooltips and aria-labels
+   • vo     — full narration text (use [PAUSE] for mid-speech pauses)
+   The quiz screen is always last; add it here too so VO plays on entry.
+─────────────────────────────────────────────────────────── */
+const SCREENS = [
+  {
+    id:    's-s6-0',
+    label: 'Drive Faults in Safety-Critical Applications',
+    vo:    'Section six: Marine and Mobile Application Considerations. In most industrial settings, a drive fault means a stopped process — inconvenient, but recoverable. In the applications this course addresses, the consequences are different. [PAUSE] On a Subchapter M inland towing vessel, loss of propulsion control while pushing a loaded tank barge on a river can result in allision, grounding, or a spill of hazardous cargo. Under 46 CFR §143.205, propulsion machinery must provide safe operation under both normal and emergency conditions. Section 143.585 goes further: for vessels moving tank barges, the propulsion control system must be designed so that a single component failure either maintains propeller speed or reduces it to zero — a single-fault-tolerant design requirement. [PAUSE] On an e-frac unit, a drive fault during high-pressure pumping can trigger wellbore instability, fluid influx, or surface pressure events. In both contexts, drive fault behaviour must be engineered deliberately — not left to default settings.'
+  },
+  {
+    id:    's-s6-1',
+    label: 'Stray Current Corrosion',
+    vo:    'Stray current corrosion is the most significant EMC consequence unique to marine applications. Here is the mechanism. The inverter\'s switching produces common-mode current that flows from the drive output, through the motor cable capacitance to the motor frame, and then seeks a return path to the DC link. In a correctly installed system, that path is the cable shield. But some common-mode current finds an alternative path: from the motor frame, through the motor shaft, into the propeller, and then into the surrounding seawater — completing the circuit via the hull and seawater back to the drive. [PAUSE] That current flowing through seawater creates an electrolytic cell. By Faraday’s Law, even milliamps of DC-equivalent stray current can dissolve significant quantities of metal. One milliamp of DC stray current dissolves approximately 9 kilograms of steel per year. At weld seams and hull penetrations, the damage can be both rapid and structurally significant. Bronze propellers, brass sea cocks, and aluminium heat exchanger tubes are all at risk. [PAUSE] Under 46 CFR §143.570(f), the hull may not carry current as a conductor. Stray current escaping through the hull from a VFD is therefore not merely a corrosion risk — it is a regulatory violation. Correct shield termination, shaft grounding brushes, and galvanic isolation of seawater-cooled circuits are the engineering controls.'
+  },
+  {
+    id:    's-s6-2',
+    label: 'IT Distribution System Compatibility',
+    vo:    'Subchapter M metallic towing vessels are required by 46 CFR §143.570 to use an ungrounded distribution system — technically called an IT system — with continuous ground-fault detection. This provides a critical safety benefit: a single ground fault does not trip the circuit, giving the crew time to locate and repair the fault before a second fault creates a hazardous situation. [PAUSE] The conflict with variable speed drives arises from the RFI filter. Standard drive RFI filters use capacitors connected from each line to the grounded chassis — so-called Y-capacitors. On an IT system, these capacitors create a low-impedance path to ground that loads the ground-fault detector and can generate false alarms or, worse, prevent the detector from seeing a real fault. [PAUSE] There are three solutions. First, some drives have a Y-capacitor bypass switch that disconnects the Y-caps for use on IT systems — verify this with the drive manufacturer before specifying. Second, an isolation transformer with a grounded secondary can provide a local grounded reference for the drive while keeping the vessel distribution system ungrounded. Third, at very high power levels, a drive with a delta-connected filter topology — no line-to-ground capacitors — avoids the conflict entirely. ABS Rules and DNV Rules both require drives to be compatible with the vessel’s distribution system. Confirm Y-cap configuration before commissioning any drive on a vessel.'
+  },
+  {
+    id:    's-s6-3',
+    label: 'Environmental and Mechanical Requirements',
+    vo:    'Marine and mobile equipment environments are significantly more demanding than typical industrial installations. For marine applications: enclosures must meet at minimum IP44, and IP54 is preferred for machinery spaces exposed to water spray. ABS and DNV require drive type-approval testing that includes salt-fog per IEC 60068-2-52, vibration per IEC 60068-2-6, and high humidity per IEC 60068-2-78. Vessel vibration from diesel propulsion and hull slamming can loosen terminal connections that appear tight on the dock — use torque-verified connections and lock-wire or thread-locking compound where applicable. [PAUSE] For mobile e-frac equipment: trailers and skid-mounted equipment experience road and pumping vibration, temperature cycling from minus 40 to plus 70 degrees Celsius in field conditions, and dust and moisture ingress. Cable assemblies between the drive cabinet and the pump motor must use flex-rated, drag-chain cable, not standard industrial cable, to survive repeated trailer transport. IEEE 519 harmonic limits apply at the generator terminals — the e-frac unit has no utility grid to absorb harmonics, so all harmonic content from the drives stays within the generator and the pumping system. [PAUSE] In both applications, verify that drive IP rating, type-approval testing, and cable specifications are confirmed before design commitment. Manufacturer data sheets do not always reflect the actual testing standard — request the test report.'
+  },
+  {
+    id:    's-quiz6',
+    label: 'Section Quiz 6',
+    vo:    'Final section check before the summary. Three questions from the pool — two correct needed to proceed.'
+  }
+];
+
+let cur         = 0;
+let quizPassed  = false;
+let hasGestured = false;
+let voPaused    = false;
+let curVoText   = '';
+let voiceUK     = null;
+const synth     = window.speechSynthesis;
+
+function loadVoice() {
+  const v = synth.getVoices();
+  voiceUK =
+    v.find(x => x.name === 'Google UK English Female') ||
+    v.find(x => x.lang === 'en-GB' && /female/i.test(x.name)) ||
+    v.find(x => x.lang === 'en-GB') ||
+    v.find(x => /en.gb/i.test(x.lang)) ||
+    v.find(x => x.lang.startsWith('en'));
+}
+loadVoice();
+if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = loadVoice;
+}
+
+function speakOne(text) {
+  synth.cancel();
+  curVoText = text;
+  voPaused = false;
+  updatePauseBtn();
+  const segments = text.split('[PAUSE]').map(s => s.trim()).filter(s => s.length > 0);
+  function speakSegment(i) {
+    if (i >= segments.length) { setLive(false); return; }
+    const u = new SpeechSynthesisUtterance(segments[i]);
+    if (voiceUK) u.voice = voiceUK;
+    u.lang = 'en-GB'; u.rate = 0.93; u.pitch = 1.0; u.volume = 1.0;
+    if (i === 0) u.onstart = () => setLive(true, text);
+    u.onend = () => { if (i < segments.length - 1) { setTimeout(() => speakSegment(i + 1), 700); } else { setLive(false); } };
+    u.onerror = () => setLive(false);
+    synth.speak(u);
+  }
+  speakSegment(0);
+}
+
+function setLive(on, text) {
+  const bar = document.getElementById('voBar');
+  const cap = document.getElementById('voCaption');
+  if (on) { bar.classList.add('live'); cap.textContent = text || '\u2026'; }
+  else    { bar.classList.remove('live'); voPaused = false; }
+  updatePauseBtn();
+}
+
+function updatePauseBtn() {
+  const btn = document.getElementById('btnPause');
+  if (!btn) return;
+  if (voPaused) {
+    btn.textContent = '\u25b6 Resume'; btn.classList.add('paused'); btn.disabled = false;
+  } else if (synth.speaking) {
+    btn.textContent = '\u23f8 Pause'; btn.classList.remove('paused'); btn.disabled = false;
+  } else {
+    btn.textContent = '\u23f8 Pause'; btn.classList.remove('paused'); btn.disabled = true;
+  }
+}
+
+function pauseResume() {
+  if (voPaused) {
+    synth.resume();
+    voPaused = false;
+    document.getElementById('voBar').classList.add('live');
+    updatePauseBtn();
+  } else if (synth.speaking) {
+    synth.pause(); voPaused = true;
+    document.getElementById('voBar').classList.remove('live');
+    updatePauseBtn();
+  }
+}
+
+function goTo(idx, autoSpeak) {
+  if (idx < 0 || idx >= SCREENS.length) return;
+  const oldEl = document.getElementById(SCREENS[cur].id);
+  oldEl.classList.remove('visible');
+  setTimeout(() => { oldEl.classList.remove('active'); }, 360);
+  cur = idx;
+  const newEl = document.getElementById(SCREENS[cur].id);
+  newEl.classList.add('active');
+  requestAnimationFrame(() => { requestAnimationFrame(() => { newEl.classList.add('visible'); }); });
+  updateDots(); updateNav();
+  synth.cancel();
+  if (autoSpeak !== false && hasGestured) {
+    setTimeout(() => speakOne(SCREENS[cur].vo), 400);
+  }
+}
+
+function updateNav() {
+  document.getElementById('btnBack').disabled = (cur === 0);
+  const nextBtn = document.getElementById('btnNext');
+  if (cur === SCREENS.length - 1) {
+    /* ── QUIZ SCREEN: gate Next behind quiz pass ── */
+    if (quizPassed) {
+      nextBtn.textContent = 'Summary ▸';
+      nextBtn.disabled    = false;
+      nextBtn.onclick     = () => { window.location.href = 'SUM_CourseSum.html'; };
+    } else {
+      nextBtn.textContent = 'Pass Quiz to Continue';
+      nextBtn.disabled    = true;
+      nextBtn.onclick     = null;
+    }
+  } else {
+    nextBtn.textContent = 'Next \u2192';
+    nextBtn.disabled    = false;
+    nextBtn.onclick     = null;
+  }
+  document.getElementById('dotCounter').textContent =
+    'Screen ' + (cur + 1) + ' of ' + SCREENS.length;
+}
+
+function buildDots() {
+  const container = document.getElementById('dots');
+  SCREENS.forEach((s, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'dot' + (i === 0 ? ' active' : '');
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-label', 'Screen ' + (i + 1) + ': ' + s.label);
+    btn.title = s.label;
+    btn.addEventListener('click', () => goTo(i));
+    container.appendChild(btn);
+  });
+}
+
+function updateDots() {
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.classList.remove('active', 'visited');
+    if      (i === cur) d.classList.add('active');
+    else if (i < cur)   d.classList.add('visited');
+  });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { if (cur < SCREENS.length - 1) goTo(cur + 1); }
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { if (cur > 0) goTo(cur - 1); }
+  else if (e.key === ' ') { e.preventDefault(); speakOne(SCREENS[cur].vo); }
+});
+
+document.getElementById('btnBack').addEventListener('click', () => { if (cur > 0) goTo(cur - 1); });
+document.getElementById('btnNext').addEventListener('click', () => { if (cur < SCREENS.length - 1) goTo(cur + 1); });
+document.getElementById('btnReplay').addEventListener('click', () => { hasGestured = true; speakOne(SCREENS[cur].vo); });
+document.getElementById('btnPause').addEventListener('click', pauseResume);
+
+buildDots();
+updateNav();
+requestAnimationFrame(() => { requestAnimationFrame(() => { document.getElementById(SCREENS[0].id).classList.add('visible'); }); });
+
+document.getElementById('audioGateBtn').addEventListener('click', () => {
+  hasGestured = true;
+  const gate = document.getElementById('audioGate');
+  gate.classList.add('hidden');
+  gate.addEventListener('transitionend', () => gate.remove(), { once: true });
+  speakOne(SCREENS[0].vo);
+});
+
+/* ─── QUIZ LOGIC ──────────────────────────────────────────────
+   QUIZ_POOL — full bank of questions for this section.
+   The builder selects QUIZ_PICK items at random each attempt.
+
+   Each question object:
+   {
+     stem:    'Question text?',
+     options: [ { val: 'A', text: '...' }, { val: 'B', text: '...' }, ... ],
+     correct: 'B',           // must match a val
+     feedback: {
+       correct: '✓ Correct. Explanation...',
+       wrong:   '✗ Not quite. Explanation...',
+       retry:   'Incorrect — try again.'
+     }
+   }
+─────────────────────────────────────────────────────────── */
+const QUIZ_POOL = [
+  {
+    stem: 'Under 46 CFR §143.585, the propulsion control system on a towing vessel pushing tank barges must be designed so that a single component failure:',
+    options: [
+      { val: 'A', text: 'Automatically transfers control to the alternate steering station' },
+      { val: 'B', text: 'Maintains propeller speed and direction, or reduces propeller speed to zero' },
+      { val: 'C', text: 'Activates the general alarm and illuminates the pilothouse warning panel' },
+      { val: 'D', text: 'Shuts down all non-essential electrical loads to maintain propulsion power' }
+    ],
+    correct: 'B',
+    feedback: {
+      correct: '✓ Correct. 46 CFR §143.585(e) requires the propulsion control system to be single-fault tolerant: any single component failure must result in propeller speed being maintained or reduced to zero. A fault must not produce uncontrolled propeller speed changes.',
+      wrong:   '✗ Not quite. The regulatory requirement in §143.585(e) is that a single component failure must maintain propeller speed and direction, or reduce propeller speed to zero. The system must fail safe.',
+      retry:   'Incorrect — recall the single-failure design requirement for propulsion control systems on vessels towing tank barges under 46 CFR.'
+    }
+  },
+  {
+    stem: 'Common-mode current from a drive motor cable reaching the vessel\'s hull via the propeller shaft and seawater causes:',
+    options: [
+      { val: 'A', text: 'Increased bearing EDM inside the motor only' },
+      { val: 'B', text: 'Interference with the vessel’s AIS transponder' },
+      { val: 'C', text: 'Electrolytic corrosion of underwater metals, and a violation of 46 CFR §143.570(f)' },
+      { val: 'D', text: 'Overloading of the vessel’s ground-fault detection system' }
+    ],
+    correct: 'C',
+    feedback: {
+      correct: '✓ Correct. Stray current reaching the hull through seawater creates an electrolytic cell, corroding underwater metals. It also violates 46 CFR §143.570(f), which prohibits the hull from carrying current as a conductor.',
+      wrong:   '✗ Not quite. The stray current path through seawater and hull causes electrolytic corrosion of the propeller, shafts, hull plating, and sea cocks. It is also a regulatory violation under §143.570(f).',
+      retry:   'Incorrect — consider what happens when electrical current flows through the interface between a metallic hull and seawater.'
+    }
+  },
+  {
+    stem: 'A variable speed drive RFI filter uses Y-capacitors from line to ground. On a vessel using a Subchapter M ungrounded (IT) distribution system, this configuration will:',
+    options: [
+      { val: 'A', text: 'Improve RFI filter performance due to the lower ground impedance of the hull' },
+      { val: 'B', text: 'Create a leakage path to ground that loads the ground-fault detector, potentially masking real faults' },
+      { val: 'C', text: 'Have no effect because vessel hulls are inherently grounded' },
+      { val: 'D', text: 'Cause the drive to generate higher common-mode currents than on a grounded system' }
+    ],
+    correct: 'B',
+    feedback: {
+      correct: '✓ Correct. Y-capacitors in the RFI filter create a capacitive leakage path to ground that interferes with the IT system’s ground-fault detector. Solutions include a Y-cap bypass switch, an isolation transformer, or a filter topology without line-to-ground capacitors.',
+      wrong:   '✗ Not quite. On an IT (ungrounded) system, Y-capacitors in the drive’s RFI filter create a leakage path that loads the ground-fault detector and can mask real ground faults. The drive must be verified as IT-system compatible before installation.',
+      retry:   'Incorrect — recall what an IT distribution system is, and what the Y-capacitors in a standard RFI filter do when connected to one.'
+    }
+  },
+  {
+    stem: 'The minimum recommended IP enclosure rating for a variable speed drive installed in a marine machinery space exposed to water spray is:',
+    options: [
+      { val: 'A', text: 'IP21 — drip-proof' },
+      { val: 'B', text: 'IP44 — protected against splashing water from any direction' },
+      { val: 'C', text: 'IP67 — dust-tight and temporarily submersible' },
+      { val: 'D', text: 'IP20 — finger-safe open enclosure' }
+    ],
+    correct: 'B',
+    feedback: {
+      correct: '✓ Correct. IP44 is the minimum for a marine machinery space. IP54 is preferred for spaces with significant water spray. IP20 and IP21 are typical for protected industrial environments and are insufficient for marine conditions.',
+      wrong:   '✗ Not quite. Marine machinery spaces require at minimum IP44 (protection against water splashing from any direction). IP54 is preferred. IP20/IP21 ratings typical of standard industrial drives are not suitable.',
+      retry:   'Incorrect — recall the IP enclosure rating requirements for marine installations and why the marine environment requires higher ingress protection than a typical industrial panel room.'
+    }
+  },
+  {
+    stem: 'On an e-frac mobile unit, IEEE 519 harmonic limits apply at the generator terminals because:',
+    options: [
+      { val: 'A', text: 'IEEE 519 is the applicable standard for all US land-based electrical systems' },
+      { val: 'B', text: 'There is no utility grid to absorb harmonic currents, so all harmonics remain within the generation and pumping system' },
+      { val: 'C', text: 'The generator’s voltage regulator requires harmonic levels below the IEEE 519 threshold to operate correctly' },
+      { val: 'D', text: 'The NEC requires IEEE 519 compliance for all motor drives rated above 600 V' }
+    ],
+    correct: 'B',
+    feedback: {
+      correct: '✓ Correct. An e-frac unit operates on its own dedicated generators. There is no utility grid to absorb or dilute harmonic currents from the drives. All harmonic distortion created by the VFDs stays within the local generation and distribution system, making harmonic control critical.',
+      wrong:   '✗ Not quite. On e-frac, the generators are the only power source. Unlike a utility-connected installation where the grid’s large capacity absorbs harmonic currents, on e-frac all the harmonic energy from the drives recirculates in the generator and distribution system.',
+      retry:   'Incorrect — consider the difference between a utility-connected industrial installation and a stand-alone generator-powered system when harmonics are produced.'
+    }
+  },
+  {
+    stem: 'An isolation transformer installed between the vessel distribution system and a variable speed drive solves the IT system Y-capacitor conflict by:',
+    options: [
+      { val: 'A', text: 'Removing the Y-capacitors from the filter and replacing them with common-mode inductors' },
+      { val: 'B', text: 'Providing a locally grounded neutral on the drive side while keeping the vessel distribution system ungrounded' },
+      { val: 'C', text: 'Increasing the impedance of the ground-fault detection loop to prevent false alarms' },
+      { val: 'D', text: 'Converting the drive supply to DC, which eliminates the need for line-to-ground capacitors' }
+    ],
+    correct: 'B',
+    feedback: {
+      correct: '✓ Correct. An isolation transformer provides a locally grounded secondary winding from which the drive’s RFI filter Y-capacitors operate normally. The vessel’s IT distribution system on the primary side remains ungrounded, preserving its ground-fault detection capability.',
+      wrong:   '✗ Not quite. The isolation transformer creates a locally grounded reference for the drive on the secondary side, while the vessel distribution system on the primary side remains ungrounded. The Y-caps can connect to the transformer secondary neutral without disturbing the vessel’s IT system.',
+      retry:   'Incorrect — consider how a transformer electrically isolates two circuits, and what is provided on the secondary side of an isolation transformer with a grounded neutral.'
+    }
+  }
+];
+
+/* Number of questions selected per attempt (≤ QUIZ_POOL.length) */
+const QUIZ_PICK = 3;
+
+let QUIZ   = [];
+let qState = {};
+
+function buildQuiz() {
+  /* Fisher-Yates shuffle, then slice QUIZ_PICK items */
+  const pool = QUIZ_POOL.slice();
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  QUIZ = pool.slice(0, QUIZ_PICK);
+  const n = QUIZ.length;
+
+  /* Regenerate progress dots */
+  const prog = document.getElementById('qProgress');
+  prog.innerHTML = '';
+  for (let i = 0; i < n; i++) {
+    const d = document.createElement('div');
+    d.className = 'qp-dot' + (i === 0 ? ' active' : '');
+    d.id = 'qpd-' + i;
+    d.textContent = i + 1;
+    prog.appendChild(d);
+  }
+
+  /* Regenerate question cards */
+  const body = document.getElementById('quizBody');
+  body.innerHTML = '';
+  QUIZ.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card' + (i === 0 ? ' active' : '');
+    card.id = 'qcard-' + i;
+    card.innerHTML =
+      '<div><div class="q-number">Question ' + (i + 1) + ' of ' + n + '</div>' +
+      '<div class="q-stem">' + q.stem + '</div></div>' +
+      '<div class="q-options" id="qopts-' + i + '">' +
+      q.options.map(o =>
+        '<div class="q-opt" data-q="' + i + '" data-val="' + o.val + '">' +
+        '<span class="q-opt-key">' + o.val + '</span><span>' + o.text + '</span></div>'
+      ).join('') +
+      '</div><div class="q-feedback" id="qfb-' + i + '"></div>' +
+      '<div class="q-actions">' +
+      '<button class="btn-check" id="qchk-' + i + '" disabled>Check Answer</button>' +
+      '<button class="btn-qnext" id="qnxt-' + i + '">' +
+      (i === n - 1 ? 'View Results &#x2192;' : 'Next Question &#x2192;') +
+      '</button></div>';
+    body.appendChild(card);
+  });
+
+  qState = {
+    cur:      0,
+    scores:   Array(n).fill(null),
+    attempts: Array(n).fill(0),
+    selected: Array(n).fill(null)
+  };
+
+  document.querySelectorAll('.q-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const q = parseInt(opt.dataset.q);
+      if (qState.scores[q] !== null || qState.attempts[q] >= 2) return;
+      document.querySelectorAll('[data-q="' + q + '"]').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      qState.selected[q] = opt.dataset.val;
+      document.getElementById('qchk-' + q).disabled = false;
+    });
+  });
+
+  for (let i = 0; i < n; i++) {
+    document.getElementById('qchk-' + i).addEventListener('click', () => checkAnswer(i));
+    document.getElementById('qnxt-' + i).addEventListener('click', () => advanceQuiz(i));
+  }
+}
+
+function quizInit() {
+  buildQuiz();
+  document.getElementById('btnReviewSect').addEventListener('click', () => { resetQuiz(); goTo(0); });
+}
+
+function checkAnswer(q) {
+  const sel = qState.selected[q];
+  if (!sel) return;
+  const data = QUIZ[q];
+  qState.attempts[q]++;
+  const opts = document.querySelectorAll('[data-q="' + q + '"]');
+  const fb   = document.getElementById('qfb-' + q);
+  const chk  = document.getElementById('qchk-' + q);
+  const nxt  = document.getElementById('qnxt-' + q);
+  if (sel === data.correct) {
+    qState.scores[q] = 1;
+    opts.forEach(o => { o.classList.add('locked'); if (o.dataset.val === data.correct) o.classList.add('correct'); });
+    fb.textContent = data.feedback.correct; fb.className = 'q-feedback show fb-correct';
+    chk.disabled = true; nxt.classList.add('show');
+    updateQDot(q, 'correct');
+  } else if (qState.attempts[q] >= 2) {
+    qState.scores[q] = 0;
+    opts.forEach(o => {
+      o.classList.add('locked');
+      if (o.dataset.val === sel)          o.classList.add('wrong');
+      if (o.dataset.val === data.correct) o.classList.add('correct');
+    });
+    fb.textContent = data.feedback.wrong; fb.className = 'q-feedback show fb-wrong';
+    chk.disabled = true; nxt.classList.add('show');
+    updateQDot(q, 'wrong');
+  } else {
+    opts.forEach(o => o.classList.remove('selected'));
+    qState.selected[q] = null;
+    fb.textContent = data.feedback.retry; fb.className = 'q-feedback show fb-retry';
+    chk.disabled = true;
+  }
+}
+
+function advanceQuiz(q) {
+  if (q < QUIZ.length - 1) {
+    document.getElementById('qcard-' + q).classList.remove('active');
+    document.getElementById('qpd-'   + q).classList.remove('active');
+    const next = q + 1;
+    document.getElementById('qcard-' + next).classList.add('active');
+    document.getElementById('qpd-'   + next).classList.add('active');
+    qState.cur = next;
+  } else {
+    document.getElementById('qcard-' + q).classList.remove('active');
+    document.getElementById('quizBody').style.display  = 'none';
+    document.getElementById('qProgress').style.display = 'none';
+    showScore();
+  }
+}
+
+function updateQDot(q, state) {
+  const dot = document.getElementById('qpd-' + q);
+  dot.classList.remove('active'); dot.classList.add(state);
+}
+
+function showScore() {
+  const correct = qState.scores.filter(s => s === 1).length;
+  const panel   = document.getElementById('scorePanel');
+  const big     = document.getElementById('scoreBig');
+  const lbl     = document.getElementById('scoreLabel');
+  big.textContent = correct + ' / ' + QUIZ.length;
+  big.className = 'score-big ' + (correct >= 2 ? 'pass' : 'fail');
+  lbl.textContent = correct >= 2
+    ? 'Well done — you can apply marine and mobile specific EMC requirements. Proceed to the course summary.'
+    : 'Review the section — particularly the stray current mechanism and IT system compatibility — then try again.';
+  panel.classList.add('show');
+  if (correct >= 2) { quizPassed = true; }
+  updateNav();
+}
+
+function resetQuiz() {
+  document.getElementById('scorePanel').classList.remove('show');
+  document.getElementById('quizBody').style.display  = '';
+  document.getElementById('qProgress').style.display = '';
+  buildQuiz();
+}
+
+  quizInit();
+</script>
+
+<style>
+.iframe-screen { overflow: hidden !important; }
+</style>
+<script>
+function scaleIframes() {
+  var stage = document.querySelector('.stage');
+  if (!stage) return;
+  var sw = stage.clientWidth, sh = stage.clientHeight;
+  var s  = Math.min(sw / 1040, sh / 510);
+  var ox = (sw - 1040 * s) / 2;
+  var oy = (sh -  510 * s) / 2;
+  document.querySelectorAll('.iframe-screen iframe').forEach(function (fr) {
+    fr.style.position        = 'absolute';
+    fr.style.left            = ox + 'px';
+    fr.style.top             = oy + 'px';
+    fr.style.transformOrigin = '0 0';
+    fr.style.transform       = 'scale(' + s + ')';
+  });
+}
+window.addEventListener('resize', scaleIframes);
+window.addEventListener('load',   scaleIframes);
+if (window.ResizeObserver) {
+  new ResizeObserver(scaleIframes).observe(document.querySelector('.vo-bar'));
+}
+</script>
+</body>
+</html>

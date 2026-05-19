@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Stray Current Corrosion | Section 6 — Marine and Mobile Applications</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
+.main-row { display: flex; gap: 12px; align-items: stretch; }
+.diagram-panel { flex: 0 0 540px; background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.diagram-banner { background: #1a3660; color: #88aacc; padding: 5px 14px; font-size: 9px; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; flex-shrink: 0; }
+.diagram-body { flex: 1; display: flex; align-items: center; justify-content: center; padding: 6px 8px; }
+.card-stack { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.info-card { background: #fff; border: 1.5px solid #c8d8e8; border-left: 4px solid #002060; border-radius: 0 7px 7px 0; padding: 7px 12px 7px 14px; display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.card-head { font-size: 9.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.4px; color: #1a3660; }
+.card-body { font-size: 9px; color: #334466; line-height: 1.6; }
+.card-body strong { color: #002060; }
+.accent-navy  { border-left-color: #002060; }
+.accent-red   { border-left-color: #cc3d00; }
+.accent-amber { border-left-color: #cc8800; }
+.accent-green { border-left-color: #1a7040; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">Stray Current Corrosion</div>
+  <div class="header-tag">Section 6 — Marine &amp; Mobile Applications</div>
+</div>
+<div class="outer">
+  <div class="main-row">
+    <div class="diagram-panel">
+      <div class="diagram-banner">Stray CM Current Path — Towboat Propulsion Drive</div>
+      <div class="diagram-body">
+        <svg width="516" height="335" viewBox="0 0 516 335" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif" font-size="8.5">
+          <rect width="516" height="335" rx="5" fill="#eef4fa"/>
+          <defs>
+            <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0,6 3,0 6" fill="#cc3d00"/></marker>
+            <marker id="arrg" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0,6 3,0 6" fill="#1a7040"/></marker>
+          </defs>
+
+          <!-- Vessel hull -->
+          <path d="M20,260 Q50,295 100,300 L420,300 Q466,295 496,260 L496,175 L20,175 Z" fill="#d0d8e0" stroke="#8899aa" stroke-width="2"/>
+          <text x="258" y="280" text-anchor="middle" font-size="8" fill="#445566">VESSEL HULL (steel)</text>
+
+          <!-- Water -->
+          <rect x="10" y="298" width="496" height="30" rx="0" fill="#b0cce0" opacity="0.7"/>
+          <text x="258" y="313" text-anchor="middle" font-size="8" fill="#1a3660" font-weight="bold">SEAWATER / RIVER WATER (conductive electrolyte)</text>
+
+          <!-- DRIVE -->
+          <rect x="30" y="120" width="80" height="50" rx="5" fill="#002060" stroke="#3d7fbd" stroke-width="1.5"/>
+          <text x="70" y="143" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#fff">VSD</text>
+          <text x="70" y="155" text-anchor="middle" font-size="7.5" fill="#88aacc">Propulsion</text>
+
+          <!-- MOTOR -->
+          <ellipse cx="260" cy="210" rx="40" ry="28" fill="#c8d8e8" stroke="#5588aa" stroke-width="1.5"/>
+          <text x="260" y="207" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#1a3660">MOTOR</text>
+          <text x="260" y="219" text-anchor="middle" font-size="7.5" fill="#334466">frame: steel</text>
+
+          <!-- PROPELLER shaft -->
+          <line x1="300" y1="225" x2="400" y2="255" stroke="#667788" stroke-width="3"/>
+          <text x="365" y="240" text-anchor="middle" font-size="8" fill="#445566" transform="rotate(15,365,240)">propeller shaft</text>
+          <!-- Propeller -->
+          <ellipse cx="410" cy="265" rx="12" ry="18" fill="#c08040" stroke="#7a5020" stroke-width="1.5" transform="rotate(15,410,265)"/>
+          <text x="440" y="268" font-size="8" fill="#7a5020" font-weight="bold">Bronze</text>
+          <text x="440" y="278" font-size="8" fill="#7a5020">propeller</text>
+
+          <!-- Cable from drive to motor - shielded -->
+          <line x1="110" y1="145" x2="220" y2="200" stroke="#cc3d00" stroke-width="2.5" stroke-dasharray="5,2"/>
+          <text x="155" y="168" text-anchor="middle" font-size="7.5" fill="#8b2000" font-weight="bold" transform="rotate(25,155,168)">Shielded cable</text>
+
+          <!-- Y-capacitor to hull (CM path from drive) -->
+          <line x1="70" y1="170" x2="70" y2="210" stroke="#cc3d00" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <text x="55" y="195" font-size="7.5" fill="#cc3d00">Y-cap</text>
+          <line x1="70" y1="210" x2="70" y2="240" stroke="#cc3d00" stroke-width="1.5" marker-end="url(#arr)"/>
+          <text x="30" y="228" font-size="7.5" fill="#cc3d00">CM to</text>
+          <text x="30" y="238" font-size="7.5" fill="#cc3d00">hull</text>
+
+          <!-- CM current path through water -->
+          <path d="M100,285 Q200,310 370,290" stroke="#cc3d00" stroke-width="2" fill="none" stroke-dasharray="4,2" marker-end="url(#arr)"/>
+          <text x="225" y="310" text-anchor="middle" font-size="8" fill="#8b2000" font-weight="bold">CM stray current → seawater → propeller → shaft</text>
+
+          <!-- Return path (PE) through cable shield -->
+          <path d="M395,255 Q460,220 480,175 L120,155 L75,160" stroke="#1a7040" stroke-width="1.5" fill="none" stroke-dasharray="4,2" marker-end="url(#arrg)"/>
+          <text x="340" y="155" font-size="7.5" fill="#1a5c30">Return via PE / shield → drive</text>
+
+          <!-- Corrosion arrow at propeller -->
+          <line x1="414" y1="250" x2="440" y2="238" stroke="#cc8800" stroke-width="2" marker-end="url(#arr)"/>
+          <text x="448" y="238" font-size="8" fill="#8b5500" font-weight="bold">CORROSION</text>
+          <text x="448" y="248" font-size="7.5" fill="#8b5500">at anode</text>
+
+          <!-- Sea cocks / zinc anode labels -->
+          <rect x="10" y="90" width="496" height="22" rx="3" fill="#002060"/>
+          <text x="258" y="105" text-anchor="middle" font-size="8.5" fill="#88aacc">At-risk components: Bronze propellers &#x2022; Brass sea cocks &#x2022; Aluminium heat exchangers &#x2022; Zinc anodes (consumed prematurely)</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="card-stack">
+      <div class="info-card accent-red">
+        <div class="card-head">The Mechanism</div>
+        <div class="card-body">Drive Y-filter capacitors conduct CM current to the motor frame (PE). On a vessel, the motor frame is bonded to the steel hull. CM current that reaches the hull can leak into the conductive water as a <strong>stray current</strong>. At the propeller — a bronze/brass dissimilar metal — the stray current is an electrochemical cell that dissolves metal. This is <strong>galvanic corrosion accelerated by stray current</strong>.</div>
+      </div>
+      <div class="info-card accent-amber">
+        <div class="card-head">Corrosion Rate</div>
+        <div class="card-body">Approximately <strong>9 kg of steel dissolved per ampere per year</strong> (Faraday's law). Even milliampere-level stray currents cause measurable corrosion over a season. Bronze propellers are common anodes in this electrochemical cell — they can be attacked faster than the zinc sacrificial anodes designed for the purpose.</div>
+      </div>
+      <div class="info-card accent-navy">
+        <div class="card-head">46 CFR §143.570(f)</div>
+        <div class="card-body"><strong>§143.570(f)</strong> prohibits connecting the vessel's distribution system neutral or ground to the hull (IT system) specifically to prevent stray current leakage. VSD Y-capacitors that connect to PE and therefore to the hull <strong>violate this provision</strong>. See Section 6-2 for the three engineering solutions to this conflict.</div>
+      </div>
+      <div class="info-card accent-green">
+        <div class="card-head">Engineering Controls</div>
+        <div class="card-body">&#x2022; <strong>360° shield terminations</strong> keep CM current in the cable shield, not in the hull<br>&#x2022; <strong>Shaft grounding brushes</strong> provide a low-impedance return path via the shaft to the drive — bypassing the water path<br>&#x2022; <strong>Galvanic isolation transformer</strong> breaks the CM leakage path to the hull while allowing the drive to reference to a local PE</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">Drive CM current that reaches the steel hull of a metallic vessel can leak into the water as a stray current, causing <strong>electrochemical corrosion</strong> of bronze propellers, brass sea cocks, and aluminium heat exchangers. <strong>46 CFR §143.570(f)</strong> prohibits hull-to-ground connections. Mitigation: 360° shield termination, shaft grounding brushes, and isolation transformers where required.</div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

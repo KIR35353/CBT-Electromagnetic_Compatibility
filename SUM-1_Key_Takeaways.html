@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Key Takeaways | Course Summary</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #cc3d00; border: 1px solid #e06828; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #fff; letter-spacing: 0.5px; white-space: nowrap; }
+.body-layout { display: flex; height: calc(510px - 50px); }
+.layers-panel { width: 530px; flex-shrink: 0; padding: 10px 12px 8px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+.intro-label { font-size: 8.5px; font-weight: bold; color: #778899; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+.layer { display: flex; align-items: stretch; border-radius: 7px; overflow: hidden; border: 1.5px solid #c8d8e8; }
+.layer-num { width: 34px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: #fff; }
+.layer-body { flex: 1; padding: 7px 12px; display: flex; flex-direction: column; gap: 2px; background: #fff; }
+.layer-title { font-size: 9.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3px; color: #1a3660; }
+.layer-desc { font-size: 8.5px; color: #334466; line-height: 1.6; }
+.layer-desc strong { color: #002060; }
+.layer-navy   .layer-num { background: #002060; }
+.layer-blue   .layer-num { background: #1d5fa8; }
+.layer-amber  .layer-num { background: #cc8800; }
+.layer-orange .layer-num { background: #cc3d00; }
+.layer-green  .layer-num { background: #1a7040; }
+.layer-purple .layer-num { background: #5a2080; }
+.notes-panel { flex: 1; padding: 10px 14px 10px 6px; display: flex; flex-direction: column; gap: 8px; }
+.note-card { background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; flex: 1; }
+.note-banner { padding: 5px 12px; font-size: 9px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; }
+.note-banner-sum { background: #002060; color: #88aacc; }
+.note-body { padding: 8px 12px; font-size: 9px; color: #334466; line-height: 1.7; }
+.note-body strong { color: #002060; }
+.note-item { display: flex; align-items: flex-start; gap: 6px; padding: 3px 0; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+.dot-navy   { background: #002060; }
+.dot-blue   { background: #1d5fa8; }
+.dot-amber  { background: #cc8800; }
+.dot-orange { background: #cc3d00; }
+.dot-green  { background: #1a7040; }
+.dot-purple { background: #5a2080; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">Key Takeaways</div>
+  <div class="header-tag">Course Summary</div>
+</div>
+<div class="body-layout">
+  <div class="layers-panel">
+    <div class="intro-label">Six principles to take back to the worksite</div>
+
+    <div class="layer layer-navy">
+      <div class="layer-num">1</div>
+      <div class="layer-body">
+        <div class="layer-title">Understand the CM Current Return Path</div>
+        <div class="layer-desc">Every drive generates common-mode current. It will find a return path — through the cable shield if you provide one, or through the building structure, hull, or water if you do not. <strong>Provide a low-impedance, high-frequency return path with a properly terminated shielded cable.</strong></div>
+      </div>
+    </div>
+
+    <div class="layer layer-blue">
+      <div class="layer-num">2</div>
+      <div class="layer-body">
+        <div class="layer-title">360° Shield Termination — No Exceptions</div>
+        <div class="layer-desc">A pigtail grounding the cable shield at one point defeats the shield's HF effectiveness. Both ends of the motor cable shield must have <strong>360° metal gland terminations</strong> bonding the shield to the drive cabinet and motor terminal box frames continuously around the circumference.</div>
+      </div>
+    </div>
+
+    <div class="layer layer-amber">
+      <div class="layer-num">3</div>
+      <div class="layer-body">
+        <div class="layer-title">Select Filters for the Application</div>
+        <div class="layer-desc">Cable &gt; 50 m → du/dt filter. Old or non-inverter-rated motor, cable &gt; 150 m, or multiple motors → sine-wave filter. Motor &gt; 75 kW → CM output filter cores + shaft grounding brush. <strong>Check the drive datasheet for declared category and maximum cable length.</strong></div>
+      </div>
+    </div>
+
+    <div class="layer layer-orange">
+      <div class="layer-num">4</div>
+      <div class="layer-body">
+        <div class="layer-title">Diagnose Bearing Failures Before Treating</div>
+        <div class="layer-desc">Frosting or fluting on a bearing race = EDM. Irregular pitting or scoring = mechanical. <strong>Measure shaft voltage before and after mitigation.</strong> Target V<sub>shaft</sub> &lt; 10 V. A replaced bearing in an unmitigated drive will fail again — usually faster.</div>
+      </div>
+    </div>
+
+    <div class="layer layer-green">
+      <div class="layer-num">5</div>
+      <div class="layer-body">
+        <div class="layer-title">Know Your Applicable Standard</div>
+        <div class="layer-desc">US-flag vessels: <strong>46 CFR Part 143</strong> (not EU EMC Directive). Marine: <strong>IEC 60533</strong>. E-frac: <strong>IEEE 519</strong> + FCC Part 15. EN/IEC 61800-3 C-category appears on every drive datasheet — use it to specify filters and cable length correctly, but it does not satisfy 46 CFR compliance.</div>
+      </div>
+    </div>
+
+    <div class="layer layer-purple">
+      <div class="layer-num">6</div>
+      <div class="layer-body">
+        <div class="layer-title">Marine / Mobile — Three Additional Risks</div>
+        <div class="layer-desc"><strong>Stray current corrosion</strong> (hull + conductive water + bronze propeller = galvanic cell). <strong>IT system Y-cap conflict</strong> (§143.570 requires bypass switch, isolation transformer, or delta-filter drive). <strong>Propulsion single-fault tolerance</strong> (§143.585 — drive EMC fault ≠ propulsion loss).</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="notes-panel">
+    <div class="note-card">
+      <div class="note-banner note-banner-sum">Why These Six Takeaways Matter</div>
+      <div class="note-body">
+        <div class="note-item"><div class="dot dot-navy"></div><div><strong>Takeaway 1 (CM path):</strong> The single most important concept — if you understand CM current, every other installation rule follows logically. It is not a checklist item; it is a first principle.</div></div>
+        <div class="note-item"><div class="dot dot-blue"></div><div><strong>Takeaway 2 (360° shield):</strong> The most commonly violated rule on real installations. A pigtail looks like a ground — it is not an EMC termination. Verify on every installation before commissioning.</div></div>
+        <div class="note-item"><div class="dot dot-amber"></div><div><strong>Takeaway 3 (filters):</strong> Under-specified filters are common because the datasheet makes the category declaration seem like a product property. It is a system property — cable length and motor type determine what filter you actually need.</div></div>
+        <div class="note-item"><div class="dot dot-orange"></div><div><strong>Takeaway 4 (diagnose):</strong> EDM mitigation costs money. Spending it on a non-EDM failure wastes resources and leaves the real problem in place. Inspect the removed bearing first — every time.</div></div>
+        <div class="note-item"><div class="dot dot-green"></div><div><strong>Takeaway 5 (standard):</strong> USCG inspectors enforce 46 CFR §143 — not EN/IEC 61800-3. CE marking does not satisfy Subchapter M. Know both, but comply with the right one for each jurisdiction.</div></div>
+        <div class="note-item"><div class="dot dot-purple"></div><div><strong>Takeaway 6 (marine/mobile):</strong> The hull-to-water corrosion path and IT system conflict are unique to marine applications and are not addressed in any standard industrial EMC course. They are the reason this course exists.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

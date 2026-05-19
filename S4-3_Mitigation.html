@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Mitigation Strategy | Section 4 — Bearing Electric Stress</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.body-layout { display: flex; height: calc(510px - 50px); }
+.layers-panel { width: 530px; flex-shrink: 0; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+.layer { display: flex; align-items: stretch; border-radius: 7px; overflow: hidden; border: 1.5px solid #c8d8e8; }
+.layer-num { width: 30px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: #fff; }
+.layer-body { flex: 1; padding: 7px 12px; display: flex; flex-direction: column; gap: 2px; background: #fff; }
+.layer-title { font-size: 9.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3px; color: #1a3660; }
+.layer-desc { font-size: 8.5px; color: #334466; line-height: 1.6; }
+.layer-desc strong { color: #002060; }
+.layer-blue   .layer-num { background: #1d5fa8; }
+.layer-navy   .layer-num { background: #002060; }
+.layer-amber  .layer-num { background: #cc8800; }
+.layer-orange .layer-num { background: #cc3d00; }
+.layer-green  .layer-num { background: #1a7040; }
+.notes-panel { flex: 1; padding: 10px 14px 10px 6px; display: flex; flex-direction: column; gap: 8px; }
+.note-card { background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; flex: 1; }
+.note-banner { background: #1a3660; color: #88aacc; padding: 5px 12px; font-size: 9px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; }
+.note-body { padding: 8px 12px; font-size: 9px; color: #334466; line-height: 1.7; }
+.note-body strong { color: #002060; }
+.note-item { display: flex; align-items: flex-start; gap: 6px; padding: 3px 0; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+.dot-blue  { background: #1d5fa8; }
+.dot-amber { background: #cc8800; }
+.dot-green { background: #1a7040; }
+.dot-red   { background: #cc3d00; }
+.dot-navy  { background: #002060; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">EDM Mitigation Strategy</div>
+  <div class="header-tag">Section 4 — Bearing Electric Stress</div>
+</div>
+<div class="body-layout">
+  <div class="layers-panel">
+
+    <div class="layer layer-blue">
+      <div class="layer-num">1</div>
+      <div class="layer-body">
+        <div class="layer-title">Verify Shaft Alignment</div>
+        <div class="layer-desc"><strong>Before applying electrical mitigation</strong>, confirm the mechanical condition is sound. Laser-align the drive train to within ±0.05 mm angular and parallel offsets. Misalignment causes bearing overload that makes EDM damage worse and faster.</div>
+      </div>
+    </div>
+
+    <div class="layer layer-blue">
+      <div class="layer-num">2</div>
+      <div class="layer-body">
+        <div class="layer-title">Verify Lubrication</div>
+        <div class="layer-desc">Confirm correct grease type and quantity. <strong>Over-greasing</strong> is as damaging as under-greasing — it churns, heats, and degrades rapidly. For e-frac mobile equipment: confirm grease is compatible with expected temperature range (−40 °C to +70 °C).</div>
+      </div>
+    </div>
+
+    <div class="layer layer-amber">
+      <div class="layer-num">3</div>
+      <div class="layer-body">
+        <div class="layer-title">Install Shaft Grounding Brush (Drive End)</div>
+        <div class="layer-desc">A <strong>carbon-fibre or silver-graphite brush</strong> provides a continuous low-impedance conductive path from shaft to motor frame, bypassing the bearing film. The brush continuously drains the shaft voltage — prevents charge build-up that causes sparking. <strong>Marine:</strong> also prevents stray current corrosion.</div>
+      </div>
+    </div>
+
+    <div class="layer layer-orange">
+      <div class="layer-num">4</div>
+      <div class="layer-body">
+        <div class="layer-title">Install Insulated Bearing (Non-Drive End)</div>
+        <div class="layer-desc">For large motors (&gt; 100 kW) where circulating bearing current is a risk: fit an <strong>insulated bearing</strong> at the non-drive end (NDE). The insulated outer race breaks the circulating current loop through the motor frame. <strong>Never insulate both ends</strong> — the shaft must have one path to ground.</div>
+      </div>
+    </div>
+
+    <div class="layer layer-green">
+      <div class="layer-num">5</div>
+      <div class="layer-body">
+        <div class="layer-title">Install CM Output Filter Cores (if &gt; 75 kW)</div>
+        <div class="layer-desc">For high-power motors: nanocrystalline <strong>CM filter cores</strong> on the motor cable reduce V<sub>CM</sub> at the motor terminals. This reduces shaft voltage at source — complementing the shaft grounding brush. All three phase conductors must pass through the core (Section 3 rule).</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="notes-panel">
+    <div class="note-card">
+      <div class="note-banner">Marine Propulsion Specifics</div>
+      <div class="note-body">
+        <div class="note-item"><div class="dot dot-blue"></div><div><strong>Shaft grounding brushes on the propeller shaft</strong> are standard marine engineering practice — they were used for corrosion protection long before VSD-driven propulsion was common.</div></div>
+        <div class="note-item"><div class="dot dot-amber"></div><div>Under <strong>46 CFR §143.570(f)</strong>, metallic towing vessels must not return CM current to the distribution system through the hull. Shaft brushes address both the bearing EDM risk and this regulatory requirement simultaneously.</div></div>
+        <div class="note-item"><div class="dot dot-red"></div><div><strong>Single-fault tolerance (§143.585):</strong> The propulsion shaft grounding system should be designed so that loss of a single brush does not immediately result in propulsion loss — use redundant brushes on large drives.</div></div>
+      </div>
+    </div>
+    <div class="note-card">
+      <div class="note-banner">E-Frac Mobile Equipment</div>
+      <div class="note-body">
+        <div class="note-item"><div class="dot dot-green"></div><div>E-frac pump motors operate at high load factors in continuous duty — bearing temperatures are elevated, making EDM-induced lubrication breakdown faster than in intermittent-duty motors.</div></div>
+        <div class="note-item"><div class="dot dot-amber"></div><div>Trailer-mounted equipment sees road vibration during transit and pumping vibration in service — check shaft alignment after every relocation, not just at installation.</div></div>
+        <div class="note-item"><div class="dot dot-navy"></div><div>CM filter cores on long wellsite cable runs (&gt; 50 m from VFD to motor) reduce both motor winding stress (Section 3) and bearing CM current — a dual benefit.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

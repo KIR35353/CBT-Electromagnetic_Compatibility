@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>{{SCREEN_TITLE}} | {{SECTION_LABEL}}</title>
+<!--
+  LAYOUT: SIDE-BY-SIDE COMPARISON COLUMNS
+  ─────────────────────────────────────────────────────────────
+  Use when: you need to contrast two (or three) approaches,
+  conditions, modes, or options simultaneously so the learner
+  can see the difference at a glance.
+
+  Good for:
+    • Grid-connected vs Island mode comparison
+    • Before / After commissioning
+    • Correct vs Incorrect practice
+    • Mode A / Mode B control behaviour
+    • Customer expectation vs reality
+
+  Inspired by S6-5_Customer_Communication.html (2-column layout
+  with colour-coded column headers) but WITHOUT JS interactivity
+  — purely static for simpler content.
+
+  For 2 columns:  use .col-left + .col-right inside .columns-row
+  For 3 columns:  add .col-mid and adjust flex widths
+  Column headers: navy (#1a3660) for neutral, green for "good",
+                  red/amber for "caution", dark-green for "yes"
+
+  Total usable height: 460 px (below 50 px header)
+─────────────────────────────────────────────────────────────-->
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #f8fafb;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 1040px;
+  min-height: 510px;
+  overflow: hidden;
+}
+
+/* ── HEADER ──────────────────────────────────────────────── */
+.header {
+  background: #002060; color: #fff;
+  height: 50px; display: flex; align-items: center;
+  padding: 0 24px; justify-content: space-between;
+}
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag {
+  background: #1a3660; border: 1px solid #3d7fbd;
+  border-radius: 12px; padding: 4px 16px;
+  font-size: 10px; font-weight: bold; color: #88aacc;
+  letter-spacing: 0.5px; white-space: nowrap;
+}
+
+/* ── OUTER ───────────────────────────────────────────────── */
+.outer {
+  padding: 10px 16px 0;
+  display: flex; flex-direction: column; gap: 8px;
+}
+
+/* ── INTRO BAR ───────────────────────────────────────────── */
+.intro-bar {
+  background: #f0f4ff;
+  border: 1px solid #3d7fbd;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 8.5px; color: #334466; line-height: 1.5;
+}
+.intro-bar strong { color: #1a3a80; }
+
+/* ── COLUMNS ROW ─────────────────────────────────────────── */
+.columns-row {
+  display: flex; gap: 10px;
+  flex: 1;
+}
+
+.col {
+  flex: 1;
+  background: #fff;
+  border: 1.5px solid #c8d8e8;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+
+/* Column header bar — set bg colour with a class below */
+.col-header {
+  padding: 7px 14px 6px;
+  font-size: 9px; font-weight: bold;
+  letter-spacing: 0.6px; text-transform: uppercase;
+  color: #fff;
+  display: flex; align-items: center; gap: 8px;
+}
+.col-header .col-icon {
+  font-size: 13px; line-height: 1;
+}
+
+/* Header colour variants */
+.col-header-navy  { background: #1a3660; }
+.col-header-green { background: #1a5c30; }
+.col-header-blue  { background: #1d5fa8; }
+.col-header-red   { background: #8b2000; }
+.col-header-amber { background: #7a5000; background: #8b6000; }
+
+/* Column body */
+.col-body {
+  flex: 1; padding: 8px 12px;
+  display: flex; flex-direction: column; gap: 5px;
+  overflow: hidden;
+}
+
+/* Row item within a column */
+.col-item {
+  display: flex; align-items: flex-start; gap: 9px;
+  padding: 5px 8px;
+  background: #f8fafb;
+  border-radius: 5px;
+  border-left: 3px solid transparent;
+}
+
+/* Item accent variants — border-left colour */
+.col-item-navy   { border-left-color: #002060; }
+.col-item-green  { border-left-color: #1a7040; }
+.col-item-blue   { border-left-color: #1d5fa8; }
+.col-item-red    { border-left-color: #cc3d00; }
+.col-item-amber  { border-left-color: #cc8800; }
+
+.col-item-icon {
+  font-size: 14px; flex-shrink: 0; line-height: 1.4;
+}
+.col-item-text {
+  flex: 1;
+  font-size: 9px; color: #334466; line-height: 1.6;
+}
+.col-item-text strong { color: #1a3660; }
+
+/* ── DIVIDER / VS BADGE (optional) ───────────────────────── */
+.vs-divider {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  flex: 0 0 26px;
+}
+.vs-badge {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #8899aa; color: #fff;
+  font-size: 9px; font-weight: bold;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── SUMMARY BAR (optional dark bottom bar) ──────────────── */
+.summary-bar {
+  background: #002060;
+  border-radius: 7px;
+  padding: 7px 16px;
+}
+.summary-bar-text {
+  font-size: 8.5px; color: #88aacc; line-height: 1.55;
+}
+.summary-bar-text strong { color: #fff; }
+
+/* ── KEY CONCEPT BAR ─────────────────────────────────────── */
+.key-concept-bar {
+  background: #fff4ee;
+  border: 1px solid #e8c0a8;
+  border-left: 4px solid #cc3d00;
+  border-radius: 7px;
+  padding: 8px 18px 8px 22px;
+}
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-title">{{SCREEN_TITLE}}</div>
+  <div class="header-tag">{{SECTION_LABEL}}</div>
+</div>
+
+<div class="outer">
+
+  <!-- INTRO BAR (optional — delete if not needed) -->
+  <div class="intro-bar">
+    <strong>Context sentence:</strong> Why are we comparing these two things?
+    State the scenario, the decision point, or the contrasting conditions
+    that make this comparison meaningful for the learner.
+  </div>
+
+  <!-- ── TWO-COLUMN COMPARISON ──────────────────────────────
+       Change .col-header-navy / col-header-green as needed.
+       Add or remove .col-item rows inside each .col-body.
+       Optional: keep the .vs-divider between columns for
+       a simple "vs" badge. Delete it for a cleaner split.
+  ───────────────────────────────────────────────────────── -->
+  <div class="columns-row">
+
+    <!-- ─── COLUMN A ─────────────────────────────────────── -->
+    <div class="col">
+      <div class="col-header col-header-navy">
+        <span class="col-icon">&#9654;</span>
+        Column A — Scenario / Mode / Option Title
+      </div>
+      <div class="col-body">
+
+        <div class="col-item col-item-navy">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text">
+            <strong>Point 1:</strong> First key characteristic of this option.
+            Keep to 1–2 sentences.
+          </div>
+        </div>
+
+        <div class="col-item col-item-blue">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text">
+            <strong>Point 2:</strong> Second characteristic. What changes?
+            What is constrained or enabled?
+          </div>
+        </div>
+
+        <div class="col-item col-item-blue">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text">
+            <strong>Point 3:</strong> Third characteristic.
+          </div>
+        </div>
+
+        <div class="col-item col-item-amber">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text">
+            <strong>Caution / Caveat:</strong> Any condition where this column's
+            approach has a risk or limitation.
+          </div>
+        </div>
+
+        <div class="col-item col-item-navy">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text">
+            <strong>Point 4:</strong> Additional characteristic if needed.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─── VS BADGE (optional) ──────────────────────────── -->
+    <div class="vs-divider">
+      <div class="vs-badge">vs</div>
+    </div>
+
+    <!-- ─── COLUMN B ─────────────────────────────────────── -->
+    <div class="col">
+      <div class="col-header col-header-green">
+        <span class="col-icon">&#9654;</span>
+        Column B — Contrasting Scenario / Mode / Option
+      </div>
+      <div class="col-body">
+
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text">
+            <strong>Point 1:</strong> How this option differs on the same
+            dimension as Column A Point 1.
+          </div>
+        </div>
+
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text">
+            <strong>Point 2:</strong> Parallel to Column A — same topic, different outcome.
+            This parallel structure helps learners compare.
+          </div>
+        </div>
+
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text">
+            <strong>Point 3:</strong> Parallel characteristic.
+          </div>
+        </div>
+
+        <div class="col-item col-item-red">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text">
+            <strong>Critical Risk:</strong> The one thing that makes this column
+            harder to implement or more dangerous if done wrong.
+          </div>
+        </div>
+
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text">
+            <strong>Point 4:</strong> Additional characteristic if needed.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /columns-row -->
+
+  <!-- CHOOSE: either a summary bar (dark) OR a key concept bar (orange),
+       or keep both — they serve slightly different purposes.
+       Delete one if the screen feels too dense.  -->
+
+  <!-- OPTION A — Dark navy summary bar -->
+  <!-- <div class="summary-bar">
+    <div class="summary-bar-text">
+      <strong>Bottom-line comparison:</strong>
+      One sentence summarising the critical difference between the two columns.
+    </div>
+  </div> -->
+
+  <!-- OPTION B — Key concept bar (used on most screens in the GTG course) -->
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">
+      Replace with the key takeaway from this comparison.
+      What decision or insight should the learner leave this screen with?
+    </div>
+  </div>
+
+</div><!-- /outer -->
+
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')';
+      document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit();
+    window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

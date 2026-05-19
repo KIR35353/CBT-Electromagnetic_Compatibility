@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Standards Hierarchy | Section 5 — Standards and Regulations</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.body-layout { display: flex; height: calc(510px - 50px); }
+.layers-panel { width: 530px; flex-shrink: 0; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px; overflow: hidden; }
+.pyramid-row { display: flex; justify-content: center; margin-bottom: 2px; }
+.pyramid-label { font-size: 8px; font-weight: bold; color: #778899; text-transform: uppercase; letter-spacing: 0.4px; text-align: center; }
+.layer { display: flex; align-items: stretch; border-radius: 7px; overflow: hidden; border: 1.5px solid #c8d8e8; }
+.layer-num { width: 30px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: #fff; }
+.layer-body { flex: 1; padding: 8px 12px; display: flex; flex-direction: column; gap: 3px; background: #fff; }
+.layer-title { font-size: 9.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3px; color: #1a3660; }
+.layer-sub { font-size: 8.5px; font-weight: bold; color: #778899; margin-bottom: 2px; }
+.layer-desc { font-size: 8.5px; color: #334466; line-height: 1.6; }
+.layer-desc strong { color: #002060; }
+.layer-tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 3px; }
+.tag { font-size: 7.5px; font-weight: bold; background: #e8f0f8; color: #1a3660; border-radius: 10px; padding: 2px 9px; border: 1px solid #b0c8e0; }
+.layer-blue   .layer-num { background: #3d7fbd; }
+.layer-navy   .layer-num { background: #002060; }
+.layer-orange .layer-num { background: #cc3d00; }
+.precedence-note { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 5px; padding: 5px 12px; font-size: 8.5px; color: #5a2000; }
+.notes-panel { flex: 1; padding: 10px 14px 10px 6px; display: flex; flex-direction: column; gap: 8px; }
+.note-card { background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; flex: 1; }
+.note-banner { background: #1a3660; color: #88aacc; padding: 5px 12px; font-size: 9px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; }
+.note-body { padding: 8px 12px; font-size: 9px; color: #334466; line-height: 1.7; }
+.note-body strong { color: #002060; }
+.note-item { display: flex; align-items: flex-start; gap: 6px; padding: 3px 0; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+.dot-blue  { background: #3d7fbd; }
+.dot-navy  { background: #002060; }
+.dot-red   { background: #cc3d00; }
+.dot-green { background: #1a7040; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">Standards Hierarchy — Basic, Generic, Product</div>
+  <div class="header-tag">Section 5 — Standards &amp; Regulations</div>
+</div>
+<div class="body-layout">
+  <div class="layers-panel">
+
+    <div class="pyramid-row"><div class="pyramid-label">&#9660; Higher specificity &#x2014; product standard takes precedence &#9660;</div></div>
+
+    <div class="layer layer-blue">
+      <div class="layer-num">1</div>
+      <div class="layer-body">
+        <div class="layer-title">Basic Standards — Test Methods Only</div>
+        <div class="layer-sub">EN 55011 / CISPR 11 &nbsp;|&nbsp; EN 61000-4 series &nbsp;|&nbsp; IEC 61000-4-2 to -6</div>
+        <div class="layer-desc"><strong>Define how to measure</strong> — the test methods, equipment, and setups for conducted emissions, radiated emissions, ESD, surge, burst, etc. They do not specify any emission or immunity <em>limits</em>. Used by all subsequent standards as a reference.</div>
+        <div class="layer-tag-row">
+          <span class="tag">Test methods</span>
+          <span class="tag">No limits</span>
+          <span class="tag">Measurement setups</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer layer-navy">
+      <div class="layer-num">2</div>
+      <div class="layer-body">
+        <div class="layer-title">Generic Standards — Environment-Based Limits</div>
+        <div class="layer-sub">EN 61000-6-4 (Industrial emission) &nbsp;|&nbsp; EN 61000-6-2 (Industrial immunity)</div>
+        <div class="layer-sub">EN 61000-6-3 (Residential emission) &nbsp;|&nbsp; EN 61000-6-1 (Residential immunity)</div>
+        <div class="layer-desc"><strong>Apply when no product standard exists</strong> for a specific equipment type. Specify limits based on the <em>environment</em> (residential vs. industrial). For AC drives: a product standard does exist (IEC 61800-3) — so the generic standard is superseded and should <strong>not</strong> be used for drives.</div>
+        <div class="layer-tag-row">
+          <span class="tag">Environment-based limits</span>
+          <span class="tag">Residential / Industrial</span>
+          <span class="tag">Fallback when no product std</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer layer-orange">
+      <div class="layer-num">3</div>
+      <div class="layer-body">
+        <div class="layer-title">Product Standards — Specific Equipment Limits</div>
+        <div class="layer-sub">EN/IEC 61800-3 (AC drives) &nbsp;|&nbsp; IEC 60533 (Marine vessels) &nbsp;|&nbsp; 46 CFR §143.570/575 (US vessels)</div>
+        <div class="layer-desc"><strong>Product standards take precedence</strong> over generic standards. They account for the specific characteristics of the product type and define tighter or different limits appropriate for that equipment. <strong>EN/IEC 61800-3</strong> is the product standard for power drive systems. When it applies, the generic standard is set aside.</div>
+        <div class="layer-tag-row">
+          <span class="tag">Highest precedence</span>
+          <span class="tag">Product-specific limits</span>
+          <span class="tag">EN/IEC 61800-3 for drives</span>
+          <span class="tag">IEC 60533 / 46 CFR for marine</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="precedence-note">
+      <strong>Precedence rule:</strong> Product standard &gt; Generic standard &gt; Basic standard. When a product standard exists for your equipment type — use it. Using a generic standard when a product standard applies is a common compliance error.
+    </div>
+
+  </div>
+
+  <div class="notes-panel">
+    <div class="note-card">
+      <div class="note-banner">Why the Hierarchy Matters for Drives</div>
+      <div class="note-body">
+        <div class="note-item"><div class="dot dot-blue"></div><div>If you test a VSD installation to <strong>EN 61000-6-4</strong> (generic industrial) rather than <strong>EN/IEC 61800-3</strong>, you may pass limits that are looser in some frequency ranges and miss the more relevant drive-specific requirements. The CE mark requires the correct standard to be cited.</div></div>
+        <div class="note-item"><div class="dot dot-navy"></div><div>For <strong>US vessels and e-frac</strong>: the CE-mark standard chain (Directive → EN/IEC 61800-3) does not apply. The installer must comply with <strong>46 CFR Part 143</strong> and, for marine, <strong>IEC 60533</strong>. However, understanding EN/IEC 61800-3 C-categories is still essential for interpreting drive datasheets.</div></div>
+        <div class="note-item"><div class="dot dot-red"></div><div>The installer's responsibility: the drive manufacturer declares a category (e.g., C2 without external filter, C1 with filter). The installer must ensure the <strong>complete PDS</strong> (drive + cable + motor) is installed according to the declared category. Deviating from the category (e.g., longer cable than declared) means the CE mark no longer covers the installation.</div></div>
+      </div>
+    </div>
+    <div class="note-card">
+      <div class="note-banner">Marine Standard IEC 60533 Overview</div>
+      <div class="note-body">
+        <div class="note-item"><div class="dot dot-green"></div><div><strong>IEC 60533:2015</strong> — EMC requirements for ships, offshore structures, and marine units. Specifies emission and immunity limits for all shipboard electrical equipment including VSD propulsion systems.</div></div>
+        <div class="note-item"><div class="dot dot-navy"></div><div>Test environments: <strong>Class A</strong> (below decks, machinery spaces) and <strong>Class B</strong> (navigation bridge, sensitive equipment spaces). Drive and motor installations are Class A equipment.</div></div>
+        <div class="note-item"><div class="dot dot-blue"></div><div>IEC 60533 references the same basic standards (IEC 61000-4 series) for immunity tests. Limits are calibrated for the ship environment — typically more demanding in the 2–30 MHz range (HF communication systems are critical for marine safety).</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

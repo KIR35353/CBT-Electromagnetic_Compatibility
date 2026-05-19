@@ -1,0 +1,149 @@
+{
+  "_comment": "EXAMPLE MANIFEST — the filled-in GTG course manifest for reference.",
+  "_see":     "Rename/copy _course_manifest.json (the blank template) and fill it in for a new course.",
+
+  "course": {
+    "id":          "KIR-GTG-001",
+    "title":       "Island Mode Operation: Design Principles for GTG Packaging Engineers",
+    "title_short": "Island Mode GTG Systems",
+    "logo_file":   "kirbyflag_imagefile.png"
+  },
+
+  "intro": {
+    "output_file":        "CBT_Introduction.html",
+    "first_section_href": "S1_Section1.html",
+    "title_html":         "Island Mode<br>Operation",
+    "subtitle":           "Design Principles for Gas Turbine Generator Packaging Engineers",
+    "duration_badge":     "45-minute course",
+    "sections_badge":     "6 Sections + Final Exam",
+    "audience_badge":     "Data Centre Power Systems",
+    "footer_label":       "3 minutes",
+    "screens": [
+      {
+        "id": "s-int1", "label": "Title Card",
+        "vo": ["Welcome to this course on island mode operation for gas turbine generator systems..."]
+      },
+      {
+        "id": "s-int2", "label": "Who This Course Is For",
+        "vo": ["Whether your role is in engineering, technical sales, or customer support..."]
+      },
+      {
+        "id": "s-int3", "label": "Course Application",
+        "vo": ["Throughout this course, our reference application is a data centre powered entirely by multiple, paralleled gas turbine generators."]
+      },
+      {
+        "id": "s-int4", "label": "Learning Objectives",
+        "vo": [
+          "By the end of this course, you will be able to achieve the following six learning objectives.",
+          "One. Explain why island mode requires different operating limits than grid-parallel operation.",
+          "Two. Define the island mode derate and the incremental reserve margin...",
+          "Three. Describe the governor and excitation control functions...",
+          "Four. Identify the protection systems...",
+          "Five. Explain how Dry Low Emissions combustion constraints affect step-load limits.",
+          "Six. Describe the coordination requirements for multi-unit parallel operation.",
+          "These objectives reflect the knowledge needed to..."
+        ],
+        "revealAt": [null, 1, 2, 3, 4, 5, 6, null]
+      }
+    ],
+    "objectives": [
+      { "num": 1, "tag": "Section 1", "text": "Explain why island mode requires different operating limits than grid-parallel operation." },
+      { "num": 2, "tag": "Section 2", "text": "Define the island mode derate and the incremental reserve margin, and apply them to a representative 18 MW class turbine system." },
+      { "num": 3, "tag": "Section 3", "text": "Describe the governor and excitation control functions required for stable island mode operation." },
+      { "num": 4, "tag": "Section 4", "text": "Identify the protection systems \u2014 UFLS, ROCOF, and excitation limiting \u2014 and explain their coordination." },
+      { "num": 5, "tag": "Section 5", "text": "Explain how Dry Low Emissions combustion constraints affect step-load limits." },
+      { "num": 6, "tag": "Section 6", "text": "Describe the coordination requirements for multi-unit parallel operation in a data centre power plant." }
+    ],
+    "int2_cards": [
+      { "border_color": "var(--k-orange)", "body": "This course supports <strong>engineers, technical sales staff,</strong> and <strong>support personnel</strong> involved with gas turbine generator packages." },
+      { "border_color": "var(--k-orange)", "body": "Applications focus on <strong>critical, grid-independent power systems</strong> \u2014 including large-scale data centres." },
+      { "border_color": "var(--k-steel)",  "body": "Understanding island mode enables <strong>sound design decisions</strong> and <strong>effective communication</strong> across project teams and with customers." }
+    ],
+    "int3_kp": [
+      { "dot_class": "bl", "body": "<strong>Application focus:</strong><br>Multi-unit paralleled GTG power systems for data centres." },
+      { "dot_class": "bl", "body": "<strong>Supplier examples used:</strong><br>Kawasaki Heavy Industries (KHI) turbines \u00b7 Jeumont Electric alternators<br><em>Principles apply broadly across the industry.</em>" }
+    ],
+    "int3_highlight": "\u26a1 No utility grid connection \u2014<br>the GTGs <em>are</em> the grid.",
+    "int3_closing": { "dot_class": "or", "body": "Every load change, every motor start, every fault \u2014 lands entirely on the packaged GTG system. There is nothing else." }
+  },
+
+  "sections": [
+    {
+      "num": 1, "output_file": "S1_Section1.html",
+      "title": "Grid-Connected vs. Island Mode Operation",
+      "title_short": "Grid-Connected vs. Island Mode",
+      "duration": "7 minutes",
+      "next_section_href": "S2_Section2.html",
+      "next_section_btn_label": "Section 2 \u25b8",
+      "screens": [
+        { "id": "s-s1-0", "file": "S1-0_Section_Intro.html", "label": "Section Intro", "vo": "Section one. In this section we establish the fundamental difference between grid-connected and island mode operation..." },
+        { "id": "s-s1-1", "file": "S1-1_2_Step_Load_Event.html", "label": "The 2-Step Load Event", "vo": "Every load connection event in island mode is actually two steps..." }
+      ],
+      "quiz": {
+        "screen_id": "s-quiz1",
+        "quiz_vo": "You have reached the end of Section one. Complete the four-question quiz...",
+        "pick": 4, "pass_threshold": 3,
+        "pass_msg": "Well done \u2014 proceed to Section 2.",
+        "fail_msg": "Review the section material and try again.",
+        "pool": [
+          {
+            "stem": "What is the primary reason a gas turbine generator operating in island mode must be derated?",
+            "options": [
+              { "val": "A", "text": "The alternator produces less power without reactive grid support" },
+              { "val": "B", "text": "The governor requires headroom above the operating point to respond to sudden load increases" },
+              { "val": "C", "text": "DLE combustion systems require additional fuel at full load" },
+              { "val": "D", "text": "Grid connection provides additional cooling to the turbine exhaust" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. The island mode derate creates governor headroom for transient response \u2014 it is a control margin, not a thermal limit.",
+              "wrong":   "\u2717 Not quite. The derate creates governor headroom. It is a control margin, not a thermal or electrical limit.",
+              "retry":   "Incorrect \u2014 try again."
+            }
+          }
+        ]
+      }
+    }
+  ],
+
+  "summary": {
+    "output_file": "SUM_CourseSum.html",
+    "next_href": "EXAM_Final.html",
+    "screens": [
+      { "id": "s-sum-0", "file": "SUM-1_Key_Takeaways.html",  "label": "Key Takeaways",  "vo": "..." },
+      { "id": "s-sum-1", "file": "SUM-2_Best_Practices.html", "label": "Best Practices", "vo": "..." }
+    ]
+  },
+
+  "exam": {
+    "output_file": "EXAM_Final.html", "return_href": "SUM_CourseSum.html",
+    "pass_score": 8, "total_questions": 10, "pass_pct": "80%",
+    "duration": "5\u20138 minutes",
+    "instr_title": "Island Mode Operation<br>Final Knowledge Assessment",
+    "pass_msg": "You have achieved a passing score and will receive course completion credit for KIR-GTG-001.",
+    "fail_msg": "A score of 80% or higher is required. Please review the sections indicated and arrange a retake.",
+    "section_names": [
+      [1, "Section 1 \u2014 Grid-Connected vs. Island Mode"],
+      [2, "Section 2 \u2014 Power Ratings, Derating, and Reserve Margin"],
+      [3, "Section 3 \u2014 Governor and Excitation Control Systems"],
+      [4, "Section 4 \u2014 Protection Strategies: UFLS, ROCOF, and Limiting"],
+      [5, "Section 5 \u2014 Combustion System Constraints and DLE"],
+      [6, "Section 6 \u2014 Multi-Unit Parallel Operation in Data Centres"]
+    ],
+    "q_section_map": [1, 2, 2, 5, 3, 6, 2, 5, 4, 2],
+    "questions": [
+      {
+        "num": 1, "type": "MULTIPLE CHOICE",
+        "stem": "Which of the following correctly explains why the island mode derate for an 18 MW class gas turbine is approximately 10%?",
+        "options": [
+          "The turbine combustion system cannot sustain full firing temperature without grid support.",
+          "The derate accounts for elevated ambient temperatures in data centre environments.",
+          "The derate is a control margin for transient response, reactive power, and combustion stability \u2014 not a thermal limit.",
+          "Alternators cannot produce rated MVA without grid reactive support."
+        ],
+        "correct": 2,
+        "feedback": "The island mode derate is a control margin. The governor needs headroom above the operating point to respond to sudden load steps. The ceiling for an 18 MW turbine is approximately 16.2 MW."
+      }
+    ]
+  }
+}

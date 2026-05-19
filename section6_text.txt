@@ -1,0 +1,488 @@
+=== TABLE OF CONTENTS (Page 9) ===
+6 Electromagnetic Compatibility ..................................................................................133
+6.1 EMI and EMC ................................................................................................................................................................133
+6.2 EMC and AC Drives ..................................................................................................................................................134
+6.3 Grounding and Shielding ....................................................................................................................................136
+6.4 Installations with AC Drives ................................................................................................................................140
+6.5 Output filters ................................................................................................................................................................141
+6.1.1 dU/dt filters ....................................................................................................................................................142
+6.1.2 Shine-wave filter .........................................................................................................................................143
+6.1.3 Common-mode Filter ..............................................................................................................................144
+6.6 Bearing electric stress.............................................................................................................................................145
+6.7 European EMC Directive and EMC Standards .........................................................................................149
+7 Protection against Electric Shock and Energy Hazards ............................................153
+7.1 General ............................................................................................................................................................................153
+7.2 Mains Supply System .............................................................................................................................................154
+7.3 DC Supply Systems ..................................................................................................................................................157
+7.4 Ground Fault Protection .......................................................................................................................................158
+7.5 Fuses and Circuit Breakers ...................................................................................................................................160
+7.6 DC Guard for Common DC Bus Systems ...................................................................................................162
+8 Harmonics ....................................................................................................................165
+8.1 What are Harmonics? .............................................................................................................................................165
+8.1.1 Linear Loads ...................................................................................................................................................165
+8.1.2 Non-linear Loads .........................................................................................................................................166
+8.1.3 The Effect of Harmonics in a Power Distribution System ..................................................168
+8.1.4 The Effects of Harmonics on Motors ..............................................................................................170
+8.2 Harmonic Limitation Standards and Requirements ...........................................................................170
+8.3 Harmonic Reduction Methods in AC Drives ............................................................................................171
+8.3.1 Passive Harmonic Mitigation...............................................................................................................173
+8.3.2 Active Harmonic Mitigation ................................................................................................................174
+8.4 Harmonic Analysis Tools .......................................................................................................................................175
+8.4.1 VLT® Motion Control Tool MCT 31 ....................................................................................................176
+8.4.2 Harmonic Calculation Software (HCS) ..........................................................................................176
+9 Interfaces .....................................................................................................................179
+9.1 Human Machine Interface (HMI).....................................................................................................................179
+9.2 Operating Principles of Serial Interfaces ....................................................................................................181
+9.3 Standard Serial Interfaces in AC Drives .......................................................................................................183
+9.4 Fieldbus Interfaces in AC Drives ......................................................................................................................184
+9.5 Fieldbuses Standardisation .................................................................................................................................185
+9.6 Industrial Ethernet and the Internet of Things .......................................................................................187
+Content 9
+
+
+============================================================
+=== PDF PAGE 132 ===
+============================================================
+06 ELECTROMAGNETIC
+COMPAITBILITY
+6 Electromagnetic Compatibility ..................................................................................133
+6.1 EMI and EMC .................................................................................................................................................................133
+6.2 EMC and AC Drives ...................................................................................................................................................134
+6.3 Grounding and Shielding .....................................................................................................................................136
+6.4 Installations with AC Drives .................................................................................................................................140
+6.5 Output filters .................................................................................................................................................................141
+6.1.1 dU/dt filters .....................................................................................................................................................141
+6.1.2 Shine-wave filter ..........................................................................................................................................143
+6.1.3 Common-mode Filter ...............................................................................................................................144
+6.6 Bearing electric stress..............................................................................................................................................145
+6.7 European EMC Directive and EMC Standards ..........................................................................................149
+132 Electromagnetic Compatibility
+
+============================================================
+=== PDF PAGE 133 ===
+============================================================
+6 Electromagnetic Compatibility
+6.1 EMI and EMC
+Electromagnetic interference (EMI) is the degradation of the performance of equipment caused
+by electromagnetic disturbance. An example of EMI, is the noise on a microphone, if there is
+a cell phone next to it doing a handshake with a communication tower to process a call. In
+this example the cell phone is the source of the interference and the microphone is the victim
+equipment.
+Electromagnetic noise can be propagated through conductors (conducted interference) or
+through electromagnetic waves (radiated interference). There are four interference coupling
+mechanisms:
+• Galvanic coupling occurs when two circuits (noise source and victim) share a common
+electrically conductive connection
+• Capacitive coupling (also known as electric coupling) occurs when two electric circuits have
+a common reference and the noise couples between two conductors through parasitic
+capacitances
+• Inductive coupling (also known as magnetic coupling) occurs when the magnetic field
+around a current carrying conductor is induced in another conductor
+• Electromagnetic coupling occurs when the noise source radiates electromagnetic energy
+through a conductor that acts as a transmitting antenna. The victim circuit receives the
+disturbance through a conductor that acts like a receiving antenna
+There can be various sources of electromagnetic interference, such as:
+• Natural sources such as lightning
+• Electrical equipment which is not intended to produce electromagnetic radiation: for
+example, an AC drive or power supply
+• Electrical equipment intended to produce electromagnetic radiation: for example, a portable
+radio transmitter
+The art of EMI troubleshooting consists of identifying the noise source, coupling mechanism and
+reducing the interference coupling to an acceptable level.
+When a piece of equipment or system can function satisfactorily in its electromagnetic
+environment without introducing intolerable disturbances in that environment, it is called
+electromagnetic compatibility (EMC). It is important to note that the definition of EMC contains
+two aspects:
+• Immunity: the ability of equipment to function in the presence of some level of
+electromagnetic interference
+• Emission: the unintended emissions from equipment need to be limited to a tolerable level
+Electromagnetic Compatibility 133
+
+============================================================
+=== PDF PAGE 134 ===
+============================================================
+The difference between the emission margin and the immunity margin is called compatibility
+gap.
+Level
+Immunity margin
+Compatibility
+gap
+Emission margin
+Fig. 6.1 Explanation of compatibility gap
+RFI or EMI?
+The term radio frequency interference (RFI) is often used interchangeably with EMI. RFI is an
+older term and refers to the interference of the reception of radio signals (radio, TV, wireless
+communication). EMI is a newer term which refers broadly to interference of any electrical
+equipment, including AC drives.
+Common-mode and differential mode
+When referring to conducted interference the terms common-mode (CM) and differential-mode
+(DM) are often used.
+CM
+Source DM Load
+CM
+DM
+Reference ground
+Fig. 6.2 Common-mode and differential-mode
+The differential mode (DM) noise is conducted on both lines of the current loop in opposite
+directions, in series with the desired signal. The common-mode (CM) noise is conducted on both
+lines in the same direction and its return path is through a common reference ground.
+6.2 EMC and AC Drives
+Emission
+AC drives involve fast switching of voltages (high du/dt rates) in the thousands of V/µs range
+with amplitudes in the 500 V – 1000 V range (depending on supply voltage) and high current
+levels. This makes an AC drive a potential source of EMI and their EMC-correct installation needs
+to be carefully followed.
+134 Electromagnetic Compatibility
+
+============================================================
+=== PDF PAGE 135 ===
+============================================================
+Rectifier (+) Inverter
+L
+High
+du/dt
+C Shielded
+Mains line RFI filter Vdc/2 motor cable
+W
+(o) Icm
+V M Load
+U
+C
+Ccm1
+Ccm2 Vdc/2
+L (-)
+Heatsink/
+chassis
+Fig. 6.3 Propagation of interference in an AC drive
+The noise source is the voltage source inverter that produces a pulse-shaped output voltage
+with very short rise- and fall times (also expressed as high du/dt). This voltage is applied across
+parasitic capacitances to ground in the motor cable and motor, which results in a common-
+mode current:
+du
+I = C ×
+cm cm dt
+where C is the parasitic capacitance to ground.
+cm
+The common-mode current needs to close the loop and return to its source, the DC-link.
+Controlling the return path of the common-mode current is a key element of keeping
+electromagnetic interference under control. Inside the AC drive there are common-mode
+capacitors – that means capacitors between the AC drive circuit and ground.
+The common-mode capacitors can be found in the RFI circuit (Ccm1) or as decoupling
+capacitors in the DC-link (Ccm2). If a shielded motor cable is used and the motor end of the cable
+is connected to the motor chassis and the AC drive end is connected to the drive chassis then,
+ideally, the common-mode current will return to the DC-link via the common-mode capacitors.
+The common-mode current returning through the mains supply is unwanted because it can
+cause interference in other equipment connected to the mains. Therefore, this current must be
+minimized, for example by using RFI filters. When unshielded motor cables are used, then only
+a part of the common-mode current returns through the AC drive’s chassis and common-mode
+capacitors thus causing more interference on the mains grid.
+Immunity
+Immunity, as well as noise emission need be considered in an AC drive application. The control
+signals connected to an AC drive can be quite susceptible to noise. In general, analogue signals
+are more susceptible than digital signals. Therefore, it is better to use digital bus communication
+instead of analogue reference signals. If analogue signals cannot be avoided, a 4 – 20 mA current
+reference signal is preferred to a 0 – 10 V voltage reference signal because it is less susceptible to
+noise.
+Electromagnetic Compatibility 135
+
+============================================================
+=== PDF PAGE 136 ===
+============================================================
+6.3 Grounding and Shielding
+Grounding
+Grounding means connecting electrical equipment to a common reference ground. The two
+main reasons for doing this are:
+• Electrical safety: Safety grounding ensures that in the case of the degradation of electrical
+isolation no live voltage is present on conductive parts that can be touched by a person –
+thus avoiding the risk of electric shock.
+• Reduced interference: Signal grounding reduces voltage differences that might cause noise
+emission or susceptibility problems.
+It is very important to note that electrical safety always has the highest priority – higher than
+EMC.
+Various types of grounding are common.
+Series
+Equipment Equipment Equipment
+1 2 3
+Parallel
+Equipment Equipment Equipment
+1 2 3
+Multi-point grounding
+Equipment Equipment Equipment
+1 2 3
+Fig. 6.4 Single point grounding in series or parallel and multi-point grounding is possible
+The different types of grounding have advantages and disadvantages, but what matters at the
+end of the day is that the impedance of the grounding connection is as low as possible in order
+to provide potential equalization of the connected equipment.
+Shielding
+Shielding is used both for immunity (protecting against external interference) and emission
+(preventing interference to be radiated). In AC drive applications, shielded cables are used both
+for power (motor cable and brake resistor cable) and for signals (analogue reference signals, bus
+communication).
+136 Electromagnetic Compatibility
+
+============================================================
+=== PDF PAGE 137 ===
+============================================================
+The shielding performance of a cable is indicated by its transfer impedance ZT. The transfer
+impedance relates a current on the surface of the shield to the voltage drop generated by this
+current on the opposite surface of the shield:
+U2
+I1
+Fig. 6.5 Illustration of transfer impedance
+U
+Z = 2 , where L is the cable length
+T I × L
+1
+The lower the transfer impedance value the better the shielding performance. The figure
+below shows typical values of transfer impedance for different kinds of motor cable. The most
+common type of motor cable is the single layer braided copper wire as it offers a good shielding
+performance at a reasonable price.
+Aluminium foil with copper drain wir
+Twisted copper wires or steel wire armoured cable
+Single layer braided copper wire –
+with various percantages of screen coverage
+Dual layer braided copper wire
+Dual layer braided copper wire
+with high permeable middle layer
+Cable runs in rigid copper or steel conduit
+Fig. 6.6 Shielding performance of different cable types
+Electromagnetic Compatibility 137
+
+============================================================
+=== PDF PAGE 138 ===
+============================================================
+Transfer impedance can be drastically increased by incorrect shield termination. The shield of a
+cable needs to be connected to the chassis of the equipment through a 360-degree connection.
+Using “pigtails” to connect the shield increases transfer impedance and ruins the shielding effect
+of the cable.
+Fig. 6.7 Installation of cable shield
+The question about terminating both ends or only one end of a shielded cable often occurs.
+It is important to realize that the effect of a shielded cable is reduced when only one end is
+terminated. It is very important to terminate correctly both ends of the motor cable, otherwise
+interference problems may occur.
+The reason why in some situations only one end is terminated has to do with ground loops
+in signal cables. This means that there is a voltage potential difference between the chassis
+of the two pieces of equipment that are connected (for example AC drive and PLC) and if the
+shield connects the two chassis a ground current will occur (with the frequency of 50 Hz/60
+Hz). This current then couples into the useful signal disturbing it – in audio applications this is
+commonly known as “hum”. The best solution is to use an equalizing connection in parallel with
+the shielded cable. If this is not possible then one end of the shielded cable can be terminated
+via a 100 nF capacitor. This breaks the ground loop at low frequency (50 Hz) while maintaining
+the shield connection in the high frequency range. In some equipment this capacitor is already
+built in.
+138 Electromagnetic Compatibility
+
+============================================================
+=== PDF PAGE 139 ===
+============================================================
+Control cables and serial communication
+cables should normally be grounded at
+both ends.
+Never terminate shield through pigtail.
+Ground potential between PLC and drive:
+Disconnect cables and measure voltage
+with voltmeter to check.
+Use equalizing cable or make sure units are
+bolted together.
+50/60 Hz ground loop: Use current clamp
+meter to check.
+=> Ground one end through 100 nF
+capacitor with short leads.
+Potential equalizing currents in serial
+communication cable shield between two
+drives:
+=> Connect one end of the shield to the
+special shield connection terminal with
+RC decoupling. Remember ”correct” pigtail
+installation!
+Fig. 6.8 Grounding of the cable shield
+Electromagnetic Compatibility 139
+
+============================================================
+=== PDF PAGE 140 ===
+============================================================
+6.4 Installations with AC Drives
+It is important to follow good engineering practice when installing AC drives for ensuring
+electromagnetic compatibility. When designing an installation, an EMC plan can be made
+following these steps:
+• List components, equipment and areas
+• Divide into potential noise sources and potentially sensitive equipment
+• Classify the cables connecting the equipment (potentially noisy or potentially sensitive)
+• Set requirements and select the equipment
+• Separate potential noise sources from potentially sensitive equipment
+• Control interfaces between noise sources and sensitive equipment
+• Route cables according to the classification
+1 Establish direct
+contact to backplate
+Spacing from Use shielded motor
+sensitive electronics and brake cable
+360° contact for
+shield termination
+P
+>
+o
+=
+t e
+1
+n
+6m
+tia
+m
+l e
+2
+q9ualization
+10 11 M co o n t t o in r u c o ab u l s e a s n h d ie t l e d r m is inated
+>200mm u at both ends
+v
+L1
+Control cables are L2 w Motor terminal box has
+segregated and shielded L3 11 PE high-frequency correct
+PE design and is electrically
+connected to motor frame
+L1
+L2
+L P 3 E P o E r 2 > . = P E 10mm2 8 6
+EMC cable gland
+130BD529.13
+Fig. 6.9 Typical measures in practice in a simple AC drive installation
+140 Electromagnetic Compatibility
+
+============================================================
+=== PDF PAGE 141 ===
+============================================================
+6.5 Output filters
+Variable speed drives, due to their operating principle, produce a series of unwanted secondary
+effects, such as: motor winding isolation stress, bearing stress, acoustic switching noise in the
+motor and electromagnetic interference. In most applications these effects are at an acceptable
+level – but in some cases these effects need to be mitigated. For the mitigation of these effects,
+filters are installed at the output of the drives. The most commonly known filters are dU/dt filters,
+sine-wave filters and common-mode filters.
+Fig. 6.10 Motor terminal voltage and current without output filters
+Fig. 6.11 Motor terminal voltage and current with dU/dt filters
+Electromagnetic Compatibility 141
+
+============================================================
+=== PDF PAGE 142 ===
+============================================================
+Fig. 6.12 Motor terminal voltage and current with sine-wave filters
+6.1.1 dU/dt filters
+dU/dt filters can have various circuit configurations, but are typically LC filters (sometimes also
+with damping resistors) with a cut-off frequency tuned above the switching frequency of the
+drive.
+As their name suggests, dU/dt filters reduce the slew rate of the voltage pulses at the drive
+output to rates which are typically below 500 V/µs. This will reduce the stress of the motor
+winding isolation. The voltage shape remains pulse-width modulated.
+There are various standards setting limits for the rise-time and peak voltage values at the motor
+terminals. The definition of rise-time is slightly different between international IEC standards and
+the American NEMA recommendation, as shown in the picture below.
+Fig. 6.13 International IEC definition of rise-time and peak voltage
+142 Electromagnetic Compatibility
+
+============================================================
+=== PDF PAGE 143 ===
+============================================================
+Fig. 6.14 NEMA definition of rise-time and peak voltage
+The dU/dt filters increase the rise-time and help complying with the relevant standard. An
+example can be seen in the graph below:
+Fig. 6.15
+dU/dt filters are recommended in applications with old motors with poor isolation, or in
+applications where the supply voltage is 690 V. In applications with short motor cables, dU/dt
+filters can be used for reducing the dU/dt. But in applications with long motor cables, dU/dt
+filters no longer make sense, because the cable itself will act as a filter and reduce the dU/dt rate
+at the motor terminals.
+6.1.2 Sine-wave Filter
+A sine-wave filter is a LC low-pass filter, whose cut-off frequency, unlike that of a du/dt filter, is
+set to eliminate all the high frequency components of the AC drive’s output voltage. It produces
+a near perfect sinusoidal voltage waveform.
+Electromagnetic Compatibility 143
+
+============================================================
+=== PDF PAGE 144 ===
+============================================================
+With a sine-wave filter, the voltage stresses on the motor correspond to those existing in normal
+direct-on-line (DOL) use with a power source of the same voltage. A sine-wave filter is suitable
+especially for old motors not designed to be used with AC drives.
+A sine-wave filter eliminates bearing currents and voltage reflections, and it also reduces a
+motor’s noise levels. If an output transformer is used, the sine-wave filter eliminates high-
+frequency components that could stress the transformer. The sine-wave filter also allows the use
+of considerably longer motor cables.
+Sine-wave filters are much more expensive than du/dt-filters. This is because the desired
+frequency characteristics require the use of larger inductance and capacitance.
+The sine-wave filter typically causes a 7-10% voltage drop. This may require boosting the output
+voltage of the AC drive. Also, when used in the field weakening range, the pull-out torque drops
+faster (than without a sine-wave filter).
+6.1.3 Common-mode Filter
+Common-mode filters are used to reduce bearing and ground currents, but it does not provide
+any significant du/dt filtering.
+High-frequency common-mode filtering can be achieved using toroidal cores of nanocrystalline
+material to provide a higher inductance. A cable carrying a current has a magnetic field
+around it. The effect of the ferrite is to concentrate this field and, hence, to increase the cable’s
+inductance by several hundred times.
+If a ferrite is put on to a cable which includes all three phases, it will have no effect on the
+differential-mode current, but it will increase the impedance of common-mode currents.
+This is because the differential currents, by definition, sum to zero and therefore there is no
+net magnetic field. The common-mode currents produce a net magnetic flux and this flux is
+concentrated in the bulk of the ferrite, resulting in an increased impedance for common-mode
+currents only.
+This is also why only phase conductors are slipped through the rings. The PE conductor must
+be separated. All ferrites are conductive, so it is important that cables passing through them are
+sufficiently well insulated. Also, the common-mode filter should be installed directly after the
+drive output before any other output filters.
+144 Electromagnetic Compatibility
+
+============================================================
+=== PDF PAGE 145 ===
+============================================================
+6.6 Bearing electric stress
+When the motor is rotating at normal speed, the bearings isolate the stator from the rotor. This
+happens because a thin film of lubricant comes in between the bearing races and the bearing
+balls. The thickness of the isolating lubricant film is in the range of 0,5 µm, therefore a voltage as
+low as 10 V can cause a breakdown of the isolation and an electrical discharge. When a discharge
+occurs, the metal of the bearing races and bearing balls is melted, causing a microscopic pit. The
+accumulation of pits in time is called pitting, and the process of deteriorating the metal of the
+bearings is called electrical discharge machining, shortly EDM.
+While EDM has been known for almost a century (scientific papers report on this phenomenon
+already in the 1920’es), with the increased use of variable speed drive the occurrence of EDM
+seems to increase. While some of the causes can be attributed to mechanical factors (motor not
+designed for variable speed operation, insufficient cooling at lower speeds, prolonged operation
+at low speeds, etc.), the main cause leading to the increase of EDM is the increase of motor shaft
+voltage when a variable speed drive is used.
+The root cause of shaft voltage is the steep switching rate of the drive output voltage
+(commonly known as dU/dt) combined with the inherent common-mode voltage produced by
+the output stage of the drive (inverter). Other factors leading to shaft voltage are independent of
+the use of drives, such as motor asymmetries or the use of asymmetric motor cables – especially
+in high-power applications where the motor current exceeds 100 – 200 A.
+There are various mechanisms of coupling voltage to the motor shaft:
+• Capacitive coupling – Caused by capacitive coupling of the common-mode voltage with high
+dU/dt between stator winding and rotor
+• Inductive coupling – Caused by magnetic coupling of circulating currents between stator
+circulating currents and rotor circulating currents
+What to do in the case of bearing failures?
+When bearing failures occur, the appearance of a “fluting” pattern on the bearing often indicates
+the presence of electrical bearing stress. If the bearing is analyzed with an electron scanning
+microscope, the pits produced by electric discharges become visible.
+Fig. 6.16 Fluting pattern on the bearing race often indicates the presence of electrical bearing stress
+Electromagnetic Compatibility 145
+
+============================================================
+=== PDF PAGE 146 ===
+============================================================
+Fig. 6.17 Electron scanning microscope picture of the bearing pitting
+Before taking corrective actions, it is important to determine the root cause of the bearing
+failure. Bearing analysis consists of visual inspection, electron microscope imaging and a
+chemical analysis of the lubricant.
+Bearing failures can have mechanical root causes and electrical root causes. Mechanical root
+causes are the most frequent, but they are often handled incorrectly by interpreting them
+as electrical faults. Indeed, when the root cause is mechanical, the electric discharges will
+accelerate the wear-out. In such cases, mitigating the electric stress will extend the life time but
+not fix the root cause. Mechanical root causes need to be mitigated mechanically first.
+The following pictures (taken with electron microscope) show examples of bearings which have
+suffered damage. The first picture shows a bearing that has suffered electric stress – in this case
+an electric measure is needed. The second picture shows a bearing that has suffered mechanical
+stress through incorrect axial loading. The parallel trenches in the metal have been caused by
+the incorrect load. But near the trenches, pitting can be seen – a sign that the damage started
+mechanically but was accelerated by electric stress.
+ig. 6.18 Bearing which has suffered electric stress
+146 Electromagnetic Compatibility
+
+[SECTION 7 DETECTED - STOPPING]

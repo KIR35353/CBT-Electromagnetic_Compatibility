@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Grounding Configurations | Section 2 — Grounding and Shielding</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
+.intro-bar { background: #f0f4ff; border: 1px solid #3d7fbd; border-radius: 6px; padding: 6px 14px; font-size: 8.5px; color: #334466; line-height: 1.5; }
+.intro-bar strong { color: #1a3a80; }
+.columns-row { display: flex; gap: 8px; flex: 1; }
+.col { flex: 1; background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.col-header { padding: 7px 12px 6px; font-size: 8.5px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; color: #fff; display: flex; align-items: center; gap: 8px; }
+.col-header-amber  { background: #7a5000; }
+.col-header-navy   { background: #1a3660; }
+.col-header-green  { background: #1a5c30; }
+.col-body { flex: 1; padding: 8px 10px; display: flex; flex-direction: column; gap: 5px; overflow: hidden; }
+.col-item { display: flex; align-items: flex-start; gap: 7px; padding: 5px 7px; background: #f8fafb; border-radius: 5px; border-left: 3px solid transparent; }
+.col-item-navy   { border-left-color: #002060; }
+.col-item-green  { border-left-color: #1a7040; }
+.col-item-red    { border-left-color: #cc3d00; }
+.col-item-amber  { border-left-color: #cc8800; }
+.col-item-blue   { border-left-color: #1d5fa8; }
+.col-item-icon { font-size: 13px; flex-shrink: 0; line-height: 1.4; }
+.col-item-text { flex: 1; font-size: 8.5px; color: #334466; line-height: 1.6; }
+.col-item-text strong { color: #1a3660; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">Grounding Configurations</div>
+  <div class="header-tag">Section 2 — Grounding &amp; Shielding</div>
+</div>
+<div class="outer">
+  <div class="intro-bar">
+    <strong>Context:</strong> Three grounding topologies are used in electrical installations. The choice affects both safety performance and EMC behaviour. In AC drive systems, only one topology is recommended for the equipment panel.
+  </div>
+  <div class="columns-row">
+
+    <div class="col">
+      <div class="col-header col-header-amber">&#9651; Single-Point Series</div>
+      <div class="col-body">
+        <div class="col-item col-item-navy">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text"><strong>Topology:</strong> Equipment grounded in a chain — each unit connects to the PE of the previous. One wire runs from unit to unit to earth.</div>
+        </div>
+        <div class="col-item col-item-amber">
+          <span class="col-item-icon">!</span>
+          <div class="col-item-text"><strong>Impedance Problem:</strong> The last unit in the chain has the longest, highest-impedance path to earth. CM current from one drive can couple into others through the shared impedance.</div>
+        </div>
+        <div class="col-item col-item-red">
+          <span class="col-item-icon">&#10007;</span>
+          <div class="col-item-text"><strong>Not Recommended</strong> for AC drive panels. The shared PE conductor creates a common impedance that allows noise transfer between drives.</div>
+        </div>
+        <div class="col-item col-item-amber">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text"><strong>Acceptable for:</strong> Low-frequency systems where individual circuit isolation is needed (e.g., instrumentation star grounding below 1&nbsp;MHz).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="col-header col-header-green">&#9651; Single-Point Parallel (Star)</div>
+      <div class="col-body">
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text"><strong>Topology:</strong> Each unit has its own direct PE connection back to a single earth reference point (the PE busbar). No shared impedance in the return path.</div>
+        </div>
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#10003;</span>
+          <div class="col-item-text"><strong>Recommended for Drive Panels.</strong> Each drive has a separate, direct PE conductor — and the drive chassis contacts the backplate for high-frequency bonding.</div>
+        </div>
+        <div class="col-item col-item-blue">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text"><strong>At Low Frequency:</strong> Works well. Each device has an independent fault-current path. No cross-coupling between drives through shared PE conductor impedance.</div>
+        </div>
+        <div class="col-item col-item-amber">
+          <span class="col-item-icon">!</span>
+          <div class="col-item-text"><strong>At High Frequency:</strong> The PE conductor still has inductance. At MHz frequencies, the cable shield bonding to the backplate is the dominant return path — not the PE conductor.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="col-header col-header-navy">&#9651; Multipoint (HF Grid)</div>
+      <div class="col-body">
+        <div class="col-item col-item-navy">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text"><strong>Topology:</strong> Equipment is bonded to a conductive reference plane (DIN rail, backplate, or chassis) at multiple points. The reference plane itself is the ground.</div>
+        </div>
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#10003;</span>
+          <div class="col-item-text"><strong>Best for High Frequencies.</strong> The low-inductance backplate provides a very low-impedance ground reference at MHz frequencies. This is the EMC grounding strategy for AC drive cabinets.</div>
+        </div>
+        <div class="col-item col-item-blue">
+          <span class="col-item-icon">&#9654;</span>
+          <div class="col-item-text"><strong>In Practice:</strong> The drive is bolted to an unpainted metal backplate (zinc-plated or chemically treated). The cable shield clamp contacts the backplate. The backplate is then connected to the PE busbar via the star topology above.</div>
+        </div>
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#10003;</span>
+          <div class="col-item-text"><strong>Required for EMC compliance.</strong> EN/IEC 61800-3 test results assume multipoint bonding at the drive chassis. Single-point or series grounding invalidates the CE mark test data.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">Use <strong>multipoint (HF grid) grounding</strong> for the AC drive panel — direct metal-to-metal bonding to an unpainted backplate at every mounting point. Star (single-point parallel) grounding is used for the overall PE system. Series grounding must never be used for drive installations.</div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

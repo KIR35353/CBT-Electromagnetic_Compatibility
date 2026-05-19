@@ -1,0 +1,1211 @@
+{
+  "_readme": [
+    "COURSE MANIFEST — KIR-EMC-001 Electromagnetic Compatibility for AC Drive Systems.",
+    "Source material: Danfoss Motor and Drive Text, Chapter 6 — Electromagnetic Compatibility.",
+    "Run _build_course.ps1 from the workspace root to generate wrapper HTML files.",
+    "JSON does not support comments. Fields prefixed with '_comment' are documentation only."
+  ],
+
+  "course": {
+    "id":          "KIR-EMC-001",
+    "title":       "Electromagnetic Compatibility for AC Drive Systems",
+    "title_short": "EMC for AC Drives",
+    "logo_file":   "kirbyflag_imagefile.png"
+  },
+
+  "intro": {
+    "output_file":        "CBT_Introduction.html",
+    "first_section_href": "S1_Section1.html",
+    "title_html":         "Electromagnetic<br>Compatibility",
+    "subtitle":           "EMC Principles and Practice for AC Drive Systems",
+    "duration_badge":     "60-minute course",
+    "sections_badge":     "6 Sections + Final Exam",
+    "audience_badge":     "For: Marine Vessel Designers & Mobile Equipment Engineers",
+    "footer_label":       "3 minutes",
+
+    "screens": [
+      {
+        "id":    "s-int1",
+        "label": "Title Card",
+        "vo":    ["Welcome to this course on electromagnetic compatibility for AC drive systems. We'll cover why AC drives are potential sources of interference, how to control that interference through correct installation, and how to meet the compliance requirements of the EMC Directive. Use the Play button to start the voiceover on each screen. Navigate forward and back with the arrow buttons. You must pass each section quiz before moving on. Let's get started."]
+      },
+      {
+        "id":    "s-int2",
+        "label": "Who This Course Is For",
+        "vo":    ["This course is for engineers who design towing vessels regulated under USCG Subchapter\u00a0M, mobile electric fracturing equipment, and other applications where AC drive reliability directly affects safety. If you specify drives for propulsion, pumping, or dynamic positioning, need to understand why EMI matters beyond the factory floor, or are responsible for ensuring drive installations meet USCG or NEC requirements, this course is for you."]
+      },
+      {
+        "id":    "s-int3",
+        "label": "Course Application",
+        "vo":    ["Throughout this course, our two primary reference contexts are the AC drive systems found on inland towboats \u2014 vessels regulated under 46\u00a0CFR\u00a0Subchapter\u00a0M \u2014 and the large variable speed drives used on mobile electric fracturing equipment. In both cases, a drive fault is not a production nuisance \u2014 it is a safety event. Loss of propulsion control on a towboat pushing tank barges can lead to allision or grounding. A drive trip on an e-frac unit can trigger wellbore instability. Every EMC principle we cover connects directly to reliability and safety in those environments."]
+      },
+      {
+        "id":    "s-int4",
+        "label": "Learning Objectives",
+        "vo": [
+          "By the end of this course, you will be able to achieve the following five learning objectives.",
+          "One. Explain the concepts of EMI and EMC, and identify the four interference coupling mechanisms.",
+          "Two. Apply correct grounding and shielding techniques, including proper cable shield termination.",
+          "Three. Select appropriate output filters — du/dt, sine-wave, or common-mode — based on application requirements.",
+          "Four. Identify the causes of electrical bearing stress and apply the relevant mitigation measures.",
+          "Five. Classify an AC drive installation against the EN/IEC 61800-3 C1 to C4 categories and identify the applicable EMC standards.",
+          "These five objectives cover everything you need to make sound EMC decisions on a real drive installation."
+        ],
+        "revealAt": [null, 1, 2, 3, 4, 5, null]
+      }
+    ],
+
+    "objectives": [
+      { "num": 1, "tag": "Section 1", "text": "Explain the concepts of EMI and EMC, and identify the four interference coupling mechanisms." },
+      { "num": 2, "tag": "Section 2", "text": "Apply correct grounding and shielding techniques, including proper 360\u00b0 shield termination and ground-loop prevention." },
+      { "num": 3, "tag": "Section 3", "text": "Select appropriate output filters (du/dt, sine-wave, common-mode) based on application requirements." },
+      { "num": 4, "tag": "Section 4", "text": "Identify the causes of electrical bearing stress (EDM) and apply the relevant mechanical and electrical mitigation measures." },
+      { "num": 5, "tag": "Section 5", "text": "Identify applicable EMC standards for US marine and oilfield applications, including 46\u00a0CFR\u00a0\u00a7143.575, IEC\u00a060533, and the ABS Rivers and Intracoastal Waterways rules." },
+      { "num": 6, "tag": "Section 6", "text": "Apply marine and mobile specific design requirements: IT system compatibility, stray current corrosion prevention, and drive fault response planning." }
+    ],
+
+    "int2_cards": [
+      { "border_color": "var(--k-orange)", "body": "This course supports <strong>marine vessel designers, mobile equipment engineers, and drive system integrators</strong> involved with AC drive specification, installation, and commissioning in safety-critical applications." },
+      { "border_color": "var(--k-orange)", "body": "Applications focus on <strong>USCG Subchapter\u00a0M towing vessels</strong> (inland waterways) and <strong>mobile electric fracturing (e-frac) equipment</strong> \u2014 where drive faults are not merely operational events but safety emergencies." },
+      { "border_color": "var(--k-steel)",  "body": "A sound understanding of EMC enables <strong>correct installation decisions</strong> for these environments: hull corrosion prevention, ungrounded distribution system compatibility, and regulatory compliance under 46\u00a0CFR\u00a0Subchapter\u00a0M and NEC." }
+    ],
+
+    "int3_kp": [
+      { "dot_class": "bl", "body": "<strong>Primary contexts:</strong><br>Subchapter\u00a0M inland towboats (USCG-inspected) and mobile electric fracturing equipment \u2014 applications where drive reliability directly determines vessel safety and well-site safety." },
+      { "dot_class": "bl", "body": "<strong>Applicable frameworks:</strong><br>46\u00a0CFR\u00a0Part\u00a0143 (machinery &amp; electrical), ABYC\u00a0E-11, ABS\u00a0Rivers\u00a0&amp;\u00a0Intracoastal\u00a0Rules, IEC\u00a060533, NFPA\u00a070\u00a0NEC, IEEE\u00a0519." },
+      { "dot_class": "bl", "body": "<strong>Source material:</strong><br>Danfoss <em>Motor and Drive Text</em>, Chapter 6 \u2014 Electromagnetic Compatibility.<br><em>Principles apply across all major drive manufacturers.</em>" }
+    ],
+    "int3_highlight": "&#9889; On a towing vessel or e-frac unit, drive EMC failures affect navigation safety, hull integrity, and well-site operations.",
+    "int3_closing":   { "dot_class": "or", "body": "Every installation decision \u2014 cable type, grounding strategy, filter selection \u2014 either manages or worsens the EMC behaviour of the system." }
+  },
+
+  "sections": [
+    {
+      "num":          1,
+      "output_file":  "S1_Section1.html",
+      "title":        "What Is EMC?",
+      "title_short":  "What Is EMC?",
+      "duration":     "7 minutes",
+      "next_section_href":      "S2_Section2.html",
+      "next_section_btn_label": "Section 2 \u25b8",
+      "screens": [
+        {
+          "id":    "s-s1-0",
+          "file":  "S1-0_Coupling_Mechanisms.html",
+          "label": "Four Coupling Mechanisms",
+          "vo":    "Section one: What is EMC. Before we can control interference, we need to understand how it travels. There are four coupling mechanisms. Galvanic coupling \u2014 two circuits share a conductive connection. Capacitive coupling \u2014 noise transfers between conductors through parasitic capacitances. Inductive coupling \u2014 a current-carrying conductor induces voltage in a nearby conductor. And electromagnetic coupling \u2014 energy radiates from a transmitting conductor and is picked up by a receiving conductor. Every EMI problem has a source, a coupling path, and a victim. [PAUSE] Identifying which coupling mechanism is active is the first step in fixing the problem."
+        },
+        {
+          "id":    "s-s1-1",
+          "file":  "S1-1_EMI_vs_EMC.html",
+          "label": "EMI vs. EMC",
+          "vo":    "Electromagnetic interference is the degradation of equipment performance caused by electromagnetic disturbance. Electromagnetic compatibility \u2014 or EMC \u2014 is the ability of equipment to operate correctly in its electromagnetic environment without itself causing unacceptable disturbance to other equipment. EMC has two sides. Emission: the unintended electromagnetic output of a device must be limited. And immunity: the device must tolerate a reasonable level of interference from its environment. The gap between the emission level and the immunity threshold is called the compatibility gap. The wider that gap, the more margin you have. AC drives must be both controlled in emission and adequately immune \u2014 and the installation you design affects both."
+        },
+        {
+          "id":    "s-s1-2",
+          "file":  "S1-2_CM_DM_Noise.html",
+          "label": "Common-Mode and Differential-Mode",
+          "vo":    "When we talk about conducted interference, two terms come up constantly: common-mode and differential-mode. Differential-mode noise travels on both conductors of a circuit in opposite directions \u2014 it's in series with the useful signal. Common-mode noise travels on both conductors in the same direction, with its return path through the reference ground. [PAUSE] You'll also hear the term RFI \u2014 radio frequency interference. RFI is an older term referring specifically to interference with radio signals. EMC is the broader, modern term covering interference with any electrical equipment. For our purposes, you can treat them as interchangeable in most conversations."
+        },
+        {
+          "id":    "s-s1-3",
+          "file":  "S1-3_AC_Drives_EMI.html",
+          "label": "Why AC Drives Generate EMI",
+          "vo":    "AC drives switch voltages at rates measured in thousands of volts per microsecond. This high rate of change \u2014 the du/dt \u2014 is applied across parasitic capacitances to ground in the motor cable and motor windings. The result is a common-mode current that must return to its source in the DC link. [PAUSE] Inside the drive, common-mode capacitors \u2014 one in the RFI filter circuit, one in the DC link \u2014 provide a local return path. When a shielded motor cable is correctly connected at both ends, most of that current returns through the cable shield and the drive chassis. Without a shielded cable, the current returns through the mains supply, causing interference in other connected equipment."
+        }
+      ],
+      "quiz": {
+        "screen_id":      "s-quiz1",
+        "quiz_vo":        "Before moving on to Section two, let's check your understanding of the EMC fundamentals we've just covered. You'll be presented with four questions drawn from a pool. You need three correct answers to proceed.",
+        "pick":           4,
+        "pass_threshold": 3,
+        "pass_msg":       "Well done \u2014 you have a solid grasp of EMC fundamentals. Proceed to Section 2.",
+        "fail_msg":       "Review the section and try again. Focus on the coupling mechanisms and the role of common-mode current.",
+        "pool": [
+          {
+            "stem": "A noise source and its victim circuit share a direct conductive connection. Which coupling mechanism is this?",
+            "options": [
+              { "val": "A", "text": "Capacitive coupling" },
+              { "val": "B", "text": "Galvanic coupling" },
+              { "val": "C", "text": "Inductive coupling" },
+              { "val": "D", "text": "Electromagnetic coupling" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. Galvanic coupling occurs when two circuits share a common conductive connection, allowing noise to travel directly between them.",
+              "wrong":   "\u2717 Not quite. Galvanic coupling is the mechanism where noise travels via a shared conductive path between source and victim.",
+              "retry":   "Incorrect \u2014 think about which mechanism involves a direct electrical connection between source and victim."
+            }
+          },
+          {
+            "stem": "Which of the following best describes electromagnetic compatibility (EMC)?",
+            "options": [
+              { "val": "A", "text": "The ability of equipment to emit no electromagnetic interference at all" },
+              { "val": "B", "text": "A legal requirement to obtain CE marking in the EU" },
+              { "val": "C", "text": "The ability of equipment to function in its electromagnetic environment without causing unacceptable disturbance to other equipment" },
+              { "val": "D", "text": "A measure of how well an RFI filter suppresses high-frequency noise" }
+            ],
+            "correct": "C",
+            "feedback": {
+              "correct": "\u2713 Correct. EMC encompasses both immunity (functioning in the presence of interference) and emission (not causing unacceptable disturbance to others).",
+              "wrong":   "\u2717 Not quite. EMC is defined as the ability to function satisfactorily in the electromagnetic environment without introducing intolerable disturbances. It covers both emission and immunity.",
+              "retry":   "Incorrect \u2014 consider that EMC has two sides: how much a device emits, and how well it tolerates interference."
+            }
+          },
+          {
+            "stem": "Common-mode noise in a cable is characterised by:",
+            "options": [
+              { "val": "A", "text": "Noise travelling on both conductors in opposite directions" },
+              { "val": "B", "text": "Noise travelling on both conductors in the same direction, returning via the reference ground" },
+              { "val": "C", "text": "Noise that only appears on the shielded conductor" },
+              { "val": "D", "text": "Noise caused by magnetic coupling from an adjacent power cable" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. Common-mode noise travels on both conductors in the same direction and returns through the common reference ground.",
+              "wrong":   "\u2717 Not quite. Common-mode noise uses both conductors as the forward path and the reference ground as the return path. Differential-mode travels in opposite directions on each conductor.",
+              "retry":   "Incorrect \u2014 consider how the currents on each conductor compare in common-mode versus differential-mode."
+            }
+          },
+          {
+            "stem": "In an AC drive installation, what is the primary source of common-mode current?",
+            "options": [
+              { "val": "A", "text": "The mains supply transformer" },
+              { "val": "B", "text": "The DC-link capacitors discharging into the load" },
+              { "val": "C", "text": "The high du/dt switching voltage applied across parasitic capacitances to ground in the motor cable and motor" },
+              { "val": "D", "text": "The motor's back-EMF during regenerative braking" }
+            ],
+            "correct": "C",
+            "feedback": {
+              "correct": "\u2713 Correct. The inverter's high du/dt voltage is applied across parasitic capacitances to ground, driving a common-mode current proportional to C \u00d7 du/dt.",
+              "wrong":   "\u2717 Not quite. The common-mode current is generated by the steep voltage switching (high du/dt) of the inverter acting on parasitic capacitances between the conductors and ground.",
+              "retry":   "Incorrect \u2014 think about what the inverter does to the output voltage and what that means for capacitively coupled paths to ground."
+            }
+          },
+          {
+            "stem": "Why is a 4\u201320 mA current reference preferred over a 0\u201310 V voltage reference in an AC drive installation?",
+            "options": [
+              { "val": "A", "text": "Current signals are cheaper to wire" },
+              { "val": "B", "text": "Current signals are less susceptible to common-mode noise than voltage signals" },
+              { "val": "C", "text": "Voltage signals require a separate power supply" },
+              { "val": "D", "text": "The 0\u201310 V range is outside the drive's input specification" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. Current signals are less susceptible to noise than voltage signals, making 4\u201320 mA the preferred choice when analogue references cannot be avoided.",
+              "wrong":   "\u2717 Not quite. The advantage of a current loop signal is its greater immunity to electromagnetic noise compared to a voltage reference.",
+              "retry":   "Incorrect \u2014 consider which signal type is inherently less affected by voltage noise induced on the signal cable."
+            }
+          },
+          {
+            "stem": "What is the purpose of the common-mode capacitors inside an AC drive?",
+            "options": [
+              { "val": "A", "text": "To smooth the DC-link voltage ripple at power frequency" },
+              { "val": "B", "text": "To provide a local return path for high-frequency common-mode currents" },
+              { "val": "C", "text": "To block differential-mode noise from reaching the motor" },
+              { "val": "D", "text": "To limit the peak output voltage of the inverter" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. Common-mode capacitors (in the RFI filter and DC link) give high-frequency common-mode currents a low-impedance return path to the DC link, keeping them out of the mains supply.",
+              "wrong":   "\u2717 Not quite. The common-mode capacitors provide a local HF return path so that common-mode currents circulate within the drive and cable rather than returning through the mains.",
+              "retry":   "Incorrect \u2014 think about where the common-mode current needs to return to, and what component helps it do so locally."
+            }
+          },
+          {
+            "stem": "What is the 'compatibility gap' in the context of EMC?",
+            "options": [
+              { "val": "A", "text": "The physical clearance required between power and signal cables" },
+              { "val": "B", "text": "The frequency band not covered by the EMC standard" },
+              { "val": "C", "text": "The difference between the emission level and the immunity threshold" },
+              { "val": "D", "text": "The margin between the rated voltage and the breakdown voltage of the cable insulation" }
+            ],
+            "correct": "C",
+            "feedback": {
+              "correct": "\u2713 Correct. The compatibility gap is the margin between the emission level of a source and the immunity threshold of the victim. A wider gap means more EMC margin.",
+              "wrong":   "\u2717 Not quite. The compatibility gap describes the difference between how much interference a device emits and how much another device can tolerate.",
+              "retry":   "Incorrect \u2014 think about the relationship between emission margin and immunity margin on the EMC level diagram."
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "num":          2,
+      "output_file":  "S2_Section2.html",
+      "title":        "Grounding and Shielding",
+      "title_short":  "Grounding & Shielding",
+      "duration":     "8 minutes",
+      "next_section_href":      "S3_Section3.html",
+      "next_section_btn_label": "Section 3 \u25b8",
+      "screens": [
+        {
+          "id":    "s-s2-0",
+          "file":  "S2-0_Why_Grounding.html",
+          "label": "Why Grounding Matters",
+          "vo":    "Section two: Grounding and Shielding. Grounding means connecting electrical equipment to a common reference point. There are two distinct reasons for doing this. Safety grounding ensures that if electrical insulation degrades, no live voltage appears on touchable surfaces \u2014 protecting people from electric shock. Signal grounding reduces voltage potential differences between pieces of equipment, which prevents noise coupling between them. [PAUSE] It is critical to remember that safety always takes priority over EMC. If a grounding arrangement is required for safety, it cannot be modified for EMC purposes \u2014 even if that modification would reduce interference. Safety first, always. [PAUSE] On metallic towing vessels regulated under 46\u00a0CFR\u00a0\u00a7143.570, an additional constraint applies: the vessel must use an ungrounded distribution system with continuous ground-fault detection, and the hull is explicitly prohibited from carrying current as a conductor. Common-mode current escaping through the hull drives electrolytic corrosion of underwater metals \u2014 we address this in detail in Section\u00a06."
+        },
+        {
+          "id":    "s-s2-1",
+          "file":  "S2-1_Grounding_Types.html",
+          "label": "Grounding Configurations",
+          "vo":    "There are three common grounding configurations. Single-point series grounding connects equipment one after another to a single ground point \u2014 simple, but the impedance increases down the chain. Single-point parallel grounding connects each piece of equipment directly to the ground point \u2014 better impedance, but uses more conductors. Multi-point grounding connects equipment to ground at multiple local points, minimising the length of each ground connection and therefore minimising impedance. [PAUSE] In AC drive installations, what matters most is that the impedance of the grounding connection is as low as possible \u2014 especially at high frequencies \u2014 to equalise potentials across the connected equipment."
+        },
+        {
+          "id":    "s-s2-2",
+          "file":  "S2-2_Cable_Shielding.html",
+          "label": "Cable Shielding Performance",
+          "vo":    "Not all shielded cables provide the same level of protection. The shielding performance of a cable is measured by its transfer impedance \u2014 the voltage generated on the inside of the shield by a current on the outside. Lower transfer impedance means better shielding. [PAUSE] As you can see on screen, cable types range from aluminium foil with a drain wire \u2014 the least effective \u2014 up through single-layer braided copper wire, dual-layer braid, and finally conductors in rigid steel or copper conduit. For most AC drive motor cable applications, single-layer braided copper wire is the practical choice: it offers good shielding performance at a reasonable cost."
+        },
+        {
+          "id":    "s-s2-3",
+          "file":  "S2-3_Shield_Termination.html",
+          "label": "Correct Shield Termination",
+          "vo":    "How you terminate the cable shield is just as important as the cable type. The shield must be connected to the equipment chassis through a full 360-degree clamp connection \u2014 never through a pigtail. A pigtail dramatically increases transfer impedance and destroys the shielding effect. Terminate both ends of the motor cable shield. Only terminating one end significantly reduces the shield's effectiveness. [PAUSE] Signal cables sometimes suffer from ground loops \u2014 a mains-frequency current circulating through the shield because two pieces of equipment are at different ground potentials. In that case, connect one end of the shield via a 100 nanofarad capacitor. This breaks the ground loop at 50 hertz while keeping the high-frequency shield connection intact."
+        }
+      ],
+      "quiz": {
+        "screen_id":      "s-quiz2",
+        "quiz_vo":        "Let's check your understanding of grounding and shielding. Four questions from the pool \u2014 you need three correct to proceed.",
+        "pick":           4,
+        "pass_threshold": 3,
+        "pass_msg":       "Excellent \u2014 you understand the key principles of grounding and shielding. Move on to Section 3.",
+        "fail_msg":       "Review the section \u2014 particularly shield termination requirements and ground loop mitigation \u2014 then try again.",
+        "pool": [
+          {
+            "stem": "In an AC drive installation, what takes the highest priority when making grounding decisions?",
+            "options": [
+              { "val": "A", "text": "Minimising high-frequency impedance for EMC" },
+              { "val": "B", "text": "Compliance with the EMC Directive" },
+              { "val": "C", "text": "Electrical safety" },
+              { "val": "D", "text": "Reducing mains-frequency ground currents" }
+            ],
+            "correct": "C",
+            "feedback": {
+              "correct": "\u2713 Correct. Electrical safety always has the highest priority. EMC grounding must never compromise the safety grounding arrangement.",
+              "wrong":   "\u2717 Not quite. Electrical safety always comes first \u2014 no EMC requirement overrides it.",
+              "retry":   "Incorrect \u2014 consider what happens if the insulation of a live conductor degrades and there is no safety ground."
+            }
+          },
+          {
+            "stem": "What does transfer impedance measure in a shielded cable?",
+            "options": [
+              { "val": "A", "text": "The resistance of the shield conductor at 50 Hz" },
+              { "val": "B", "text": "The voltage generated inside the shield by a current flowing on the outside of the shield" },
+              { "val": "C", "text": "The capacitance between the shield and the inner conductors" },
+              { "val": "D", "text": "The insertion loss of the shield at the cable's operating frequency" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. Transfer impedance relates the current on the outer surface of the shield to the voltage it generates on the inner surface. Lower ZT means better shielding.",
+              "wrong":   "\u2717 Not quite. Transfer impedance is defined as the voltage generated on the inside of the shield per unit length per unit current on the outside \u2014 it quantifies how effectively the shield isolates internal from external fields.",
+              "retry":   "Incorrect \u2014 think about what it means for a shield to be effective at blocking external interference from reaching the inner conductors."
+            }
+          },
+          {
+            "stem": "A motor cable shield is connected to the drive chassis using a short length of wire twisted into a bundle (a pigtail). What is the consequence?",
+            "options": [
+              { "val": "A", "text": "No effect \u2014 the shield is still connected to ground" },
+              { "val": "B", "text": "The transfer impedance is dramatically increased, destroying the shielding effectiveness at high frequency" },
+              { "val": "C", "text": "The pigtail improves contact resistance at the termination point" },
+              { "val": "D", "text": "Ground loop currents are prevented" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. A pigtail termination dramatically increases transfer impedance, especially at high frequencies, and largely defeats the purpose of using a shielded cable.",
+              "wrong":   "\u2717 Not quite. While the shield is technically connected, a pigtail introduces inductance that increases transfer impedance at high frequency \u2014 ruining the shield's effectiveness.",
+              "retry":   "Incorrect \u2014 consider that the inductance of even a short pigtail matters greatly at the high frequencies produced by the drive's switching."
+            }
+          },
+          {
+            "stem": "How many ends of a motor cable shield should be connected to chassis ground?",
+            "options": [
+              { "val": "A", "text": "Only the drive end, to avoid ground loops" },
+              { "val": "B", "text": "Only the motor end, as the drive has internal common-mode capacitors" },
+              { "val": "C", "text": "Both ends, with a 360-degree clamp at each end" },
+              { "val": "D", "text": "Neither end \u2014 the shield must float to avoid saturating the RFI filter" }
+            ],
+            "correct": "C",
+            "feedback": {
+              "correct": "\u2713 Correct. Both ends of the motor cable shield must be connected with a 360-degree clamp. Terminating only one end significantly reduces shielding effectiveness and can cause interference problems.",
+              "wrong":   "\u2717 Not quite. Both ends must be terminated with a 360-degree connection. Single-end termination is only sometimes used for low-frequency signal cables where a ground loop exists \u2014 never for motor cables.",
+              "retry":   "Incorrect \u2014 recall the guidance on motor cable shield termination and what happens when only one end is connected."
+            }
+          },
+          {
+            "stem": "A 50 Hz ground current is detected in the shield of a serial communication cable between a drive and a PLC. What is the recommended solution?",
+            "options": [
+              { "val": "A", "text": "Connect the shield at both ends using pigtails" },
+              { "val": "B", "text": "Remove the shield connection at both ends" },
+              { "val": "C", "text": "First try a potential-equalising cable; if not possible, connect one shield end through a 100 nF capacitor" },
+              { "val": "D", "text": "Replace the shielded cable with an unshielded twisted pair" }
+            ],
+            "correct": "C",
+            "feedback": {
+              "correct": "\u2713 Correct. A potential-equalising cable is the best solution. If not possible, a 100 nF capacitor on one shield end breaks the 50 Hz ground loop while maintaining the HF shield connection.",
+              "wrong":   "\u2717 Not quite. The 100 nF capacitor solution is designed for this situation: it presents high impedance at 50 Hz (blocking the loop current) but low impedance at high frequency (maintaining shield effectiveness).",
+              "retry":   "Incorrect \u2014 consider a solution that breaks the low-frequency loop while keeping the high-frequency shield connection intact."
+            }
+          },
+          {
+            "stem": "Which cable type offers the best shielding performance for an AC drive motor cable?",
+            "options": [
+              { "val": "A", "text": "Aluminium foil with a copper drain wire" },
+              { "val": "B", "text": "Single-layer braided copper wire" },
+              { "val": "C", "text": "Dual-layer braided copper wire with a high-permeability middle layer" },
+              { "val": "D", "text": "Twisted copper wire armoured cable" }
+            ],
+            "correct": "C",
+            "feedback": {
+              "correct": "\u2713 Correct. Dual-layer braided copper wire with a high-permeability middle layer offers the best shielding performance, though single-layer braid is the most common practical choice due to cost.",
+              "wrong":   "\u2717 Not quite. Dual-layer braid with a high-permeability middle layer has the lowest transfer impedance. Single-layer braid is the most common choice but does not match the performance of dual-layer construction.",
+              "retry":   "Incorrect \u2014 review the cable shielding performance ranking from poorest to best."
+            }
+          },
+          {
+            "stem": "Multi-point grounding is preferred in AC drive installations primarily because:",
+            "options": [
+              { "val": "A", "text": "It is simpler to design and wire" },
+              { "val": "B", "text": "It reduces the length of each ground connection, minimising high-frequency impedance" },
+              { "val": "C", "text": "It eliminates the need for a shielded motor cable" },
+              { "val": "D", "text": "It prevents common-mode currents from forming in the motor cable" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. Multi-point grounding keeps each ground connection short, which minimises its impedance at high frequency \u2014 the key requirement for effective EMC grounding.",
+              "wrong":   "\u2717 Not quite. The advantage of multi-point grounding is the short length of each connection, which translates directly to lower impedance at the high frequencies present in drive systems.",
+              "retry":   "Incorrect \u2014 consider what determines the effectiveness of a ground connection at the high switching frequencies of an AC drive."
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "num":          3,
+      "output_file":  "S3_Section3.html",
+      "title":        "EMC-Correct Installation and Output Filters",
+      "title_short":  "Installation & Filters",
+      "duration":     "9 minutes",
+      "next_section_href":      "S4_Section4.html",
+      "next_section_btn_label": "Section 4 \u25b8",
+      "screens": [
+        {
+          "id":    "s-s3-0",
+          "file":  "S3-0_Installation_Plan.html",
+          "label": "EMC Installation Plan",
+          "vo":    "Section three: EMC-Correct Installation and Output Filters. Good EMC doesn't happen by accident \u2014 it requires planning. When designing an AC drive installation, work through this seven-step EMC plan. First, list all components and areas. Second, classify them as potential noise sources or potentially sensitive equipment. Third, classify the cables connecting them as noisy or sensitive. Fourth, set requirements and select equipment accordingly. Fifth, physically separate noise sources from sensitive equipment. Sixth, control the interfaces between them. And seventh, route cables according to their classification. [PAUSE] Separating, shielding, and routing \u2014 these three verbs summarise the entire plan."
+        },
+        {
+          "id":    "s-s3-1",
+          "file":  "S3-1_Installation_Measures.html",
+          "label": "Practical Installation Measures",
+          "vo":    "The diagram shows a typical AC drive cabinet installation. Let's walk through the key measures. The drive must make direct metal-to-metal contact with the backplate \u2014 establishing a low-impedance high-frequency ground. Shielded motor and brake cables must be used, with the shield terminated in a 360-degree EMC cable gland at the drive. At the motor terminal box, the shield must also be clamped 360 degrees. Control cables are segregated and routed away from power cables. A potential equalisation conductor of at least 10 square millimetres connects the drive and motor chassis. [PAUSE] Skipping any one of these measures can introduce interference that compromises the entire installation."
+        },
+        {
+          "id":    "s-s3-2",
+          "file":  "S3-2_Filter_Selection.html",
+          "label": "When to Use Output Filters",
+          "vo":    "Variable speed drives produce several unwanted secondary effects. Motor winding insulation stress from high du/dt voltages. Bearing electrical stress from common-mode currents. Acoustic switching noise. And electromagnetic interference on the supply. In most applications these effects are at acceptable levels and no output filters are needed. But in some cases \u2014 old motors, long cables, 690 volt supply, or high-power applications \u2014 filters are needed. [PAUSE] There are three main filter types: du/dt filters, sine-wave filters, and common-mode filters. Each addresses a different subset of these effects, at different cost and with different trade-offs."
+        },
+        {
+          "id":    "s-s3-3",
+          "file":  "S3-3_dUdt_vs_Sinewave.html",
+          "label": "du/dt vs. Sine-Wave Filters",
+          "vo":    "Du/dt filters are LC filters tuned above the switching frequency. They reduce the slew rate of the inverter's output voltage to below 500 volts per microsecond. This protects motor winding insulation. The voltage waveform remains pulse-width modulated \u2014 just with slower edges. Du/dt filters are recommended with old motors with poor insulation, with 690 volt supply systems, and in short-cable applications. They are not effective with long cables, because the cable itself reduces du/dt at the motor terminals anyway. [PAUSE] Sine-wave filters go further: they produce a near-perfect sinusoidal output voltage, eliminating voltage reflections, bearing currents, and acoustic noise. They allow much longer motor cables. But they are significantly more expensive and cause a 7 to 10 percent voltage drop."
+        },
+        {
+          "id":    "s-s3-4",
+          "file":  "S3-4_CM_Filter.html",
+          "label": "Common-Mode Filters",
+          "vo":    "Common-mode filters use toroidal cores made of nanocrystalline material to increase the impedance of common-mode currents. The three motor phases are passed through the cores. Because differential-mode currents sum to zero, they produce no net magnetic flux and are unaffected by the cores. Common-mode currents produce a net flux, which is concentrated in the ferrite material \u2014 dramatically increasing impedance for common-mode currents only. [PAUSE] The cores can be mounted at the drive output terminals or inside the motor terminal box. Drive-terminal mounting reduces noise on the cable but risks core saturation in long-cable applications. Motor-terminal-box mounting avoids saturation but leaves the cable radiating. The PE conductor must never pass through the cores \u2014 and the filter should be installed directly at the drive output, before any other output filters."
+        }
+      ],
+      "quiz": {
+        "screen_id":      "s-quiz3",
+        "quiz_vo":        "Time to check your understanding of installation practices and filter selection. Four questions from the pool \u2014 three correct needed to proceed.",
+        "pick":           4,
+        "pass_threshold": 3,
+        "pass_msg":       "Well done \u2014 you can apply EMC installation principles and select appropriate output filters. Proceed to Section 4.",
+        "fail_msg":       "Review the section \u2014 particularly the filter comparison and the practical installation measures \u2014 then try again.",
+        "pool": [
+          {
+            "stem": "An AC drive is installed on a painted backplate. The drive's mounting feet are bolted through the paint. What is the EMC problem?",
+            "options": [
+              { "val": "A", "text": "The paint acts as insulation, increasing the impedance of the high-frequency ground connection" },
+              { "val": "B", "text": "The drive will not meet safety requirements without a separate PE conductor" },
+              { "val": "C", "text": "Bolt connections are not permitted in EMC-sensitive installations" },
+              { "val": "D", "text": "The backplate cannot carry the fault current in case of a short circuit" }
+            ],
+            "correct": "A",
+            "feedback": {
+              "correct": "\u2713 Correct. Paint is an insulator. Even a thin layer between the drive chassis and the backplate creates significant high-frequency impedance, degrading the EMC ground connection. Bare metal contact is required.",
+              "wrong":   "\u2717 Not quite. Paint is an insulator. The high-frequency return current path between the drive chassis and the backplate is broken by the paint layer, undermining the EMC installation.",
+              "retry":   "Incorrect \u2014 consider what paint does to the electrical connection between the drive and the backplate at high frequency."
+            }
+          },
+          {
+            "stem": "A du/dt filter is installed on a drive with a 150 metre motor cable. What is the likely outcome?",
+            "options": [
+              { "val": "A", "text": "The filter will protect the motor from voltage peaks at the cable end" },
+              { "val": "B", "text": "The filter will have little effect because the long cable itself reduces du/dt at the motor terminals" },
+              { "val": "C", "text": "The filter will increase the risk of voltage reflection in the cable" },
+              { "val": "D", "text": "The filter will prevent common-mode bearing currents from reaching the motor" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. With long motor cables, the cable itself acts as a distributed filter and reduces du/dt at the motor terminals. A du/dt filter at the drive output provides little additional benefit.",
+              "wrong":   "\u2717 Not quite. Du/dt filters are most useful with short cables. With long cables, the cable's own distributed inductance and capacitance already reduces du/dt significantly at the motor terminals.",
+              "retry":   "Incorrect \u2014 think about how a long motor cable behaves as a transmission line and what that does to the voltage rise-time at the far end."
+            }
+          },
+          {
+            "stem": "Which output filter type produces a near-sinusoidal output voltage and eliminates voltage reflections and bearing currents?",
+            "options": [
+              { "val": "A", "text": "du/dt filter" },
+              { "val": "B", "text": "Common-mode filter" },
+              { "val": "C", "text": "Sine-wave filter" },
+              { "val": "D", "text": "RFI filter" }
+            ],
+            "correct": "C",
+            "feedback": {
+              "correct": "\u2713 Correct. The sine-wave filter is an LC low-pass filter whose cut-off frequency is set to eliminate all high-frequency components, producing a near-sinusoidal output voltage and eliminating voltage reflections and bearing currents.",
+              "wrong":   "\u2717 Not quite. A du/dt filter only reduces the slew rate while keeping the PWM waveform. A common-mode filter only affects common-mode currents. The sine-wave filter produces a near-sinusoidal output.",
+              "retry":   "Incorrect \u2014 consider which filter type completely removes the high-frequency content from the output voltage waveform."
+            }
+          },
+          {
+            "stem": "Why must the PE (protective earth) conductor NOT pass through a common-mode filter core?",
+            "options": [
+              { "val": "A", "text": "The PE conductor carries DC current that would saturate the core" },
+              { "val": "B", "text": "All ferrite cores are conductive and would short the PE conductor" },
+              { "val": "C", "text": "The PE conductor carries the shield return current, which would cancel the common-mode flux and defeat the filter" },
+              { "val": "D", "text": "The PE conductor must remain floating for the filter to work correctly" }
+            ],
+            "correct": "C",
+            "feedback": {
+              "correct": "\u2713 Correct. The PE/shield conductor carries the common-mode return current. Passing it through the core would oppose the common-mode flux produced by the phase conductors, cancelling the filter's effect.",
+              "wrong":   "\u2717 Not quite. The PE conductor carries the common-mode return current from the cable shield. Passing it through the core would cancel the common-mode flux created by the phase conductors, rendering the filter ineffective.",
+              "retry":   "Incorrect \u2014 think about what current flows in the PE/shield conductor and how it would interact with the flux from the three phase conductors in the core."
+            }
+          },
+          {
+            "stem": "A sine-wave filter is specified for an AC drive application. What additional design consideration must be accounted for?",
+            "options": [
+              { "val": "A", "text": "The filter requires a separate earth connection directly to the supply transformer" },
+              { "val": "B", "text": "The drive output voltage may need to be increased by 7\u201310% to compensate for the filter's voltage drop" },
+              { "val": "C", "text": "The filter limits the drive to operation below 30 Hz" },
+              { "val": "D", "text": "The filter's output impedance requires a minimum motor cable length of 20 metres" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. Sine-wave filters typically cause a 7\u201310% voltage drop. This may require boosting the drive's output voltage, and pull-out torque also drops faster in the field-weakening range.",
+              "wrong":   "\u2717 Not quite. Sine-wave filters introduce a 7\u201310% voltage drop across the filter inductance. The drive output voltage may need to be increased accordingly, and torque performance in field weakening will be affected.",
+              "retry":   "Incorrect \u2014 recall the voltage characteristic of sine-wave filters and what that means for motor operation."
+            }
+          },
+          {
+            "stem": "Control cables should be routed in an AC drive installation:",
+            "options": [
+              { "val": "A", "text": "Parallel to and close to the motor cable to reduce cable tray costs" },
+              { "val": "B", "text": "Segregated from power cables and shielded where analogue signals are used" },
+              { "val": "C", "text": "Inside the drive enclosure, bundled with the DC-link cables" },
+              { "val": "D", "text": "Above the motor cable, separated only by a cable tie" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. Control cables must be physically segregated from power cables. When carrying analogue signals, they should also be shielded to prevent inductive and capacitive coupling from the power cables.",
+              "wrong":   "\u2717 Not quite. Control cables must be separated from power cables and shielded where analogue signals are involved. Running them parallel to a motor cable is exactly the wrong approach.",
+              "retry":   "Incorrect \u2014 consider which cables carry sensitive signals and what happens when they are routed close to high-energy switching conductors."
+            }
+          },
+          {
+            "stem": "Common-mode filter cores mounted at the drive output terminals have what disadvantage compared to mounting at the motor terminal box?",
+            "options": [
+              { "val": "A", "text": "They are too large to fit in the drive cabinet" },
+              { "val": "B", "text": "The capacitive current in a long motor cable can saturate the cores" },
+              { "val": "C", "text": "They cannot reduce bearing currents when mounted at the drive" },
+              { "val": "D", "text": "They require a separate 24 V DC supply to operate" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. When the cores are at the drive terminals, the capacitive displacement current of a long motor cable flows through the cores and can saturate the magnetic material, reducing effectiveness.",
+              "wrong":   "\u2717 Not quite. The disadvantage of drive-terminal mounting is that a long motor cable's capacitive charge current passes through the cores and can saturate them, degrading performance.",
+              "retry":   "Incorrect \u2014 think about what current flows in the section of cable between the drive and the cores, and how it affects the magnetic material."
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "num":          4,
+      "output_file":  "S4_Section4.html",
+      "title":        "Bearing Electric Stress",
+      "title_short":  "Bearing Electric Stress",
+      "duration":     "9 minutes",
+      "next_section_href":      "S5_Section5.html",
+      "next_section_btn_label": "Section 5 \u25b8",
+      "screens": [
+        {
+          "id":    "s-s4-0",
+          "file":  "S4-0_EDM_Key_Numbers.html",
+          "label": "The Key Numbers",
+          "vo":    "Section four: Bearing Electric Stress. When a motor runs, the bearings are isolated from the stator by a thin film of lubricant. That film is only about 0.5 micrometres thick. A voltage as low as 10 volts across that film is enough to cause a breakdown and an electrical discharge. [PAUSE] Each discharge melts a microscopic pit in the bearing race or ball surface. The accumulation of pits is called pitting. Over time, pits form a regular grooved pattern called fluting \u2014 a classic indicator of electrical bearing damage. This progressive erosion of bearing metal is called Electrical Discharge Machining, or EDM."
+        },
+        {
+          "id":    "s-s4-1",
+          "file":  "S4-1_Shaft_Voltage.html",
+          "label": "Shaft Voltage Causes",
+          "vo":    "The main cause of EDM in variable speed drive applications is shaft voltage. The root cause is the combination of the inverter's steep du/dt switching and the common-mode voltage it produces. [PAUSE] Capacitive coupling between the stator winding and rotor \u2014 via the stator-rotor air gap capacitance \u2014 transfers a portion of the common-mode voltage to the rotor shaft. Inductive coupling from circulating stator currents can also contribute. In high-power motors where current exceeds 100 to 200 amperes, asymmetric motor cables are an additional factor \u2014 even independent of the drive's switching."
+        },
+        {
+          "id":    "s-s4-2",
+          "file":  "S4-2_Diagnose_Failures.html",
+          "label": "Diagnosing Bearing Failures",
+          "vo":    "Not every bearing failure is electrical in origin. Mechanical root causes are in fact the most frequent. Before taking any corrective action, the root cause must be identified. A bearing that has suffered electrical stress typically shows a fluting pattern under visual inspection, with microscopic pitting visible under an electron scanning microscope. A bearing that has suffered mechanical stress \u2014 such as incorrect axial loading \u2014 shows parallel trenches across the surface. [PAUSE] Here's the key point: when a mechanical problem exists, it will accelerate electrical degradation. Mitigating the electrical stress in that case extends bearing life but does not fix the underlying problem. Mechanical faults must be addressed mechanically first."
+        },
+        {
+          "id":    "s-s4-3",
+          "file":  "S4-3_Mitigation.html",
+          "label": "Mitigation Measures",
+          "vo":    "Mitigation measures fall into two groups: mechanical and electrical. On the mechanical side: verify motor-to-load alignment, check that radial and axial bearing loads are within specification, check vibration levels, and ensure the bearing is correctly lubricated for the operating speed. On the electrical side: provide a low-impedance high-frequency return path for common-mode currents \u2014 which means following EMC installation rules, using a shielded cable correctly terminated at both ends, and ensuring the motor chassis has a good high-frequency earth connection. [PAUSE] Additional electrical measures include shaft grounding brushes to directly drain shaft voltage, symmetrical motor cables in high-power applications, and common-mode filter cores. Note that common-mode filters reduce stress but do not replace a correct EMC installation. [PAUSE] In marine propulsion motor applications, shaft grounding brushes are standard practice for another reason: the propeller shaft connects the motor to seawater, which provides a low-impedance path for shaft voltage to discharge through the hull. A shaft grounding brush prevents that discharge path from causing electrolytic corrosion of the propeller, shaft bearings, and underwater metalwork."
+        },
+        {
+          "id":    "s-s4-4",
+          "file":  "S4-4_CM_Core_Install.html",
+          "label": "Installing CM Cores",
+          "vo":    "High-frequency common-mode cores consist of nanocrystalline magnetic rings. All three motor phase conductors must pass through the cores \u2014 it is essential to follow the installation instructions exactly. If not all phases pass through, or if the shield or PE conductor is included, the core will saturate or become ineffective. [PAUSE] The cores can be fitted at the drive terminals or inside the motor terminal box. At the drive terminals, the cores also reduce high-frequency noise on the motor cable \u2014 but the cable's capacitive current can saturate the cores in long-cable applications. Inside the motor terminal box, saturation risk is eliminated because only the motor current flows through the cores at that point. However, the cable itself will still radiate in that case."
+        }
+      ],
+      "quiz": {
+        "screen_id":      "s-quiz4",
+        "quiz_vo":        "Let's test your understanding of bearing electric stress. Four questions from the pool \u2014 three correct needed to proceed.",
+        "pick":           4,
+        "pass_threshold": 3,
+        "pass_msg":       "Excellent \u2014 you understand the causes and mitigation of electrical bearing stress. Move on to Section 5.",
+        "fail_msg":       "Review the section \u2014 in particular the EDM mechanism, the diagnostic indicators, and the mitigation strategies \u2014 then try again.",
+        "pool": [
+          {
+            "stem": "What is the approximate thickness of the lubricant film that isolates the bearing races at normal operating speed?",
+            "options": [
+              { "val": "A", "text": "0.5 millimetres" },
+              { "val": "B", "text": "5 micrometres" },
+              { "val": "C", "text": "0.5 micrometres" },
+              { "val": "D", "text": "50 nanometres" }
+            ],
+            "correct": "C",
+            "feedback": {
+              "correct": "\u2713 Correct. The lubricant film is approximately 0.5 micrometres thick. This extremely thin film means a shaft voltage of only around 10 V can cause an electrical breakdown and discharge.",
+              "wrong":   "\u2717 Not quite. The lubricant film is approximately 0.5 micrometres (0.5 \u00d7 10\u207b\u2076 metres) thick. Only about 10 V is needed to break it down.",
+              "retry":   "Incorrect \u2014 recall the order of magnitude for the lubricant film thickness and why it makes bearings vulnerable to even low shaft voltages."
+            }
+          },
+          {
+            "stem": "The term EDM in the context of motor bearings stands for:",
+            "options": [
+              { "val": "A", "text": "Electromagnetic Disturbance Mechanism" },
+              { "val": "B", "text": "Electrical Discharge Machining" },
+              { "val": "C", "text": "Electronic Drive Mode" },
+              { "val": "D", "text": "Eddy-current Damping Mechanism" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. EDM stands for Electrical Discharge Machining \u2014 the same process used industrially to shape metal, but here occurring destructively inside the bearing.",
+              "wrong":   "\u2717 Not quite. EDM stands for Electrical Discharge Machining. The repeated micro-discharges through the lubricant film ablate the metal of the races and balls.",
+              "retry":   "Incorrect \u2014 this abbreviation is borrowed from a manufacturing process that shapes metal using electrical discharges."
+            }
+          },
+          {
+            "stem": "A visual inspection of a failed motor bearing reveals a regular grooved pattern across the bearing race surface. What does this most likely indicate?",
+            "options": [
+              { "val": "A", "text": "The bearing has suffered mechanical overload from incorrect axial loading" },
+              { "val": "B", "text": "The bearing grease has broken down due to excessive temperature" },
+              { "val": "C", "text": "The bearing has suffered electrical discharge damage (EDM), indicated by a fluting pattern" },
+              { "val": "D", "text": "The bearing inner race has spun on the shaft due to incorrect fit" }
+            ],
+            "correct": "C",
+            "feedback": {
+              "correct": "\u2713 Correct. A regular grooved fluting pattern is the classic visual indicator of electrical bearing damage caused by repeated EDM discharges over time.",
+              "wrong":   "\u2717 Not quite. A fluting pattern \u2014 regular grooves across the bearing race \u2014 is characteristic of EDM. Mechanical damage typically shows as parallel trenches or pitting from impact loading.",
+              "retry":   "Incorrect \u2014 recall which type of damage produces a characteristic regular groove pattern on the bearing race surface."
+            }
+          },
+          {
+            "stem": "What is the primary root cause of increased shaft voltage when a variable speed drive is used, compared to direct-on-line operation?",
+            "options": [
+              { "val": "A", "text": "The motor runs at variable speed, changing the bearing lubricant film properties" },
+              { "val": "B", "text": "The steep du/dt switching of the inverter combined with the common-mode voltage it produces" },
+              { "val": "C", "text": "The RFI filter inside the drive generates high-frequency voltages on the motor shaft" },
+              { "val": "D", "text": "The DC-link capacitors discharge through the motor winding-to-rotor parasitic capacitance" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. The steep du/dt of the inverter, combined with the common-mode voltage it inherently produces, is capacitively coupled from the stator winding to the rotor \u2014 raising shaft voltage above what occurs in direct-on-line operation.",
+              "wrong":   "\u2717 Not quite. The key factor is the inverter's steep du/dt switching rate combined with the common-mode voltage at the output. This creates a capacitive coupling path from stator winding to rotor that does not exist to the same degree in direct-on-line operation.",
+              "retry":   "Incorrect \u2014 consider what is different about the motor's applied voltage waveform when a variable speed drive is used compared to a direct sinusoidal supply."
+            }
+          },
+          {
+            "stem": "A motor bearing fails repeatedly despite fitting common-mode filter cores. The root cause has not been investigated. What is the most likely explanation?",
+            "options": [
+              { "val": "A", "text": "The common-mode filter cores are not suitable for this motor type" },
+              { "val": "B", "text": "An unresolved mechanical root cause is continuing to stress the bearing, with electrical stress accelerating the damage" },
+              { "val": "C", "text": "The cores have been fitted at the motor terminal box instead of the drive terminals" },
+              { "val": "D", "text": "The motor cable is too long for common-mode filter cores to be effective" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. If a mechanical root cause is present, electrical mitigation extends bearing life but does not fix the underlying problem. The mechanical fault must be identified and corrected first.",
+              "wrong":   "\u2717 Not quite. Electrical mitigation can reduce the rate of damage, but if a mechanical root cause exists (misalignment, overloading, incorrect lubrication), the bearing will continue to fail until that is addressed.",
+              "retry":   "Incorrect \u2014 recall the guidance on diagnosing bearing failures and what happens when a mechanical root cause exists alongside electrical stress."
+            }
+          },
+          {
+            "stem": "Which measure provides the most direct path to eliminate shaft voltage by draining it away continuously?",
+            "options": [
+              { "val": "A", "text": "Using a symmetric motor cable" },
+              { "val": "B", "text": "Installing a sine-wave filter" },
+              { "val": "C", "text": "Fitting a shaft grounding brush" },
+              { "val": "D", "text": "Connecting a 100 nF capacitor from shaft to frame" }
+            ],
+            "correct": "C",
+            "feedback": {
+              "correct": "\u2713 Correct. A shaft grounding brush makes direct electrical contact with the rotating shaft, providing a continuous low-impedance path to drain shaft voltage to the motor frame before it builds up to the breakdown level.",
+              "wrong":   "\u2717 Not quite. A shaft grounding brush makes direct contact with the rotating shaft, providing a low-impedance continuous discharge path that prevents shaft voltage from building up to the lubricant breakdown level.",
+              "retry":   "Incorrect \u2014 consider which measure makes direct electrical contact with the rotating shaft itself."
+            }
+          },
+          {
+            "stem": "In a high-power motor installation where motor current exceeds 200 A, which cable type is recommended to reduce shaft voltage from motor asymmetry?",
+            "options": [
+              { "val": "A", "text": "Standard single-layer braided shielded cable" },
+              { "val": "B", "text": "Symmetrical motor cable" },
+              { "val": "C", "text": "Aluminium armoured cable with steel wire" },
+              { "val": "D", "text": "Unshielded twisted pair" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. In high-power applications, motor cable asymmetry contributes to shaft voltage independently of the drive. Symmetric motor cables (with equally spaced phase conductors) minimise this asymmetric contribution.",
+              "wrong":   "\u2717 Not quite. In high-power applications with motor currents over 100\u2013200 A, cable asymmetry itself contributes to shaft voltage. Symmetric motor cables are recommended to minimise this effect.",
+              "retry":   "Incorrect \u2014 recall which cable construction minimises the electromagnetic asymmetry that contributes to shaft voltage in high-power applications."
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "num":          5,
+      "output_file":  "S5_Section5.html",
+      "title":        "EMC Standards and Compliance",
+      "title_short":  "EMC Standards",
+      "duration":     "6 minutes",
+      "next_section_href":      "S6_Section6.html",
+      "next_section_btn_label": "Section 6 \u25b8",
+      "screens": [
+        {
+          "id":    "s-s5-0",
+          "file":  "S5-0_EMC_Directive.html",
+          "label": "The EMC Directive",
+          "vo":    "Section five: EMC Standards and Compliance. In the European Union, the EMC Directive \u2014 currently 2014/30/EU \u2014 is a legal requirement. It has two essential requirements: products must not emit electromagnetic interference above defined limits, and they must be immune to a reasonable level of interference from the environment. The directive distinguishes between two categories. Apparatus \u2014 finished products sold to end users \u2014 must bear the CE mark, backed by a Declaration of Conformity. Fixed installations \u2014 permanently installed combinations of equipment, such as a full drive system built into a control panel \u2014 are not CE marked, but must be built following good engineering practice and respecting the EMC requirements of the components used."
+        },
+        {
+          "id":    "s-s5-1",
+          "file":  "S5-1_Standards_Hierarchy.html",
+          "label": "Standards Hierarchy",
+          "vo":    "EMC standards are organised in three layers. At the base, basic standards define general test methods and measurement techniques \u2014 for drives, EN 55011 defines the emission limits. Above that, generic standards cover specific environments without targeting a particular product: EN 61000-6-3 and EN 61000-6-1 for residential and commercial environments; EN 61000-6-4 and EN 61000-6-2 for industrial environments. At the top, product standards apply to a specific product family. For AC drives, that standard is EN/IEC 61800-3. [PAUSE] When a product standard exists, it takes precedence over the generic standard for that product. You do not need to demonstrate compliance with both."
+        },
+        {
+          "id":    "s-s5-2",
+          "file":  "S5-2_Drive_Categories.html",
+          "label": "Drive Categories C1\u2013C4",
+          "vo":    "EN/IEC 61800-3 classifies drives into four categories based on environment and power level. Category C1: strictest limits for public supply in residential environments. C2: restricted industrial use. C3: industrial, higher power. C4: very high-power systems requiring an installation-specific EMC plan \u2014 no fixed emission limits. [PAUSE] For US marine and oilfield applications, the EU EMC Directive itself does not apply \u2014 but the IEC\u00a061800-3 C-category of the drive hardware still determines what built-in filters and suppression are included. The installation-level compliance standard for Subchapter\u00a0M vessels is 46\u00a0CFR\u00a0Part\u00a0143, cross-referencing ABS Rules for Electrical Installations and ABYC\u00a0E-11. For ships, IEC\u00a060533 \u2014 Electrical and Electronic Installations in Ships \u2014 is the marine EMC standard referenced by ABS and DNV. The product standard still matters: always verify that the drive\u2019s built-in Y-capacitor configuration is compatible with the vessel\u2019s ungrounded distribution system before specifying \u2014 a C3 or C4 drive may need its Y-cap bypass switch activated for IT system compatibility."
+        }
+      ],
+      "quiz": {
+        "screen_id":      "s-quiz5",
+        "quiz_vo":        "Final section quiz. Three questions from the pool \u2014 two correct needed to proceed to Section\u00a06.",
+        "pick":           3,
+        "pass_threshold": 2,
+        "pass_msg":       "Well done \u2014 you can identify the relevant EMC standards and drive categories. Move on to Section\u00a06.",
+        "fail_msg":       "Review the standards and categories section and try again.",
+        "pool": [
+          {
+            "stem": "Under the European EMC Directive, which of the following requires CE marking?",
+            "options": [
+              { "val": "A", "text": "A permanently installed AC drive system built into a control panel at a factory" },
+              { "val": "B", "text": "A variable speed drive sold as a finished product to an end user" },
+              { "val": "C", "text": "A fixed installation of drives and switchgear permanently wired into a substation" },
+              { "val": "D", "text": "A custom-built panel assembled for a specific installation project" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. Apparatus \u2014 finished products made commercially available as a single-function unit to end users \u2014 must carry the CE mark. Fixed installations are not CE marked.",
+              "wrong":   "\u2717 Not quite. CE marking under the EMC Directive applies to apparatus \u2014 commercially sold finished products. Fixed installations (permanently installed systems) are not CE marked but must comply through good engineering practice.",
+              "retry":   "Incorrect \u2014 the directive distinguishes between a product sold commercially and a system permanently installed at a specific location."
+            }
+          },
+          {
+            "stem": "Which standard is the product standard for AC drives under the EN/IEC framework?",
+            "options": [
+              { "val": "A", "text": "EN 55011" },
+              { "val": "B", "text": "EN 61000-6-4" },
+              { "val": "C", "text": "EN/IEC 61800-3" },
+              { "val": "D", "text": "EN 61000-6-2" }
+            ],
+            "correct": "C",
+            "feedback": {
+              "correct": "\u2713 Correct. EN/IEC 61800-3 is the dedicated product standard for adjustable-speed electrical power drive systems. It sets both emission and immunity requirements based on the installation environment.",
+              "wrong":   "\u2717 Not quite. EN/IEC 61800-3 is the product standard for AC drives. EN 55011 is a basic emission standard, and the EN 61000-6 series are generic standards for different environments.",
+              "retry":   "Incorrect \u2014 recall which standard in the three-level hierarchy applies specifically to the AC drive product family."
+            }
+          },
+          {
+            "stem": "An AC drive with rated current over 400 A is installed in a complex industrial system. No fixed emission limits apply. What is the mandatory requirement under EN/IEC 61800-3?",
+            "options": [
+              { "val": "A", "text": "A Declaration of Conformity to EN 55011 Class A" },
+              { "val": "B", "text": "An EMC plan for the specific installation" },
+              { "val": "C", "text": "Compliance with the generic standard EN 61000-6-4" },
+              { "val": "D", "text": "CE marking of the complete installation" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. Category C4 drives (very high power, complex installations) are not subject to fixed emission limits, but an EMC plan specific to the installation is mandatory.",
+              "wrong":   "\u2717 Not quite. Category C4 applies to drives in very large, complex installations. Rather than fixed emission limits, the requirement is to prepare a site-specific EMC plan.",
+              "retry":   "Incorrect \u2014 recall what the standard requires when a drive falls into Category C4."
+            }
+          },
+          {
+            "stem": "A Category C1 drive is more strictly regulated than a Category C3 drive because:",
+            "options": [
+              { "val": "A", "text": "C1 drives are physically smaller and therefore harder to shield" },
+              { "val": "B", "text": "C1 drives may be connected to the public mains supply in residential environments, where interference affects a wider range of sensitive equipment" },
+              { "val": "C", "text": "C1 applies only to drives above 75 kW, which generate more interference" },
+              { "val": "D", "text": "C1 drives operate at higher switching frequencies" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. Category C1 covers drives on the public low-voltage supply where residential, commercial, and light industrial equipment may be connected. Tighter emission limits protect that wider mix of sensitive equipment.",
+              "wrong":   "\u2717 Not quite. C1 applies to drives on the public low-voltage supply in residential environments. Because sensitive equipment such as consumer electronics and home appliances share the same supply, much stricter emission limits apply.",
+              "retry":   "Incorrect \u2014 think about what type of environment Category C1 covers and what other equipment may be connected to the same electrical supply."
+            }
+          },
+          {
+            "stem": "Generic standard EN 61000-6-4 applies to:",
+            "options": [
+              { "val": "A", "text": "Immunity requirements in residential environments" },
+              { "val": "B", "text": "Emission requirements in industrial environments" },
+              { "val": "C", "text": "Emission requirements in residential and commercial environments" },
+              { "val": "D", "text": "Immunity requirements in industrial environments" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. EN 61000-6-4 is the generic emission standard for industrial environments. EN 61000-6-2 is the corresponding immunity standard for industrial environments.",
+              "wrong":   "\u2717 Not quite. EN 61000-6-4 covers emission in industrial environments. The 6-2 standard covers immunity in industrial environments. The 6-3 and 6-1 standards address emission and immunity in residential/commercial environments.",
+              "retry":   "Incorrect \u2014 recall the pairing of the EN 61000-6 series: which number covers emission vs immunity, and which covers residential vs industrial."
+            }
+          },
+          {
+            "stem": "If a product standard exists for a specific product type, what is the relationship to the generic standard?",
+            "options": [
+              { "val": "A", "text": "Both standards must be demonstrated simultaneously" },
+              { "val": "B", "text": "The product standard takes precedence and the generic standard does not need to be demonstrated" },
+              { "val": "C", "text": "The generic standard takes precedence unless the product standard is more stringent" },
+              { "val": "D", "text": "The product standard applies only to emission; the generic standard still applies to immunity" }
+            ],
+            "correct": "B",
+            "feedback": {
+              "correct": "\u2713 Correct. Product standards take precedence over generic standards for the product type they cover. Compliance with EN/IEC 61800-3 is sufficient; the generic standard need not also be demonstrated.",
+              "wrong":   "\u2717 Not quite. Product standards supersede generic standards for the relevant product category. A manufacturer demonstrating compliance with EN/IEC 61800-3 does not also need to demonstrate compliance with EN 61000-6-4.",
+              "retry":   "Incorrect \u2014 consider the hierarchy of standards: basic \u2192 generic \u2192 product, and which level takes precedence when it exists."
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "num":          6,
+      "output_file":  "S6_Section6.html",
+      "title":        "Marine and Mobile Application Considerations",
+      "title_short":  "Marine & Mobile",
+      "duration":     "8 minutes",
+      "next_section_href":      "SUM_CourseSum.html",
+    "next_section_btn_label": "Summary \u25b8",
+    "screens": [
+      {
+        "id":    "s-s6-0",
+        "file":  "S6-0_Drive_Fault_Consequences.html",
+        "label": "Drive Faults in Safety-Critical Applications",
+        "vo":    "Section six: Marine and Mobile Application Considerations. In most industrial settings, a drive fault means a stopped process \u2014 inconvenient, but recoverable. In the applications this course addresses, the consequences are different. [PAUSE] On a Subchapter\u00a0M inland towing vessel, loss of propulsion control while pushing a loaded tank barge on a river can result in allision, grounding, or a spill of hazardous cargo. Under 46\u00a0CFR\u00a0\u00a7143.205, propulsion machinery must provide safe operation under both normal and emergency conditions. Section\u00a0143.585 goes further: for vessels moving tank barges, the propulsion control system must be designed so that a single component failure either maintains propeller speed or reduces it to zero \u2014 a single-fault-tolerant design requirement. [PAUSE] On an e-frac unit, a drive fault during high-pressure pumping can trigger wellbore instability, fluid influx, or surface pressure events. In both contexts, drive fault behaviour must be engineered deliberately \u2014 not left to default settings."
+      },
+      {
+        "id":    "s-s6-1",
+        "file":  "S6-1_Stray_Current_Corrosion.html",
+        "label": "Stray Current Corrosion",
+        "vo":    "Stray current corrosion is the most significant EMC consequence unique to marine applications. Here is the mechanism. The inverter's switching produces common-mode current that flows from the drive output, through the motor cable capacitance to the motor frame, and then seeks a return path to the DC link. In a correctly installed system, that path is the cable shield. But some common-mode current finds an alternative path: from the motor frame, through the motor shaft, into the propeller, and then into the surrounding seawater \u2014 completing the circuit via the hull and seawater back to the drive. [PAUSE] That current flowing through seawater creates an electrolytic cell. By Faraday\u2019s Law, even milliamps of DC-equivalent stray current can dissolve significant quantities of metal. One milliamp of DC stray current dissolves approximately 9 kilograms of steel per year. At weld seams and hull penetrations, the damage can be both rapid and structurally significant. Bronze propellers, brass sea cocks, and aluminium heat exchanger tubes are all at risk. [PAUSE] Under 46\u00a0CFR\u00a0\u00a7143.570(f), the hull may not carry current as a conductor. Stray current escaping through the hull from a VFD is therefore not merely a corrosion risk \u2014 it is a regulatory violation. Correct shield termination, shaft grounding brushes, and galvanic isolation of seawater-cooled circuits are the engineering controls."
+      },
+      {
+        "id":    "s-s6-2",
+        "file":  "S6-2_IT_System_Conflicts.html",
+        "label": "IT Distribution System Compatibility",
+        "vo":    "Subchapter\u00a0M metallic towing vessels are required by 46\u00a0CFR\u00a0\u00a7143.570 to use an ungrounded distribution system \u2014 technically called an IT system \u2014 with continuous ground-fault detection. This provides a critical safety benefit: a single ground fault does not trip the circuit, giving the crew time to locate and repair the fault before a second fault creates a hazardous situation. [PAUSE] The conflict with variable speed drives arises from the RFI filter. Standard drive RFI filters use capacitors connected from each line to the grounded chassis \u2014 so-called Y-capacitors. On an IT system, these capacitors create a low-impedance path to ground that loads the ground-fault detector and can generate false alarms or, worse, prevent the detector from seeing a real fault. [PAUSE] There are three solutions. First, some drives have a Y-capacitor bypass switch that disconnects the Y-caps for use on IT systems \u2014 verify this with the drive manufacturer before specifying. Second, an isolation transformer with a grounded secondary can provide a local grounded reference for the drive while keeping the vessel distribution system ungrounded. Third, at very high power levels, a drive with a delta-connected filter topology \u2014 no line-to-ground capacitors \u2014 avoids the conflict entirely. ABS Rules and DNV Rules both require drives to be compatible with the vessel\u2019s distribution system. Confirm Y-cap configuration before commissioning any drive on a vessel."
+      },
+      {
+        "id":    "s-s6-3",
+        "file":  "S6-3_Environmental_Requirements.html",
+        "label": "Environmental and Mechanical Requirements",
+        "vo":    "Marine and mobile equipment environments are significantly more demanding than typical industrial installations. For marine applications: enclosures must meet at minimum IP44, and IP54 is preferred for machinery spaces exposed to water spray. ABS and DNV require drive type-approval testing that includes salt-fog per IEC\u00a060068-2-52, vibration per IEC\u00a060068-2-6, and high humidity per IEC\u00a060068-2-78. Vessel vibration from diesel propulsion and hull slamming can loosen terminal connections that appear tight on the dock \u2014 use torque-verified connections and lock-wire or thread-locking compound where applicable. [PAUSE] For mobile e-frac equipment: trailers and skid-mounted equipment experience road and pumping vibration, temperature cycling from minus 40 to plus 70 degrees Celsius in field conditions, and dust and moisture ingress. Cable assemblies between the drive cabinet and the pump motor must use flex-rated, drag-chain cable, not standard industrial cable, to survive repeated trailer transport. IEEE 519 harmonic limits apply at the generator terminals \u2014 the e-frac unit has no utility grid to absorb harmonics, so all harmonic content from the drives stays within the generator and the pumping system. [PAUSE] In both applications, verify that drive IP rating, type-approval testing, and cable specifications are confirmed before design commitment. Manufacturer data sheets do not always reflect the actual testing standard \u2014 request the test report."
+      }
+    ],
+    "quiz": {
+      "screen_id":      "s-quiz6",
+      "quiz_vo":        "Final section check before the summary. Three questions from the pool \u2014 two correct needed to proceed.",
+      "pick":           3,
+      "pass_threshold": 2,
+      "pass_msg":       "Well done \u2014 you can apply marine and mobile specific EMC requirements. Proceed to the course summary.",
+      "fail_msg":       "Review the section \u2014 particularly the stray current mechanism and IT system compatibility \u2014 then try again.",
+      "pool": [
+        {
+          "stem": "Under 46 CFR \u00a7143.585, the propulsion control system on a towing vessel pushing tank barges must be designed so that a single component failure:",
+          "options": [
+            { "val": "A", "text": "Automatically transfers control to the alternate steering station" },
+            { "val": "B", "text": "Maintains propeller speed and direction, or reduces propeller speed to zero" },
+            { "val": "C", "text": "Activates the general alarm and illuminates the pilothouse warning panel" },
+            { "val": "D", "text": "Shuts down all non-essential electrical loads to maintain propulsion power" }
+          ],
+          "correct": "B",
+          "feedback": {
+            "correct": "\u2713 Correct. 46 CFR \u00a7143.585(e) requires the propulsion control system to be single-fault tolerant: any single component failure must result in propeller speed being maintained or reduced to zero. A fault must not produce uncontrolled propeller speed changes.",
+            "wrong":   "\u2717 Not quite. The regulatory requirement in \u00a7143.585(e) is that a single component failure must maintain propeller speed and direction, or reduce propeller speed to zero. The system must fail safe.",
+            "retry":   "Incorrect \u2014 recall the single-failure design requirement for propulsion control systems on vessels towing tank barges under 46 CFR."
+          }
+        },
+        {
+          "stem": "Common-mode current from a drive motor cable reaching the vessel's hull via the propeller shaft and seawater causes:",
+          "options": [
+            { "val": "A", "text": "Increased bearing EDM inside the motor only" },
+            { "val": "B", "text": "Interference with the vessel\u2019s AIS transponder" },
+            { "val": "C", "text": "Electrolytic corrosion of underwater metals, and a violation of 46 CFR \u00a7143.570(f)" },
+            { "val": "D", "text": "Overloading of the vessel\u2019s ground-fault detection system" }
+          ],
+          "correct": "C",
+          "feedback": {
+            "correct": "\u2713 Correct. Stray current reaching the hull through seawater creates an electrolytic cell, corroding underwater metals. It also violates 46 CFR \u00a7143.570(f), which prohibits the hull from carrying current as a conductor.",
+            "wrong":   "\u2717 Not quite. The stray current path through seawater and hull causes electrolytic corrosion of the propeller, shafts, hull plating, and sea cocks. It is also a regulatory violation under \u00a7143.570(f).",
+            "retry":   "Incorrect \u2014 consider what happens when electrical current flows through the interface between a metallic hull and seawater."
+          }
+        },
+        {
+          "stem": "A variable speed drive RFI filter uses Y-capacitors from line to ground. On a vessel using a Subchapter M ungrounded (IT) distribution system, this configuration will:",
+          "options": [
+            { "val": "A", "text": "Improve RFI filter performance due to the lower ground impedance of the hull" },
+            { "val": "B", "text": "Create a leakage path to ground that loads the ground-fault detector, potentially masking real faults" },
+            { "val": "C", "text": "Have no effect because vessel hulls are inherently grounded" },
+            { "val": "D", "text": "Cause the drive to generate higher common-mode currents than on a grounded system" }
+          ],
+          "correct": "B",
+          "feedback": {
+            "correct": "\u2713 Correct. Y-capacitors in the RFI filter create a capacitive leakage path to ground that interferes with the IT system\u2019s ground-fault detector. Solutions include a Y-cap bypass switch, an isolation transformer, or a filter topology without line-to-ground capacitors.",
+            "wrong":   "\u2717 Not quite. On an IT (ungrounded) system, Y-capacitors in the drive\u2019s RFI filter create a leakage path that loads the ground-fault detector and can mask real ground faults. The drive must be verified as IT-system compatible before installation.",
+            "retry":   "Incorrect \u2014 recall what an IT distribution system is, and what the Y-capacitors in a standard RFI filter do when connected to one."
+          }
+        },
+        {
+          "stem": "The minimum recommended IP enclosure rating for a variable speed drive installed in a marine machinery space exposed to water spray is:",
+          "options": [
+            { "val": "A", "text": "IP21 \u2014 drip-proof" },
+            { "val": "B", "text": "IP44 \u2014 protected against splashing water from any direction" },
+            { "val": "C", "text": "IP67 \u2014 dust-tight and temporarily submersible" },
+            { "val": "D", "text": "IP20 \u2014 finger-safe open enclosure" }
+          ],
+          "correct": "B",
+          "feedback": {
+            "correct": "\u2713 Correct. IP44 is the minimum for a marine machinery space. IP54 is preferred for spaces with significant water spray. IP20 and IP21 are typical for protected industrial environments and are insufficient for marine conditions.",
+            "wrong":   "\u2717 Not quite. Marine machinery spaces require at minimum IP44 (protection against water splashing from any direction). IP54 is preferred. IP20/IP21 ratings typical of standard industrial drives are not suitable.",
+            "retry":   "Incorrect \u2014 recall the IP enclosure rating requirements for marine installations and why the marine environment requires higher ingress protection than a typical industrial panel room."
+          }
+        },
+        {
+          "stem": "On an e-frac mobile unit, IEEE 519 harmonic limits apply at the generator terminals because:",
+          "options": [
+            { "val": "A", "text": "IEEE 519 is the applicable standard for all US land-based electrical systems" },
+            { "val": "B", "text": "There is no utility grid to absorb harmonic currents, so all harmonics remain within the generation and pumping system" },
+            { "val": "C", "text": "The generator\u2019s voltage regulator requires harmonic levels below the IEEE 519 threshold to operate correctly" },
+            { "val": "D", "text": "The NEC requires IEEE 519 compliance for all motor drives rated above 600 V" }
+          ],
+          "correct": "B",
+          "feedback": {
+            "correct": "\u2713 Correct. An e-frac unit operates on its own dedicated generators. There is no utility grid to absorb or dilute harmonic currents from the drives. All harmonic distortion created by the VFDs stays within the local generation and distribution system, making harmonic control critical.",
+            "wrong":   "\u2717 Not quite. On e-frac, the generators are the only power source. Unlike a utility-connected installation where the grid\u2019s large capacity absorbs harmonic currents, on e-frac all the harmonic energy from the drives recirculates in the generator and distribution system.",
+            "retry":   "Incorrect \u2014 consider the difference between a utility-connected industrial installation and a stand-alone generator-powered system when harmonics are produced."
+          }
+        },
+        {
+          "stem": "An isolation transformer installed between the vessel distribution system and a variable speed drive solves the IT system Y-capacitor conflict by:",
+          "options": [
+            { "val": "A", "text": "Removing the Y-capacitors from the filter and replacing them with common-mode inductors" },
+            { "val": "B", "text": "Providing a locally grounded neutral on the drive side while keeping the vessel distribution system ungrounded" },
+            { "val": "C", "text": "Increasing the impedance of the ground-fault detection loop to prevent false alarms" },
+            { "val": "D", "text": "Converting the drive supply to DC, which eliminates the need for line-to-ground capacitors" }
+          ],
+          "correct": "B",
+          "feedback": {
+            "correct": "\u2713 Correct. An isolation transformer provides a locally grounded secondary winding from which the drive\u2019s RFI filter Y-capacitors operate normally. The vessel\u2019s IT distribution system on the primary side remains ungrounded, preserving its ground-fault detection capability.",
+            "wrong":   "\u2717 Not quite. The isolation transformer creates a locally grounded reference for the drive on the secondary side, while the vessel distribution system on the primary side remains ungrounded. The Y-caps can connect to the transformer secondary neutral without disturbing the vessel\u2019s IT system.",
+            "retry":   "Incorrect \u2014 consider how a transformer electrically isolates two circuits, and what is provided on the secondary side of an isolation transformer with a grounded neutral."
+          }
+        }
+      ]
+    }
+    }
+  ],
+
+  "summary": {
+    "output_file": "SUM_CourseSum.html",
+    "next_href":   "EXAM_Final.html",
+    "screens": [
+      {
+        "id":    "s-sum-0",
+        "file":  "SUM-1_Key_Takeaways.html",
+        "label": "Key Takeaways",
+        "vo":    "Let's review the six key takeaways from this course. First: controlling the common-mode current return path is the central principle of EMC in AC drive systems. Second: cable shield termination must be 360 degrees at both ends \u2014 a pigtail or single-end termination defeats the purpose of the shielded cable. Third: choose your output filter based on the application \u2014 du/dt for winding stress with short cables, sine-wave for long cables and old motors, common-mode for bearing stress reduction. Fourth: always diagnose bearing failures before treating them \u2014 a mechanical root cause must be fixed mechanically. Fifth: know your applicable standard \u2014 on US vessels it is 46\u00a0CFR\u00a0Part\u00a0143 and IEC\u00a060533, not the EU EMC Directive. Sixth: on vessels and mobile equipment, EMC decisions affect hull corrosion, IT system integrity, and single-fault-tolerant propulsion design \u2014 not just interference margins."
+      },
+      {
+        "id":    "s-sum-1",
+        "file":  "SUM-2_Best_Practices.html",
+        "label": "Best Practices",
+        "vo":    "Before you take the final exam, here is an EMC installation checklist for marine and mobile applications. Use shielded motor cable \u2014 single-layer braided copper wire is the minimum. Terminate the shield at both ends with 360-degree EMC cable glands. Mount the drive on a bare-metal backplate \u2014 remove paint at all mounting points. Segregate control cables from power cables. Provide a potential equalisation conductor of at least 10 square millimetres. [PAUSE] For vessel installations: verify that the drive\u2019s Y-capacitor configuration is compatible with the vessel\u2019s ungrounded IT distribution system \u2014 request a Y-cap bypass switch or use an isolation transformer if needed. Fit shaft grounding brushes on propulsion motors. Verify IP54 or better for machinery spaces. Document the installation as required by 46\u00a0CFR\u00a0\u00a7143.570 and \u00a7143.575. [PAUSE] For e-frac: use flex-rated cable for all connections subject to trailer transport. Assess IEEE\u00a0519 harmonic limits at the generator terminals. Confirm drive IP rating and vibration type-approval test report before design commitment."
+      }
+    ]
+  },
+
+  "exam": {
+    "output_file":     "EXAM_Final.html",
+    "return_href":     "SUM_CourseSum.html",
+    "pass_score":      13,
+    "total_questions": 18,
+    "pass_pct":        "72%",
+    "duration":        "12\u201318 minutes",
+    "instr_title":     "Electromagnetic Compatibility<br>Final Knowledge Assessment",
+    "pass_msg":        "Congratulations \u2014 you have passed the EMC for AC Drives assessment. You are now qualified to apply correct EMC practices in AC drive installations for marine vessels and mobile equipment, and to specify appropriate filters, grounding strategies, and marine-compliant distribution system solutions.",
+    "fail_msg":        "You did not reach the pass mark of 72% (13 out of 18). Review the sections indicated below and retake the assessment. There is no limit on retakes.",
+
+    "section_names": [
+      [1, "Section 1 \u2014 What Is EMC?"],
+      [2, "Section 2 \u2014 Grounding and Shielding"],
+      [3, "Section 3 \u2014 EMC-Correct Installation and Output Filters"],
+      [4, "Section 4 \u2014 Bearing Electric Stress"],
+      [5, "Section 5 \u2014 EMC Standards and Compliance"],
+      [6, "Section 6 \u2014 Marine and Mobile Application Considerations"]
+    ],
+
+    "q_section_map": [1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6],
+
+    "questions": [
+      {
+        "num": 1, "type": "MULTIPLE CHOICE",
+        "stem": "Noise is transferred between two circuits via the magnetic field of a current-carrying conductor inducing a voltage in an adjacent conductor. Which coupling mechanism is this?",
+        "options": ["Galvanic coupling", "Capacitive coupling", "Inductive coupling", "Electromagnetic coupling"],
+        "correct": 2,
+        "feedback": "Inductive (magnetic) coupling occurs when the magnetic field surrounding a current-carrying conductor induces a voltage in a nearby conductor."
+      },
+      {
+        "num": 2, "type": "MULTIPLE CHOICE",
+        "stem": "An AC drive produces common-mode current because:",
+        "options": [
+          "The DC-link ripple voltage drives current through the output capacitors",
+          "The high du/dt switching voltage acts on parasitic capacitances to ground in the motor cable and motor",
+          "The motor back-EMF couples energy back into the drive output stage",
+          "The RFI filter generates reactive current at the switching frequency"
+        ],
+        "correct": 1,
+        "feedback": "The inverter's high du/dt voltage is applied across the parasitic capacitances between the phase conductors and ground (in the cable and motor), producing a common-mode current equal to C \u00d7 du/dt."
+      },
+      {
+        "num": 3, "type": "MULTIPLE CHOICE",
+        "stem": "A shielded motor cable shield is connected to the drive chassis with a short wire twisted into a bundle (pigtail). What is the EMC consequence?",
+        "options": [
+          "No consequence \u2014 the shield is still connected to ground",
+          "The pigtail reduces transfer impedance at high frequency",
+          "The pigtail dramatically increases transfer impedance, largely defeating the shielding",
+          "The pigtail prevents ground-loop currents from flowing"
+        ],
+        "correct": 2,
+        "feedback": "A pigtail introduces inductance that increases transfer impedance at the high frequencies present in drive systems, largely defeating the shielding effectiveness of the cable."
+      },
+      {
+        "num": 4, "type": "MULTIPLE CHOICE",
+        "stem": "For a motor cable in an AC drive installation, the shield must be terminated:",
+        "options": [
+          "At the drive end only, to avoid ground loops",
+          "At the motor end only, as the drive chassis provides the return path",
+          "At both ends with 360-degree clamp connections",
+          "Floating at both ends to prevent saturation of the RFI filter"
+        ],
+        "correct": 2,
+        "feedback": "Both ends of the motor cable shield must be terminated with a 360-degree clamp connection. Single-end termination significantly reduces shielding effectiveness and can cause interference problems."
+      },
+      {
+        "num": 5, "type": "MULTIPLE CHOICE",
+        "stem": "A 50 Hz ground current is circulating in the shield of a serial communication cable between a drive and a PLC. What is this phenomenon called?",
+        "options": ["Common-mode saturation", "Ground loop", "Differential-mode interference", "Shield induction"],
+        "correct": 1,
+        "feedback": "A ground loop occurs when a voltage potential difference exists between the chassis of two connected pieces of equipment, driving a 50 Hz current through the shield that couples into the signal."
+      },
+      {
+        "num": 6, "type": "MULTIPLE CHOICE",
+        "stem": "The primary EMC advantage of multi-point grounding over single-point grounding is:",
+        "options": [
+          "It eliminates the need for shielded motor cables",
+          "It prevents differential-mode noise from entering the circuit",
+          "It minimises the length and therefore the impedance of each ground connection",
+          "It ensures only one ground current path exists"
+        ],
+        "correct": 2,
+        "feedback": "Shorter ground connections have lower impedance, especially at high frequencies. Multi-point grounding keeps each connection short, which is essential for effective high-frequency potential equalisation."
+      },
+      {
+        "num": 7, "type": "MULTIPLE CHOICE",
+        "stem": "A du/dt filter is most effective in which installation scenario?",
+        "options": [
+          "A 690 V installation with a short motor cable and an older motor with poor insulation",
+          "A 400 V installation with a 200 metre motor cable and a modern inverter-rated motor",
+          "A regenerative drive with a long cable and high-power motor",
+          "Any installation where the drive operates in the field-weakening range"
+        ],
+        "correct": 0,
+        "feedback": "Du/dt filters are recommended with 690 V supply systems, old motors with poor insulation, and short motor cables. With long cables the cable itself reduces du/dt at the motor, making the filter less effective."
+      },
+      {
+        "num": 8, "type": "MULTIPLE CHOICE",
+        "stem": "Compared to a du/dt filter, a sine-wave filter:",
+        "options": [
+          "Is cheaper, easier to install, and allows shorter motor cables",
+          "Produces a sinusoidal output, eliminates voltage reflections and bearing currents, but introduces a 7\u201310% voltage drop",
+          "Only reduces common-mode current and has no effect on differential-mode voltage",
+          "Is only suitable for installations where motor current exceeds 100 A"
+        ],
+        "correct": 1,
+        "feedback": "A sine-wave filter produces a near-sinusoidal output voltage, eliminating all high-frequency harmonics, voltage reflections, and bearing currents. The trade-offs are higher cost and a 7\u201310% voltage drop across the filter."
+      },
+      {
+        "num": 9, "type": "MULTIPLE CHOICE",
+        "stem": "When installing common-mode filter cores on a motor cable, which conductors must pass through the cores?",
+        "options": [
+          "All three phase conductors and the PE conductor",
+          "The three phase conductors only \u2014 the PE must not pass through",
+          "The PE conductor only \u2014 the phase currents cancel and have no effect",
+          "All conductors including the cable shield"
+        ],
+        "correct": 1,
+        "feedback": "Only the three phase conductors pass through the cores. The PE (and shield) must not, because its current would cancel the common-mode flux created by the phase conductors, rendering the filter ineffective."
+      },
+      {
+        "num": 10, "type": "MULTIPLE CHOICE",
+        "stem": "EDM damage in motor bearings is caused by:",
+        "options": [
+          "Excessive bearing load from mechanical misalignment",
+          "High-frequency current flowing through the bearing lubricant film, causing repeated electrical discharges",
+          "Overheating of the bearing grease due to high switching frequency",
+          "Resonance between the motor inductance and the cable capacitance"
+        ],
+        "correct": 1,
+        "feedback": "EDM damage occurs when shaft voltage exceeds the breakdown voltage of the thin lubricant film (approximately 10 V across 0.5 \u03bcm). Each discharge melts a microscopic pit in the bearing metal."
+      },
+      {
+        "num": 11, "type": "MULTIPLE CHOICE",
+        "stem": "Electron microscope analysis of a failed motor bearing shows parallel trenches with no pitting. Despite correct EMC installation and common-mode filter cores being fitted, the bearing fails repeatedly. The most likely explanation is:",
+        "options": [
+          "The common-mode cores were installed at the motor terminal box instead of the drive",
+          "The motor cable is too long for the filter cores to be effective",
+          "The bearing failure has a mechanical root cause that must be addressed mechanically",
+          "The shaft grounding brush is not making good contact with the shaft"
+        ],
+        "correct": 2,
+        "feedback": "Parallel trenches without pitting indicate a mechanical root cause (such as axial overloading). Electrical mitigation measures extend bearing life but cannot fix a mechanical fault. The mechanical issue must be resolved first."
+      },
+      {
+        "num": 12, "type": "MULTIPLE CHOICE",
+        "stem": "In a high-power motor application where motor current exceeds 200 A, which additional factor contributes to shaft voltage independently of the drive's switching?",
+        "options": [
+          "Asymmetric motor cable construction",
+          "DC-link voltage ripple at twice the supply frequency",
+          "Ground loop currents at 50 Hz",
+          "Harmonic content of the motor current"
+        ],
+        "correct": 0,
+        "feedback": "At high motor currents, asymmetric motor cable construction creates an unbalanced magnetic field that contributes to shaft voltage independently of the drive's common-mode voltage. Symmetric motor cables are recommended to mitigate this."
+      },
+      {
+        "num": 13, "type": "MULTIPLE CHOICE",
+        "stem": "A variable speed drive rated at 5.5 kW is installed in a domestic building connected directly to the public 230 V / 400 V supply. Which EN/IEC 61800-3 category applies?",
+        "options": ["Category C1", "Category C2", "Category C3", "Category C4"],
+        "correct": 0,
+        "feedback": "Category C1 applies to drives connected to the public low-voltage supply in a first environment (residential, commercial, light industrial). It has the strictest emission limits to protect the wide range of sensitive equipment on the same supply."
+      },
+      {
+        "num": 14, "type": "MULTIPLE CHOICE",
+        "stem": "Under the European EMC Directive, a fixed installation of AC drives built permanently into a factory substation:",
+        "options": [
+          "Must carry the CE mark and a Declaration of Conformity",
+          "Is exempt from all EMC requirements",
+          "Is not CE marked, but must be built following good engineering practices and the EMC requirements of its components",
+          "Must comply with EN 61000-6-4 as a product standard"
+        ],
+        "correct": 2,
+        "feedback": "Fixed installations are not CE marked under the EMC Directive. Instead, they must be built following good engineering practice and respecting the EMC requirements stated in the documentation of the individual components used."
+      },
+      {
+        "num": 15, "type": "MULTIPLE CHOICE",
+        "stem": "A very large AC drive installation with motor currents exceeding 400 A falls under EN/IEC 61800-3 Category C4. No fixed emission limits apply. What is the mandatory requirement?",
+        "options": [
+          "Compliance with the generic standard EN 61000-6-4 instead",
+          "An installation-specific EMC plan",
+          "A Declaration of Conformity to EN 55011 Class A",
+          "CE marking of the complete installation"
+        ],
+        "correct": 1,
+        "feedback": "Category C4 installations have no fixed emission limits. Instead, an installation-specific EMC plan is mandatory. This plan documents the emission sources, their characteristics, and the measures taken to control interference."
+      },
+      {
+        "num": 16, "type": "MULTIPLE CHOICE",
+        "stem": "46 CFR \u00a7143.570(f) states that a towing vessel's hull may not carry current as a conductor. In the context of a variable speed drive installation, this regulation is relevant because:",
+        "options": [
+          "Common-mode current escaping via the propeller shaft and seawater to the hull creates electrolytic corrosion and a regulatory violation",
+          "The hull must be connected to the drive chassis as a safety ground",
+          "Drive output cables may not be routed inside the hull below the waterline",
+          "The hull capacitance reduces the effectiveness of the RFI filter on long motor cables"
+        ],
+        "correct": 0,
+        "feedback": "Common-mode current that finds its return path through the propeller shaft, seawater, and hull violates \u00a7143.570(f) and creates an electrolytic cell that corrodes underwater metals. Proper shield termination and shaft grounding brushes prevent this current path."
+      },
+      {
+        "num": 17, "type": "MULTIPLE CHOICE",
+        "stem": "A variable speed drive's RFI filter includes Y-capacitors connecting each line to the chassis ground. When this drive is installed on a metallic Subchapter M towing vessel with an ungrounded (IT) distribution system, the Y-capacitors will:",
+        "options": [
+          "Provide a beneficial earth reference that stabilises the drive output voltage",
+          "Have no effect because the vessel hull is not connected to the electrical neutral",
+          "Create a leakage current path that can interfere with the vessel's required ground-fault detection system",
+          "Reduce common-mode current in the motor cable by providing a low-impedance return path"
+        ],
+        "correct": 2,
+        "feedback": "Y-capacitors in an RFI filter connect line to chassis (which is bonded to hull on a metallic vessel), creating capacitive leakage paths. On an IT system with ground-fault detection, these leakage paths load the detector and can mask real faults. A Y-cap bypass switch or isolation transformer is needed."
+      },
+      {
+        "num": 18, "type": "MULTIPLE CHOICE",
+        "stem": "An e-frac mobile pumping unit uses four variable speed drives rated at 3\u00a0MW each, powered by dedicated diesel generators. The most critical EMC concern that does not exist in a utility-connected industrial installation is:",
+        "options": [
+          "Radiated emissions from the motor cables interfering with oilfield radio communications",
+          "Harmonic currents from the drives recirculating in the isolated generator system, with no utility grid to absorb them",
+          "Common-mode currents exceeding the limits set by the European EMC Directive",
+          "Ground-fault current returning through the trailer frame instead of the cable shield"
+        ],
+        "correct": 1,
+        "feedback": "On an e-frac unit, the generators are the only power source. Unlike a utility-connected installation where the grid absorbs harmonic currents, on e-frac all harmonic distortion from the drives recirculates within the local generation and distribution system. This can cause overheating, resonance, and voltage distortion that are not present in grid-connected applications. IEEE 519 harmonic limits at the generator terminals are critical."
+      }
+    ]
+  }
+}

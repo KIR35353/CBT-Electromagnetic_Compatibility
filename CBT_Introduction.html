@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electromagnetic Compatibility for AC Drive Systems &mdash; Introduction | Kirby Corporation</title>
+
+<style>
+/* ═══════════════════════════════════════════════════════
+   KIRBY CORPORATION BRAND PALETTE
+═══════════════════════════════════════════════════════ */
+:root {
+  --k-navy:         #002060;
+  --k-navy-mid:     #1a3a6e;
+  --k-navy-light:   #274d8a;
+  --k-blue:         #1d5fa8;
+  --k-steel:        #3d7fbd;
+  --k-steel-lt:     #80b4dc;
+  --k-orange:       #cc3d00;
+  --k-orange-lt:    #e06828;
+  --k-orange-glow:  rgba(204,61,0,0.28);
+  --k-white:        #ffffff;
+  --k-offwhite:     #f3f6fb;
+  --k-mid:          #dce7f5;
+  --k-text-dark:    #0d1d33;
+  --k-muted:        #6a7d94;
+  --k-border:       rgba(255,255,255,0.13);
+  --r:              10px;
+  --t:              0.38s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--k-navy);
+}
+
+body {
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  color: var(--k-white);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ─────────────────────────────────────────────────────
+   HEADER
+───────────────────────────────────────────────────── */
+header {
+  flex-shrink: 0;
+  background: #001245;
+  border-bottom: 3px solid var(--k-orange);
+  padding: 9px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hdr-left { display: flex; align-items: center; gap: 14px; }
+.hdr-logo { height: 36px; opacity: 0.93; }
+.hdr-titles { line-height: 1.3; }
+.hdr-id {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--k-orange-lt);
+}
+.hdr-course { font-size: 12.5px; font-weight: 600; color: var(--k-white); }
+
+.hdr-right { display: flex; align-items: center; gap: 12px; }
+.dots { display: flex; gap: 9px; }
+.dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--k-steel); background: transparent;
+  cursor: pointer; padding: 0;
+  transition: background var(--t), border-color var(--t), transform 0.2s;
+}
+.dot:hover { border-color: var(--k-steel-lt); }
+.dot.visited { background: var(--k-steel); border-color: var(--k-steel-lt); }
+.dot.active  { background: var(--k-orange); border-color: var(--k-orange-lt); transform: scale(1.3); }
+.dot-counter { font-size: 11px; color: var(--k-muted); white-space: nowrap; }
+
+/* ─────────────────────────────────────────────────────
+   MAIN SCREEN AREA
+───────────────────────────────────────────────────── */
+.stage { flex: 1; overflow: hidden; position: relative; }
+
+.screen {
+  position: absolute; inset: 0;
+  padding: 22px 44px 18px;
+  display: none; flex-direction: column; gap: 14px;
+  opacity: 0; transition: opacity 0.35s ease;
+}
+.screen.active  { display: flex; }
+.screen.visible { opacity: 1; }
+
+.scrn-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.8px;
+  text-transform: uppercase; color: var(--k-orange-lt); opacity: 0.85;
+}
+.scrn-h1 { font-size: 27px; font-weight: 800; line-height: 1.15; color: var(--k-white); }
+.rule { width: 72px; height: 3px; background: var(--k-orange); border-radius: 2px; margin-top: 5px; }
+
+/* ═══════════════════════════════════════════════════════
+   INT-1  TITLE CARD
+═══════════════════════════════════════════════════════ */
+#s-int1 {
+  background: radial-gradient(ellipse at 30% 40%, #0a2860 0%, #001245 55%, #000c2a 100%);
+  align-items: center; justify-content: center; text-align: center; gap: 16px;
+}
+
+.int1-pre {
+  font-size: 11px; font-weight: 700; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--k-orange-lt); opacity: 0.8;
+}
+.int1-title {
+  font-size: 42px; font-weight: 900; line-height: 1.12;
+  color: var(--k-white); max-width: 700px; text-shadow: 0 2px 18px rgba(0,0,0,0.5);
+}
+.int1-divider { width: 64px; height: 4px; background: var(--k-orange); border-radius: 3px; margin: 2px auto; }
+.int1-sub { font-size: 16px; color: var(--k-steel-lt); max-width: 540px; line-height: 1.5; }
+.int1-badges { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+.badge {
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 20px; padding: 5px 16px; font-size: 11.5px; color: var(--k-steel-lt);
+}
+.int1-logo-br { position: absolute; bottom: 72px; right: 44px; height: 44px; opacity: 0.45; }
+
+.int1-play-btn {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--k-orange); color: var(--k-white);
+  border: none; border-radius: 50px; padding: 13px 32px;
+  font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: 0.3px;
+  box-shadow: 0 0 0 0 var(--k-orange-glow);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  animation: playPulse 2.2s ease-in-out infinite; position: relative;
+}
+.int1-play-btn:hover  { background: var(--k-orange-lt); transform: scale(1.04); animation: none; }
+.int1-play-btn:active { transform: scale(0.97); }
+.int1-play-btn.played {
+  background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.22);
+  color: var(--k-steel-lt); font-size: 13px; padding: 9px 22px; animation: none; box-shadow: none;
+}
+.int1-play-btn.played:hover { background: rgba(255,255,255,0.18); }
+@keyframes playPulse {
+  0%,100% { box-shadow: 0 0 0 0   rgba(204,61,0,0.5); }
+  50%      { box-shadow: 0 0 0 12px rgba(204,61,0,0);   }
+}
+
+.int1-nav-hint {
+  display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+  margin-top: 18px; padding: 14px 24px;
+  background: rgba(255,255,255,0.055); border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 12px; max-width: 560px;
+}
+.nhint { display: flex; align-items: center; gap: 9px; font-size: 12px; color: rgba(255,255,255,0.55); white-space: nowrap; }
+.nhint-key {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 6px; padding: 3px 9px; font-size: 11px; font-weight: 700;
+  color: var(--k-steel-lt); letter-spacing: 0.3px; min-width: 28px;
+}
+
+#s-int1::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 15%, rgba(255,255,255,0.2)  0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 55%, rgba(255,255,255,0.18) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 75%, rgba(255,255,255,0.15) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 85%, rgba(255,255,255,0.2)  0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   INT-2  WHO THIS IS FOR
+═══════════════════════════════════════════════════════ */
+#s-int2 { background: linear-gradient(160deg, #001a4a 0%, var(--k-navy) 100%); }
+
+.two-col { display: flex; gap: 22px; flex: 1; min-height: 0; }
+
+.svg-pane {
+  flex: 1.65; min-width: 0; overflow: hidden; border-radius: var(--r);
+  background: var(--k-offwhite); display: flex; align-items: center; justify-content: center;
+}
+.svg-pane img { width: 100%; height: 100%; object-fit: contain; }
+
+.info-col { flex: 1; display: flex; flex-direction: column; gap: 11px; min-width: 0; }
+
+.card {
+  background: rgba(255,255,255,0.055); border: 1px solid var(--k-border);
+  border-left: 4px solid var(--k-orange); border-radius: var(--r);
+  padding: 13px 15px; font-size: 13px; color: var(--k-steel-lt); line-height: 1.6;
+}
+.card strong { color: var(--k-white); }
+
+/* ═══════════════════════════════════════════════════════
+   INT-3  COURSE APPLICATION
+═══════════════════════════════════════════════════════ */
+#s-int3 { background: linear-gradient(160deg, #001a4a 0%, var(--k-navy) 100%); }
+#s-int3 .svg-pane { flex: 1.7; }
+
+.kp-list { display: flex; flex-direction: column; gap: 10px; }
+.kp { display: flex; gap: 10px; align-items: flex-start; }
+.kp-dot {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; margin-top: 2px;
+}
+.kp-dot.bl { background: var(--k-blue); }
+.kp-dot.or { background: var(--k-orange); }
+.kp-body { font-size: 13px; color: var(--k-steel-lt); line-height: 1.6; }
+.kp-body strong { color: var(--k-white); }
+.kp-body em { font-size: 11px; opacity: 0.7; }
+.no-grid {
+  background: var(--k-orange-glow); border: 1px solid var(--k-orange); border-radius: var(--r);
+  padding: 11px 14px; font-size: 13.5px; font-weight: 700; color: #ffaa7a; line-height: 1.45; margin-top: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   INT-4  LEARNING OBJECTIVES
+═══════════════════════════════════════════════════════ */
+#s-int4 { background: linear-gradient(160deg, #001a4a 0%, var(--k-navy) 100%); }
+
+.obj-prog-wrap { height: 4px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+.obj-prog-fill { height: 100%; width: 0%; background: var(--k-orange); border-radius: 3px; transition: width 0.5s ease; }
+
+.obj-grid {
+  flex: 1; display: grid; grid-template-columns: 1fr 1fr;
+  gap: 11px 22px; align-content: start; min-height: 0;
+}
+
+.obj {
+  display: flex; gap: 12px; align-items: flex-start;
+  opacity: 0; transform: translateY(10px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.obj.show { opacity: 1; transform: translateY(0); }
+
+.obj-n {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--k-orange); color: var(--k-white);
+  font-size: 14px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: box-shadow 0.3s;
+}
+.obj-n.pulse { animation: npulse 0.65s ease; }
+@keyframes npulse {
+  0%,100% { box-shadow: none; transform: scale(1); }
+  50%      { box-shadow: 0 0 0 5px var(--k-orange-glow); transform: scale(1.15); }
+}
+.obj-body { font-size: 13px; color: var(--k-steel-lt); line-height: 1.55; padding-top: 6px; }
+.obj-tag  { font-size: 10px; font-weight: 700; color: var(--k-orange-lt); letter-spacing: 0.4px; opacity: 0.8; margin-bottom: 2px; }
+
+/* ─────────────────────────────────────────────────────
+   VO BAR
+───────────────────────────────────────────────────── */
+.vo-bar {
+  flex-shrink: 0; background: rgba(0,0,0,0.38); border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 9px 28px; display: flex; align-items: center; gap: 14px; min-height: 54px;
+}
+.vo-mic {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--k-navy-mid); border: 2px solid var(--k-steel);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: border-color 0.25s, background 0.25s;
+}
+.vo-mic svg { width: 17px; height: 17px; fill: var(--k-steel-lt); transition: fill 0.25s; }
+.vo-bar.live .vo-mic { background: var(--k-orange-glow); border-color: var(--k-orange-lt); }
+.vo-bar.live .vo-mic svg { fill: var(--k-orange-lt); }
+.vo-text { flex: 1; overflow: hidden; }
+.vo-label-tag { font-size: 9px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--k-muted); margin-bottom: 2px; }
+.vo-caption { font-size: 12px; color: var(--k-muted); line-height: 1.45; font-style: italic; transition: color 0.25s; }
+.vo-bar.live .vo-caption { color: var(--k-white); }
+.wave { display: flex; gap: 2px; align-items: center; height: 18px; opacity: 0; transition: opacity 0.25s; }
+.vo-bar.live .wave { opacity: 1; }
+.wave span { display: block; width: 3px; border-radius: 2px; background: var(--k-orange-lt); animation: wv 0.75s ease-in-out infinite; }
+.wave span:nth-child(1) { height: 5px;  animation-delay: 0s;    }
+.wave span:nth-child(2) { height: 13px; animation-delay: 0.15s; }
+.wave span:nth-child(3) { height: 8px;  animation-delay: 0.05s; }
+.wave span:nth-child(4) { height: 16px; animation-delay: 0.2s;  }
+.wave span:nth-child(5) { height: 6px;  animation-delay: 0.1s;  }
+@keyframes wv { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(0.3); } }
+
+/* ─────────────────────────────────────────────────────
+   FOOTER NAV
+───────────────────────────────────────────────────── */
+footer {
+  flex-shrink: 0; background: #001245; border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 8px 28px; display: flex; align-items: center; justify-content: space-between;
+}
+.btn {
+  border: none; border-radius: 7px; padding: 7px 20px;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s, opacity 0.2s;
+}
+.btn:disabled { opacity: 0.32; cursor: default; }
+.btn-back { background: rgba(255,255,255,0.07); color: var(--k-steel-lt); }
+.btn-back:hover:not(:disabled) { background: rgba(255,255,255,0.14); }
+.btn-next { background: var(--k-orange); color: var(--k-white); }
+.btn-next:hover:not(:disabled) { background: var(--k-orange-lt); }
+.btn-replay {
+  background: transparent; color: var(--k-muted); font-size: 12px;
+  border: 1px solid rgba(255,255,255,0.14); border-radius: 7px; padding: 7px 14px;
+  cursor: pointer; transition: color 0.2s, border-color 0.2s;
+}
+.btn-replay:hover { color: var(--k-white); border-color: var(--k-steel); }
+.btn-pause {
+  flex-shrink: 0; background: transparent; color: var(--k-steel-lt);
+  font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 7px; padding: 7px 14px; cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, opacity 0.2s;
+}
+.btn-pause:hover:not(:disabled) { color: var(--k-white); border-color: var(--k-steel); }
+.btn-pause:disabled { opacity: 0.35; cursor: default; }
+.btn-pause.paused { color: var(--k-orange-lt); border-color: var(--k-orange-lt); }
+.ftr-centre { font-size: 11px; color: var(--k-muted); }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ════════════════════════════════════════════════ -->
+<header>
+  <div class="hdr-left">
+    <img src="kirbyflag_imagefile.png" alt="Kirby Corporation" class="hdr-logo">
+    <div class="hdr-titles">
+      <div class="hdr-id">KIR-EMC-001 &nbsp;&middot;&nbsp; Introduction</div>
+      <div class="hdr-course">Electromagnetic Compatibility for AC Drive Systems</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="dots" id="dots" role="tablist" aria-label="Course screens"></div>
+    <span class="dot-counter" id="dotCounter">Screen 1 of 4</span>
+  </div>
+</header>
+
+<!-- ═══ STAGE ═════════════════════════════════════════════════ -->
+<div class="stage">
+
+  <!-- ── INT-1: TITLE CARD ───────────────────────────────────
+       Edit INTRO_TITLE_HTML for the course title (may span two lines).
+       Edit the badges to reflect duration, section count, audience.
+  ─────────────────────────────────────────────────────────── -->
+  <div class="screen active" id="s-int1" role="tabpanel" aria-label="INT-1 Title Card">
+
+    <div class="int1-pre">Introduction</div>
+    <div class="int1-title">Electromagnetic<br>Compatibility</div>
+    <div class="int1-divider"></div>
+    <div class="int1-sub">EMC Principles and Practice for AC Drive Systems</div>
+    <div class="int1-badges">
+      <span class="badge">&#x23f1; 60-minute course</span>
+      <span class="badge">6 Sections + Final Exam</span>
+      <span class="badge">For: Marine Vessel Designers & Mobile Equipment Engineers</span>
+    </div>
+
+    <button class="int1-play-btn" id="int1PlayBtn" aria-label="Play introduction narration">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      Play Introduction
+    </button>
+
+    <div class="int1-nav-hint" role="note" aria-label="Navigation instructions">
+      <div class="nhint"><span class="nhint-key">&#x2192;</span> Next screen</div>
+      <div class="nhint"><span class="nhint-key">&#x2190;</span> Previous screen</div>
+      <div class="nhint"><span class="nhint-key">Space</span> Replay narration</div>
+      <div class="nhint"><span class="nhint-key">&#x25cf;</span> Jump to any screen</div>
+    </div>
+
+    <img src="kirbyflag_imagefile.png" alt="Kirby Industrial Resources" class="int1-logo-br">
+  </div>
+
+  <!-- ── INT-2: WHO THIS COURSE IS FOR ───────────────────────
+       Replace svg src with a relevant infographic for this course.
+       Edit the card text to describe the target audience.
+  ─────────────────────────────────────────────────────────── -->
+  <div class="screen" id="s-int2" role="tabpanel" aria-label="INT-2 Who This Course Is For">
+
+    <span class="scrn-eyebrow">Introduction &middot; Screen 2 of 4</span>
+    <div>
+      <div class="scrn-h1">Who This Course Is For</div>
+      <div class="rule"></div>
+    </div>
+
+    <div class="two-col">
+      <div class="svg-pane">
+        <svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif" width="100%" height="100%">
+          <!-- Background -->
+          <rect width="420" height="300" rx="8" fill="#e8eef8"/>
+          <!-- Divider -->
+          <line x1="210" y1="16" x2="210" y2="284" stroke="#b0c4dc" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <!-- Centre label -->
+          <rect x="174" y="134" width="72" height="32" rx="16" fill="#002060"/>
+          <text x="210" y="154" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">AUDIENCE</text>
+
+          <!-- LEFT: Marine -->
+          <text x="105" y="38" text-anchor="middle" font-size="11" font-weight="bold" fill="#002060">MARINE</text>
+          <text x="105" y="52" text-anchor="middle" font-size="9" fill="#445577">USCG Subchapter M</text>
+          <!-- Vessel silhouette -->
+          <rect x="54" y="68" width="102" height="28" rx="4" fill="#1d5fa8" opacity="0.85"/>
+          <polygon points="54,68 80,52 130,52 156,68" fill="#1d5fa8" opacity="0.7"/>
+          <rect x="84" y="52" width="18" height="18" rx="2" fill="#3d7fbd"/>
+          <text x="105" y="86" text-anchor="middle" font-size="8" fill="#fff" font-weight="bold">TOWBOAT</text>
+          <!-- Audience cards -->
+          <rect x="28" y="108" width="154" height="34" rx="5" fill="#fff" stroke="#b0c4dc" stroke-width="1"/>
+          <text x="40" y="122" font-size="8.5" fill="#002060" font-weight="bold">&#x2022; Vessel electrical designers</text>
+          <text x="40" y="135" font-size="8.5" fill="#334466">&#x2022; Marine systems engineers</text>
+          <rect x="28" y="150" width="154" height="34" rx="5" fill="#fff" stroke="#b0c4dc" stroke-width="1"/>
+          <text x="40" y="164" font-size="8.5" fill="#002060" font-weight="bold">&#x2022; Drive system integrators</text>
+          <text x="40" y="177" font-size="8.5" fill="#334466">&#x2022; USCG inspection support</text>
+          <rect x="28" y="192" width="154" height="46" rx="5" fill="#dce8f8" stroke="#1d5fa8" stroke-width="1"/>
+          <text x="40" y="206" font-size="8" fill="#1a3660" font-weight="bold">Key regulation:</text>
+          <text x="40" y="218" font-size="8" fill="#334466">46 CFR Part 143</text>
+          <text x="40" y="230" font-size="8" fill="#334466">Subchapter M Towing Vessels</text>
+
+          <!-- RIGHT: E-Frac -->
+          <text x="315" y="38" text-anchor="middle" font-size="11" font-weight="bold" fill="#7a3000">E-FRAC</text>
+          <text x="315" y="52" text-anchor="middle" font-size="9" fill="#445577">Mobile Electric Fracturing</text>
+          <!-- Trailer silhouette -->
+          <rect x="258" y="64" width="114" height="22" rx="3" fill="#cc6820" opacity="0.85"/>
+          <rect x="268" y="56" width="70" height="12" rx="2" fill="#e07030" opacity="0.8"/>
+          <circle cx="272" cy="88" r="6" fill="#334466"/>
+          <circle cx="358" cy="88" r="6" fill="#334466"/>
+          <text x="315" y="78" text-anchor="middle" font-size="8" fill="#fff" font-weight="bold">VFD TRAILER</text>
+          <!-- Audience cards -->
+          <rect x="238" y="108" width="154" height="34" rx="5" fill="#fff" stroke="#b0c4dc" stroke-width="1"/>
+          <text x="250" y="122" font-size="8.5" fill="#7a3000" font-weight="bold">&#x2022; E-frac equipment engineers</text>
+          <text x="250" y="135" font-size="8.5" fill="#334466">&#x2022; VFD installation teams</text>
+          <rect x="238" y="150" width="154" height="34" rx="5" fill="#fff" stroke="#b0c4dc" stroke-width="1"/>
+          <text x="250" y="164" font-size="8.5" fill="#7a3000" font-weight="bold">&#x2022; Wellsite commissioning</text>
+          <text x="250" y="177" font-size="8.5" fill="#334466">&#x2022; HSE / operations leads</text>
+          <rect x="238" y="192" width="154" height="46" rx="5" fill="#fdecd8" stroke="#cc6820" stroke-width="1"/>
+          <text x="250" y="206" font-size="8" fill="#7a3000" font-weight="bold">Key standard:</text>
+          <text x="250" y="218" font-size="8" fill="#334466">IEEE 519 + FCC Part 15</text>
+          <text x="250" y="230" font-size="8" fill="#334466">IEC 60068 environmental</text>
+
+          <!-- Bottom note -->
+          <rect x="20" y="252" width="380" height="34" rx="5" fill="#002060"/>
+          <text x="210" y="266" text-anchor="middle" font-size="9" fill="#88aacc" font-weight="bold">Principles apply to any safety-critical VSD installation</text>
+          <text x="210" y="279" text-anchor="middle" font-size="8.5" fill="#c8d8f0">Marine &#x2022; Offshore &#x2022; Mobile industrial &#x2022; Process critical</text>
+        </svg>
+      </div>
+      <div class="info-col">
+                <div class="card" style="border-left-color:var(--k-orange);">
+          This course supports <strong>marine vessel designers, mobile equipment engineers, and drive system integrators</strong> involved with AC drive specification, installation, and commissioning in safety-critical applications.
+        </div>        <div class="card" style="border-left-color:var(--k-orange);">
+          Applications focus on <strong>USCG Subchapter M towing vessels</strong> (inland waterways) and <strong>mobile electric fracturing (e-frac) equipment</strong> — where drive faults are not merely operational events but safety emergencies.
+        </div>        <div class="card" style="border-left-color:var(--k-steel);">
+          A sound understanding of EMC enables <strong>correct installation decisions</strong> for these environments: hull corrosion prevention, ungrounded distribution system compatibility, and regulatory compliance under 46 CFR Subchapter M and NEC.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── INT-3: COURSE APPLICATION ───────────────────────────
+       Replace svg src and kp-list content for this course's application context.
+  ─────────────────────────────────────────────────────────── -->
+  <div class="screen" id="s-int3" role="tabpanel" aria-label="INT-3 Course Application">
+
+    <span class="scrn-eyebrow">Introduction &middot; Screen 3 of 4</span>
+    <div>
+      <div class="scrn-h1">Course Application</div>
+      <div class="rule"></div>
+    </div>
+
+    <div class="two-col">
+      <div class="svg-pane">
+        <svg viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif" width="100%" height="100%">
+          <defs>
+            <marker id="arw" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0,6 3,0 6" fill="#cc6820"/></marker>
+            <marker id="arwb" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0,6 3,0 6" fill="#1d5fa8"/></marker>
+          </defs>
+          <rect width="460" height="300" rx="8" fill="#0d1e40"/>
+          <!-- Title -->
+          <text x="230" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#88aacc" letter-spacing="0.5">AC DRIVE SYSTEM — EMC PROBLEM SOURCES</text>
+
+          <!-- SUPPLY block -->
+          <rect x="10" y="110" width="60" height="44" rx="4" fill="#1a3660" stroke="#3d7fbd" stroke-width="1.5"/>
+          <text x="40" y="129" text-anchor="middle" font-size="8" fill="#88aacc" font-weight="bold">SUPPLY</text>
+          <text x="40" y="141" text-anchor="middle" font-size="7.5" fill="#6688aa">3-phase</text>
+          <text x="40" y="152" text-anchor="middle" font-size="7.5" fill="#6688aa">400 V</text>
+
+          <!-- DRIVE block -->
+          <rect x="96" y="88" width="88" height="88" rx="5" fill="#002060" stroke="#3d7fbd" stroke-width="2"/>
+          <text x="140" y="116" text-anchor="middle" font-size="9" font-weight="bold" fill="#fff">AC DRIVE</text>
+          <text x="140" y="129" text-anchor="middle" font-size="8" fill="#88aacc">Rectifier</text>
+          <text x="140" y="141" text-anchor="middle" font-size="8" fill="#88aacc">DC Bus</text>
+          <text x="140" y="153" text-anchor="middle" font-size="8" fill="#88aacc">Inverter</text>
+          <text x="140" y="165" text-anchor="middle" font-size="7" fill="#3d7fbd">PWM switching</text>
+
+          <!-- Supply line -->
+          <line x1="70" y1="132" x2="96" y2="132" stroke="#3d7fbd" stroke-width="2" marker-end="url(#arwb)"/>
+
+          <!-- EMC FILTER block -->
+          <rect x="204" y="104" width="70" height="56" rx="4" fill="#1a4020" stroke="#2a8040" stroke-width="1.5"/>
+          <text x="239" y="124" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#88cc99">EMC</text>
+          <text x="239" y="136" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#88cc99">FILTER</text>
+          <text x="239" y="149" text-anchor="middle" font-size="7.5" fill="#66aa77">du/dt / sine</text>
+          <text x="239" y="160" text-anchor="middle" font-size="7.5" fill="#66aa77">wave / CM</text>
+          <line x1="184" y1="132" x2="204" y2="132" stroke="#cc6820" stroke-width="2" marker-end="url(#arw)"/>
+
+          <!-- CABLE block -->
+          <rect x="294" y="112" width="70" height="40" rx="4" fill="#1a2840" stroke="#3d7fbd" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <text x="329" y="128" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#80b4dc">SHIELDED</text>
+          <text x="329" y="140" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#80b4dc">CABLE</text>
+          <text x="329" y="150" text-anchor="middle" font-size="7" fill="#5588aa">360° glands</text>
+          <line x1="274" y1="132" x2="294" y2="132" stroke="#cc6820" stroke-width="2" marker-end="url(#arw)"/>
+
+          <!-- MOTOR block -->
+          <ellipse cx="420" cy="132" rx="30" ry="38" fill="#1a3660" stroke="#3d7fbd" stroke-width="2"/>
+          <text x="420" y="128" text-anchor="middle" font-size="9" font-weight="bold" fill="#fff">M</text>
+          <text x="420" y="141" text-anchor="middle" font-size="7.5" fill="#88aacc">Motor</text>
+          <text x="420" y="152" text-anchor="middle" font-size="7" fill="#5588aa">Bearing</text>
+          <line x1="364" y1="132" x2="390" y2="132" stroke="#cc6820" stroke-width="2" marker-end="url(#arw)"/>
+
+          <!-- CM current path annotation -->
+          <path d="M140,176 Q140,210 240,218 Q340,225 420,180" stroke="#cc3d00" stroke-width="1.5" fill="none" stroke-dasharray="4,2" marker-end="url(#arw)"/>
+          <text x="272" y="230" text-anchor="middle" font-size="8" fill="#cc8888">CM current return path</text>
+
+          <!-- PE/ground -->
+          <line x1="140" y1="176" x2="140" y2="196" stroke="#888" stroke-width="1.5"/>
+          <line x1="125" y1="196" x2="155" y2="196" stroke="#888" stroke-width="2"/>
+          <line x1="130" y1="200" x2="150" y2="200" stroke="#888" stroke-width="1.5"/>
+          <line x1="135" y1="204" x2="145" y2="204" stroke="#888" stroke-width="1"/>
+          <text x="162" y="200" font-size="7.5" fill="#6688aa">PE / hull</text>
+
+          <!-- Problem labels -->
+          <rect x="10" y="42" width="130" height="28" rx="4" fill="#3d0000" opacity="0.8"/>
+          <text x="75" y="55" text-anchor="middle" font-size="8" fill="#ffaaaa" font-weight="bold">&#9888; Harmonics back to supply</text>
+          <text x="75" y="66" text-anchor="middle" font-size="7.5" fill="#dd8888">IEEE 519 / 46 CFR §143.575</text>
+          <line x1="140" y1="88" x2="100" y2="70" stroke="#cc3d00" stroke-width="1" stroke-dasharray="3,2"/>
+
+          <rect x="160" y="42" width="140" height="28" rx="4" fill="#002820" opacity="0.8"/>
+          <text x="230" y="55" text-anchor="middle" font-size="8" fill="#88ffcc" font-weight="bold">&#10003; Filter attenuates CM noise</text>
+          <text x="230" y="66" text-anchor="middle" font-size="7.5" fill="#66ccaa">du/dt / sine-wave / CM cores</text>
+          <line x1="239" y1="104" x2="225" y2="70" stroke="#2a8040" stroke-width="1" stroke-dasharray="3,2"/>
+
+          <rect x="310" y="42" width="140" height="28" rx="4" fill="#003060" opacity="0.8"/>
+          <text x="380" y="55" text-anchor="middle" font-size="8" fill="#aaccff" font-weight="bold">&#9632; 360° shield termination</text>
+          <text x="380" y="66" text-anchor="middle" font-size="7.5" fill="#88aadd">Both ends — no pigtails</text>
+          <line x1="360" y1="112" x2="370" y2="70" stroke="#3d7fbd" stroke-width="1" stroke-dasharray="3,2"/>
+
+          <!-- Bearing EDM label -->
+          <rect x="370" y="182" width="80" height="28" rx="4" fill="#3d1000" opacity="0.8"/>
+          <text x="410" y="195" text-anchor="middle" font-size="8" fill="#ffaaaa" font-weight="bold">&#9888; EDM risk</text>
+          <text x="410" y="206" text-anchor="middle" font-size="7.5" fill="#dd8888">bearings &gt;75 kW</text>
+
+          <!-- Marine / E-frac context bar -->
+          <rect x="10" y="252" width="218" height="36" rx="4" fill="#0a1f50" stroke="#1d5fa8" stroke-width="1"/>
+          <text x="119" y="265" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#80b4dc">&#x26F4; MARINE — TOWBOAT</text>
+          <text x="119" y="279" text-anchor="middle" font-size="7.5" fill="#5588aa">46 CFR §143 &#x2022; IEC 60533 &#x2022; IT system</text>
+          <rect x="236" y="252" width="214" height="36" rx="4" fill="#281000" stroke="#cc6820" stroke-width="1"/>
+          <text x="343" y="265" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#e07830">&#9881; E-FRAC MOBILE</text>
+          <text x="343" y="279" text-anchor="middle" font-size="7.5" fill="#aa6030">IEEE 519 &#x2022; FCC Part 15 &#x2022; IEC 60068</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="kp-list">
+                    <div class="kp">
+            <div class="kp-dot bl">&#x25C9;</div>
+            <div class="kp-body"><strong>Primary contexts:</strong><br>Subchapter M inland towboats (USCG-inspected) and mobile electric fracturing equipment — applications where drive reliability directly determines vessel safety and well-site safety.</div>
+          </div>          <div class="kp">
+            <div class="kp-dot bl">&#x25C9;</div>
+            <div class="kp-body"><strong>Applicable frameworks:</strong><br>46 CFR Part 143 (machinery &amp; electrical), ABYC E-11, ABS Rivers &amp; Intracoastal Rules, IEC 60533, NFPA 70 NEC, IEEE 519.</div>
+          </div>          <div class="kp">
+            <div class="kp-dot bl">&#x25C9;</div>
+            <div class="kp-body"><strong>Source material:</strong><br>Danfoss <em>Motor and Drive Text</em>, Chapter 6 — Electromagnetic Compatibility.<br><em>Principles apply across all major drive manufacturers.</em></div>
+          </div>          <div class="no-grid">&#9889; On a towing vessel or e-frac unit, drive EMC failures affect navigation safety, hull integrity, and well-site operations.</div>          <div class="kp" style="margin-top:6px;">
+            <div class="kp-dot or">!</div>
+            <div class="kp-body">Every installation decision — cable type, grounding strategy, filter selection — either manages or worsens the EMC behaviour of the system.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── INT-4: LEARNING OBJECTIVES ──────────────────────────
+       
+      <div class="obj" id="obj-1">
+        <div class="obj-n" id="on-1">1</div>
+        <div>
+          <div class="obj-tag">Section 1</div>
+          <div class="obj-body">Explain the concepts of EMI and EMC, and identify the four interference coupling mechanisms.</div>
+        </div>
+      </div>
+      <div class="obj" id="obj-2">
+        <div class="obj-n" id="on-2">2</div>
+        <div>
+          <div class="obj-tag">Section 2</div>
+          <div class="obj-body">Apply correct grounding and shielding techniques, including proper 360° shield termination and ground-loop prevention.</div>
+        </div>
+      </div>
+      <div class="obj" id="obj-3">
+        <div class="obj-n" id="on-3">3</div>
+        <div>
+          <div class="obj-tag">Section 3</div>
+          <div class="obj-body">Select appropriate output filters (du/dt, sine-wave, common-mode) based on application requirements.</div>
+        </div>
+      </div>
+      <div class="obj" id="obj-4">
+        <div class="obj-n" id="on-4">4</div>
+        <div>
+          <div class="obj-tag">Section 4</div>
+          <div class="obj-body">Identify the causes of electrical bearing stress (EDM) and apply the relevant mechanical and electrical mitigation measures.</div>
+        </div>
+      </div>
+      <div class="obj" id="obj-5">
+        <div class="obj-n" id="on-5">5</div>
+        <div>
+          <div class="obj-tag">Section 5</div>
+          <div class="obj-body">Identify applicable EMC standards for US marine and oilfield applications, including 46 CFR §143.575, IEC 60533, and the ABS Rivers and Intracoastal Waterways rules.</div>
+        </div>
+      </div>
+      <div class="obj" id="obj-6">
+        <div class="obj-n" id="on-6">6</div>
+        <div>
+          <div class="obj-tag">Section 6</div>
+          <div class="obj-body">Apply marine and mobile specific design requirements: IT system compatibility, stray current corrosion prevention, and drive fault response planning.</div>
+        </div>
+      </div> is injected by the builder as a series of
+       <div class="obj" id="obj-N"> blocks inside .obj-grid.
+       The revealAt[] array in SCREENS[3] must align with the order here.
+       OBJ_COUNT must equal the number of objective items.
+  ─────────────────────────────────────────────────────────── -->
+  <div class="screen" id="s-int4" role="tabpanel" aria-label="INT-4 Learning Objectives">
+
+    <span class="scrn-eyebrow">Introduction &middot; Screen 4 of 4</span>
+    <div>
+      <div class="scrn-h1">Learning Objectives</div>
+      <div class="rule"></div>
+    </div>
+
+    <div class="obj-prog-wrap">
+      <div class="obj-prog-fill" id="objFill"></div>
+    </div>
+
+    <div class="obj-grid">
+      
+      <div class="obj" id="obj-1">
+        <div class="obj-n" id="on-1">1</div>
+        <div>
+          <div class="obj-tag">Section 1</div>
+          <div class="obj-body">Explain the concepts of EMI and EMC, and identify the four interference coupling mechanisms.</div>
+        </div>
+      </div>
+      <div class="obj" id="obj-2">
+        <div class="obj-n" id="on-2">2</div>
+        <div>
+          <div class="obj-tag">Section 2</div>
+          <div class="obj-body">Apply correct grounding and shielding techniques, including proper 360° shield termination and ground-loop prevention.</div>
+        </div>
+      </div>
+      <div class="obj" id="obj-3">
+        <div class="obj-n" id="on-3">3</div>
+        <div>
+          <div class="obj-tag">Section 3</div>
+          <div class="obj-body">Select appropriate output filters (du/dt, sine-wave, common-mode) based on application requirements.</div>
+        </div>
+      </div>
+      <div class="obj" id="obj-4">
+        <div class="obj-n" id="on-4">4</div>
+        <div>
+          <div class="obj-tag">Section 4</div>
+          <div class="obj-body">Identify the causes of electrical bearing stress (EDM) and apply the relevant mechanical and electrical mitigation measures.</div>
+        </div>
+      </div>
+      <div class="obj" id="obj-5">
+        <div class="obj-n" id="on-5">5</div>
+        <div>
+          <div class="obj-tag">Section 5</div>
+          <div class="obj-body">Identify applicable EMC standards for US marine and oilfield applications, including 46 CFR §143.575, IEC 60533, and the ABS Rivers and Intracoastal Waterways rules.</div>
+        </div>
+      </div>
+      <div class="obj" id="obj-6">
+        <div class="obj-n" id="on-6">6</div>
+        <div>
+          <div class="obj-tag">Section 6</div>
+          <div class="obj-body">Apply marine and mobile specific design requirements: IT system compatibility, stray current corrosion prevention, and drive fault response planning.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /stage -->
+
+<!-- ═══ VO BAR ════════════════════════════════════════════════ -->
+<div class="vo-bar" id="voBar">
+  <div class="vo-mic" id="voMic">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 1a4 4 0 014 4v6a4 4 0 01-8 0V5a4 4 0 014-4zm-1.5 14.93A8.001 8.001 0 0120 10.5a.75.75 0 011.5 0 8 8 0 01-7.25 7.95V21h2.5a.75.75 0 010 1.5h-6.5a.75.75 0 010-1.5H12.75v-2.57A8.001 8.001 0 014 10.5a.75.75 0 011.5 0 6.5 6.5 0 005 6.34V18a2 2 0 002 0v-1.07z"/>
+    </svg>
+  </div>
+  <div class="vo-text">
+    <div class="vo-label-tag">Narration &nbsp;&middot;&nbsp; Google UK English Female</div>
+    <div class="vo-caption" id="voCaption">Click Play to start narration, or press the Space bar.</div>
+  </div>
+  <div class="wave" id="wave" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <button class="btn-pause" id="btnPause" aria-label="Pause narration" disabled>&#9646;&#9646; Pause</button>
+</div>
+
+<!-- ═══ FOOTER NAV ════════════════════════════════════════════ -->
+<footer>
+  <button class="btn btn-back" id="btnBack" disabled>&#8592; Back</button>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <button class="btn-replay" id="btnReplay" aria-label="Replay narration">&#8635; Replay VO</button>
+    <span class="ftr-centre" id="ftrLabel">Introduction &nbsp;&middot;&nbsp; 3 minutes</span>
+  </div>
+  <button class="btn btn-next" id="btnNext">Begin Course &#9658;</button>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════════ -->
+<script>
+/* ── SCREENS ARRAY ────────────────────────────────────────────
+   Four screens for the intro: INT-1 title, INT-2 audience,
+   INT-3 application, INT-4 objectives.
+   INT-4 (index 3) uses vo[] array + revealAt[]:
+     vo[i]       — utterance text for segment i
+     revealAt[i] — objective number (1-based) to reveal before speaking vi
+                   (null = no reveal for that segment)
+   INT-1 through INT-3 use vo[0] only (single-utterance screens).
+─────────────────────────────────────────────────────────── */
+const SCREENS = [
+  {
+    id:    's-int1',
+    label: 'Title Card',
+    vo:    ['Welcome to this course on electromagnetic compatibility for AC drive systems. We\'ll cover why AC drives are potential sources of interference, how to control that interference through correct installation, and how to meet the compliance requirements of the EMC Directive. Use the Play button to start the voiceover on each screen. Navigate forward and back with the arrow buttons. You must pass each section quiz before moving on. Let\'s get started.']
+  },
+  {
+    id:    's-int2',
+    label: 'Who This Course Is For',
+    vo:    ['This course is for engineers who design towing vessels regulated under USCG Subchapter M, mobile electric fracturing equipment, and other applications where AC drive reliability directly affects safety. If you specify drives for propulsion, pumping, or dynamic positioning, need to understand why EMI matters beyond the factory floor, or are responsible for ensuring drive installations meet USCG or NEC requirements, this course is for you.']
+  },
+  {
+    id:    's-int3',
+    label: 'Course Application',
+    vo:    ['Throughout this course, our two primary reference contexts are the AC drive systems found on inland towboats — vessels regulated under 46 CFR Subchapter M — and the large variable speed drives used on mobile electric fracturing equipment. In both cases, a drive fault is not a production nuisance — it is a safety event. Loss of propulsion control on a towboat pushing tank barges can lead to allision or grounding. A drive trip on an e-frac unit can trigger wellbore instability. Every EMC principle we cover connects directly to reliability and safety in those environments.']
+  },
+  {
+    id:       's-int4',
+    label:    'Learning Objectives',
+    vo: [
+      'By the end of this course, you will be able to achieve the following five learning objectives.',
+      'One. Explain the concepts of EMI and EMC, and identify the four interference coupling mechanisms.',
+      'Two. Apply correct grounding and shielding techniques, including proper cable shield termination.',
+      'Three. Select appropriate output filters — du/dt, sine-wave, or common-mode — based on application requirements.',
+      'Four. Identify the causes of electrical bearing stress and apply the relevant mitigation measures.',
+      'Five. Classify an AC drive installation against the EN/IEC 61800-3 C1 to C4 categories and identify the applicable EMC standards.',
+      'These five objectives cover everything you need to make sound EMC decisions on a real drive installation.'
+    ],
+    revealAt: [null, 1, 2, 3, 4, 5, null]
+  }
+];
+
+let cur        = 0;
+let voiceUK    = null;
+let speaking   = false;
+let voPaused   = false;
+let voSeqIdx   = 0;
+let voSeqAbort = false;
+let curVoText  = '';
+let curVoOnEnd = null;
+let hasGestured = false;
+
+const synth = window.speechSynthesis;
+
+function loadVoice() {
+  const v = synth.getVoices();
+  voiceUK =
+    v.find(x => x.name === 'Google UK English Female') ||
+    v.find(x => x.lang === 'en-GB' && /female/i.test(x.name)) ||
+    v.find(x => x.lang === 'en-GB') ||
+    v.find(x => /en.gb/i.test(x.lang)) ||
+    v.find(x => x.lang.startsWith('en'));
+}
+loadVoice();
+if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = loadVoice;
+}
+
+function speakOne(text, onEnd) {
+  synth.cancel();
+  curVoText  = text;
+  curVoOnEnd = onEnd || null;
+  const segments = text.split('[PAUSE]').map(s => s.trim()).filter(s => s.length > 0);
+  function speakSegment(i) {
+    if (i >= segments.length) { setLive(false); if (onEnd) onEnd(); return; }
+    const u = new SpeechSynthesisUtterance(segments[i]);
+    if (voiceUK) u.voice = voiceUK;
+    u.lang = 'en-GB'; u.rate = 0.93; u.pitch = 1.0; u.volume = 1.0;
+    if (i === 0) u.onstart = () => setLive(true, text);
+    u.onend = () => { if (i < segments.length - 1) { setTimeout(() => speakSegment(i + 1), 700); } else { setLive(false); if (onEnd) onEnd(); } };
+    u.onerror = () => { setLive(false); if (onEnd) onEnd(); };
+    synth.speak(u);
+  }
+  speakSegment(0);
+}
+
+function setLive(on, text) {
+  speaking = on;
+  const bar = document.getElementById('voBar');
+  const cap = document.getElementById('voCaption');
+  if (on) { bar.classList.add('live'); cap.textContent = text || '\u2026'; }
+  else    { bar.classList.remove('live'); voPaused = false; }
+  updatePauseBtn();
+}
+
+function updatePauseBtn() {
+  const btn = document.getElementById('btnPause');
+  if (!btn) return;
+  if (voPaused) {
+    btn.textContent = '\u25b6 Resume'; btn.classList.add('paused'); btn.disabled = false;
+  } else if (synth.speaking) {
+    btn.textContent = '\u23f8 Pause'; btn.classList.remove('paused'); btn.disabled = false;
+  } else {
+    btn.textContent = '\u23f8 Pause'; btn.classList.remove('paused'); btn.disabled = true;
+  }
+}
+
+function pauseResume() {
+  if (voPaused) {
+    speakOne(curVoText, curVoOnEnd);
+  } else if (synth.speaking) {
+    synth.pause(); voPaused = true;
+    document.getElementById('voBar').classList.remove('live');
+    updatePauseBtn();
+  }
+}
+
+function playVO(screenIdx, isReplay) {
+  voSeqAbort = true;
+  synth.cancel();
+  speaking = false; voPaused = false;
+  updatePauseBtn();
+  const scr = SCREENS[screenIdx];
+  if (screenIdx !== 3) {
+    setTimeout(() => { voSeqAbort = false; speakOne(scr.vo[0]); }, 60);
+  } else {
+    if (isReplay) resetObjectives();
+    voSeqIdx   = 0;
+    voSeqAbort = false;
+    setTimeout(() => runInt4Seq(scr), 60);
+  }
+}
+
+function runInt4Seq(scr) {
+  if (voSeqAbort || voSeqIdx >= scr.vo.length) return;
+  const idx     = voSeqIdx;
+  const text    = scr.vo[idx];
+  const revealN = scr.revealAt[idx];
+  if (revealN !== null && revealN !== undefined) {
+    revealObjective(revealN);
+    updateProgress(revealN);
+  }
+  speakOne(text, () => {
+    if (voSeqAbort) return;
+    voSeqIdx++;
+    setTimeout(() => runInt4Seq(scr), 300);
+  });
+}
+
+function revealObjective(n) {
+  const el = document.getElementById('obj-' + n);
+  const nn = document.getElementById('on-'  + n);
+  if (!el) return;
+  el.classList.add('show');
+  if (nn) { nn.classList.add('pulse'); setTimeout(() => nn.classList.remove('pulse'), 700); }
+}
+
+function resetObjectives() {
+  for (let i = 1; i <= 6; i++) {
+    const el = document.getElementById('obj-' + i);
+    if (el) el.classList.remove('show');
+  }
+  updateProgress(0);
+}
+
+function updateProgress(n) {
+  const f = document.getElementById('objFill');
+  if (f) f.style.width = (n / 6 * 100) + '%';
+}
+
+function buildDots() {
+  const c = document.getElementById('dots');
+  c.innerHTML = '';
+  SCREENS.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.className = 'dot' + (i === 0 ? ' active' : '');
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-label', 'Screen ' + (i + 1) + ': ' + s.label);
+    b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    b.addEventListener('click', () => goTo(i));
+    c.appendChild(b);
+  });
+}
+
+function goTo(idx) {
+  if (idx === cur) return;
+  voSeqAbort = true;
+  synth.cancel();
+  const outEl = document.getElementById(SCREENS[cur].id);
+  const inEl  = document.getElementById(SCREENS[idx].id);
+  outEl.classList.remove('visible');
+  setTimeout(() => {
+    outEl.classList.remove('active');
+    inEl.classList.add('active');
+    requestAnimationFrame(() => { requestAnimationFrame(() => { inEl.classList.add('visible'); }); });
+  }, 200);
+  cur = idx;
+  refreshNav();
+  if (idx !== 3) resetObjectives();
+  if (hasGestured) setTimeout(() => playVO(idx, false), 550);
+}
+
+function refreshNav() {
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.className = 'dot';
+    d.setAttribute('aria-selected', 'false');
+    if (i < cur) { d.classList.add('visited'); }
+    if (i === cur) { d.classList.add('active'); d.setAttribute('aria-selected', 'true'); }
+  });
+  document.getElementById('btnBack').disabled = (cur === 0);
+  const isLast  = (cur === SCREENS.length - 1);
+  const nextBtn = document.getElementById('btnNext');
+  nextBtn.disabled = false;
+  if (cur === 0)      { nextBtn.textContent = 'Begin Course \u25ba'; }
+  else if (isLast)    { nextBtn.textContent = 'Section 1 \u25b8'; }
+  else                { nextBtn.textContent = 'Next \u2192'; }
+  document.getElementById('dotCounter').textContent = 'Screen ' + (cur + 1) + ' of ' + SCREENS.length;
+  document.getElementById('ftrLabel').textContent = 'Introduction \u00b7 Screen ' + (cur + 1) + ' of ' + SCREENS.length;
+}
+
+document.getElementById('btnNext').addEventListener('click', () => {
+  if (cur < SCREENS.length - 1) { goTo(cur + 1); }
+  else { window.location.href = 'S1_Section1.html'; }
+});
+document.getElementById('btnBack').addEventListener('click', () => { if (cur > 0) goTo(cur - 1); });
+document.getElementById('btnReplay').addEventListener('click', () => { playVO(cur, true); });
+document.getElementById('btnPause').addEventListener('click', pauseResume);
+
+document.addEventListener('keydown', e => {
+  if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+  if (e.key === 'ArrowRight' && cur < SCREENS.length - 1) { goTo(cur + 1); }
+  if (e.key === 'ArrowLeft'  && cur > 0)                   { goTo(cur - 1); }
+  if (e.key === ' ')                                        { e.preventDefault(); playVO(cur, true); }
+});
+
+buildDots();
+
+const firstEl = document.getElementById(SCREENS[0].id);
+requestAnimationFrame(() => { requestAnimationFrame(() => { firstEl.classList.add('visible'); }); });
+
+document.getElementById('int1PlayBtn').addEventListener('click', () => {
+  hasGestured = true;
+  playVO(0, true);
+  const btn = document.getElementById('int1PlayBtn');
+  btn.classList.add('played');
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg> Replay Introduction';
+});
+
+document.getElementById('btnNext').addEventListener('click', () => {
+  if (!hasGestured) hasGestured = true;
+}, true);
+</script>
+</body>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>{{SCREEN_TITLE}} | {{SECTION_LABEL}}</title>
+<!--
+  LAYOUT: HERO NUMBERS / STAT CALLOUTS
+  ─────────────────────────────────────────────────────────────
+  Use when: the key message IS the numbers — rated outputs,
+  derate percentages, response times, thermal limits,
+  engineering tolerances, or any screen where a few big
+  values deserve to stand out as the learner's takeaway.
+
+  Good for:
+    • Any screen where 3–4 key values are the core message
+    • Rated outputs, efficiency values, response times, tolerances
+    • Thresholds that learners must recall (limits, trip points, margins)
+    • Specifications with a formula or breakdown behind them
+    • Any "here are the numbers to know" screen
+
+  Structure:
+    Row of 3–4 .stat-card  →  each card has a big .stat-val,
+    a .stat-label (what it means), optional .stat-context
+    (where it comes from or why).
+
+    Below: optional .detail-row for 2 support panels
+    (equation, breakdown, or comparison chart).
+
+    Bottom: key concept bar.
+
+  Accent classes on .stat-card:
+    .stat-green   — safe / positive / achievable
+    .stat-amber   — threshold / caution / limit
+    .stat-red     — do not exceed / danger zone
+    .stat-navy    — neutral / reference
+    .stat-blue    — specification / rated value
+─────────────────────────────────────────────────────────────-->
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #f8fafb;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 1040px;
+  min-height: 510px;
+  overflow: hidden;
+}
+
+/* ── HEADER ──────────────────────────────────────────────── */
+.header {
+  background: #002060; color: #fff;
+  height: 50px; display: flex; align-items: center;
+  padding: 0 24px; justify-content: space-between;
+}
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag {
+  background: #1a3660; border: 1px solid #3d7fbd;
+  border-radius: 12px; padding: 4px 16px;
+  font-size: 10px; font-weight: bold; color: #88aacc;
+  letter-spacing: 0.5px; white-space: nowrap;
+}
+
+/* ── OUTER ───────────────────────────────────────────────── */
+.outer {
+  padding: 10px 16px 0;
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+/* ── STAT CARDS ROW ──────────────────────────────────────── */
+.stat-row {
+  display: flex; gap: 10px;
+}
+
+.stat-card {
+  flex: 1;
+  background: #fff;
+  border: 1.5px solid #c8d8e8;
+  border-top: 4px solid #002060; /* override with class below */
+  border-radius: 8px;
+  padding: 12px 14px 10px;
+  display: flex; flex-direction: column; gap: 4px;
+  text-align: center;
+}
+
+/* Accent variants — override border-top colour */
+.stat-navy   { border-top-color: #002060; }
+.stat-blue   { border-top-color: #1d5fa8; }
+.stat-green  { border-top-color: #1a7040; background: #f4fdf7; }
+.stat-amber  { border-top-color: #cc8800; background: #fffbf2; }
+.stat-red    { border-top-color: #cc3d00; background: #fff8f5; }
+
+.stat-super {
+  font-size: 8.5px; font-weight: bold; text-transform: uppercase;
+  letter-spacing: 0.6px; color: #778899; margin-bottom: 2px;
+}
+
+.stat-val {
+  font-size: 36px; font-weight: bold; line-height: 1;
+  color: #002060; /* override per accent class */
+}
+.stat-navy  .stat-val, .stat-blue  .stat-val { color: #002060; }
+.stat-green .stat-val                         { color: #1a5c30; }
+.stat-amber .stat-val                         { color: #7a5000; }
+.stat-red   .stat-val                         { color: #8b2000; }
+
+.stat-unit {
+  font-size: 14px; font-weight: bold;
+  color: #8899aa; margin-left: 3px; vertical-align: baseline;
+}
+
+.stat-label {
+  font-size: 9.5px; font-weight: bold; color: #1a3660;
+  text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px;
+}
+
+.stat-context {
+  font-size: 8px; color: #778899; line-height: 1.5; margin-top: 2px;
+}
+
+/* ── DETAIL SUPPORT ROW (optional — 2 panels side by side) ─ */
+.detail-row { display: flex; gap: 10px; }
+
+.support-panel {
+  flex: 1; background: #fff;
+  border: 1.5px solid #c8d8e8; border-radius: 8px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.support-banner {
+  background: #1a3660; color: #88aacc;
+  padding: 5px 14px;
+  font-size: 9px; font-weight: bold;
+  letter-spacing: 0.6px; text-transform: uppercase;
+  flex-shrink: 0;
+}
+.support-body {
+  flex: 1; padding: 10px 14px;
+  font-size: 9px; color: #334466; line-height: 1.65;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.support-body strong { color: #002060; }
+
+/* Equation display within a support-body */
+.eq-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px; font-size: 13px; font-weight: bold; color: #002060;
+  padding: 8px 0;
+  border-bottom: 1px solid #eef2f6;
+}
+.eq-frac {
+  display: inline-flex; flex-direction: column;
+  align-items: center; vertical-align: middle;
+}
+.eq-frac .eq-num, .eq-frac .eq-den { padding: 0 6px; font-size: 12px; font-weight: bold; color: #002060; }
+.eq-frac .eq-bar { width: 100%; height: 2px; background: #002060; }
+
+/* Horizontal data bar (progress-bar style) */
+.bar-row {
+  display: flex; align-items: center; gap: 8px;
+}
+.bar-row-label { font-size: 8.5px; color: #334466; width: 130px; flex-shrink: 0; }
+.bar-track {
+  flex: 1; height: 12px;
+  background: #eef2f8; border-radius: 6px;
+  overflow: hidden; position: relative;
+}
+.bar-fill {
+  height: 100%; border-radius: 6px;
+  /* Set width with inline style, e.g. style="width:75%;background:#1d5fa8" */
+}
+.bar-row-value { font-size: 8.5px; font-weight: bold; color: #002060; width: 36px; text-align: right; flex-shrink: 0; }
+
+/* ── KEY CONCEPT BAR ─────────────────────────────────────── */
+.key-concept-bar {
+  background: #fff4ee;
+  border: 1px solid #e8c0a8;
+  border-left: 4px solid #cc3d00;
+  border-radius: 7px;
+  padding: 8px 18px 8px 22px;
+}
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-title">{{SCREEN_TITLE}}</div>
+  <div class="header-tag">{{SECTION_LABEL}}</div>
+</div>
+
+<div class="outer">
+
+  <!-- ── STAT CARDS ROW ─────────────────────────────────────
+       Use 3 or 4 cards (4 cards × flex:1 each = ~247 px wide).
+       Each card:
+         .stat-super   — tiny label above the number (optional)
+         .stat-val     — the BIG number
+         .stat-unit    — unit suffix inside the number span
+         .stat-label   — what the number represents
+         .stat-context — source, standard, or why it matters
+       Accent class on .stat-card controls top border + bg.
+  ─────────────────────────────────────────────────────────── -->
+  <div class="stat-row">
+
+    <div class="stat-card stat-blue">
+      <div class="stat-super">Stat 1 Super Label</div>
+      <div class="stat-val">000<span class="stat-unit">unit</span></div>
+      <div class="stat-label">Stat 1 — Reference / Base Value</div>
+      <div class="stat-context">
+        Where this value comes from — standard, condition,
+        or source document. Replace with your value.
+      </div>
+    </div>
+
+    <div class="stat-card stat-amber">
+      <div class="stat-super">Stat 2 Super Label</div>
+      <div class="stat-val">00<span class="stat-unit">%</span></div>
+      <div class="stat-label">Stat 2 — Factor or Adjustment</div>
+      <div class="stat-context">
+        Why this factor is applied and what it accounts for.
+        Replace with your value.
+      </div>
+    </div>
+
+    <div class="stat-card stat-green">
+      <div class="stat-super">Stat 3 Super Label</div>
+      <div class="stat-val">000<span class="stat-unit">unit</span></div>
+      <div class="stat-label">Stat 3 — Result / Effective Value</div>
+      <div class="stat-context">
+        The operational implication of this value —
+        what it permits or constrains in practice.
+      </div>
+    </div>
+
+    <div class="stat-card stat-red">
+      <div class="stat-super">Stat 4 Super Label</div>
+      <div class="stat-val">00<span class="stat-unit">unit</span></div>
+      <div class="stat-label">Stat 4 — Limit / Do Not Exceed</div>
+      <div class="stat-context">
+        What happens if this limit is breached.
+        Replace with your threshold value.
+      </div>
+    </div>
+
+  </div><!-- /stat-row -->
+
+  <!-- ── OPTIONAL SUPPORT PANELS ──────────────────────────
+       Use these to show the formula behind the numbers, or
+       a bar-chart breakdown, or a note/caveat.
+       Delete this section if the stat cards are sufficient.
+  ─────────────────────────────────────────────────────────── -->
+  <div class="detail-row">
+
+    <!-- Support panel A: equation or derivation -->
+    <div class="support-panel">
+      <div class="support-banner">How the Numbers Relate</div>
+      <div class="support-body">
+        <p>Brief sentence: explain the formula or calculation that connects the numbers above.</p>
+
+        <!-- Example equation display — edit or delete -->
+        <div class="eq-row">
+          <span>Result</span>
+          <span>=</span>
+          <span>Value<sub>A</sub></span>
+          <span>&times;</span>
+          <span>(1 &minus;</span>
+          <div class="eq-frac">
+            <span class="eq-num">factor</span>
+            <span class="eq-bar"></span>
+            <span class="eq-den">100</span>
+          </div>
+          <span>)</span>
+        </div>
+
+        <p><strong>Where:</strong> Value<sub>A</sub> is the base / rated figure,
+        and factor is the adjustment applied for your operating condition.</p>
+        <p>Delete and replace with your actual formula, or remove this panel entirely.</p>
+      </div>
+    </div>
+
+    <!-- Support panel B: bar-chart breakdown or additional notes -->
+    <div class="support-panel">
+      <div class="support-banner">Breakdown / Context</div>
+      <div class="support-body">
+        <p>Show where the capacity goes, or explain the engineering rationale.</p>
+
+        <!-- Example bar rows — edit values and labels -->
+        <div class="bar-row">
+          <span class="bar-row-label">Bar label A</span>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:70%; background:#1a7040;"></div>
+          </div>
+          <span class="bar-row-value">70%</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-row-label">Bar label B</span>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:20%; background:#cc8800;"></div>
+          </div>
+          <span class="bar-row-value">20%</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-row-label">Bar label C</span>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:10%; background:#cc3d00;"></div>
+          </div>
+          <span class="bar-row-value">10%</span>
+        </div>
+
+        <p style="margin-top:4px;">
+          Delete and replace with your own bars, or swap this panel for a bullet list of notes.
+        </p>
+      </div>
+    </div>
+
+  </div><!-- /detail-row -->
+
+  <!-- KEY CONCEPT BAR -->
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">
+      Replace with the takeaway. For a numbers screen this is
+      typically: "The [value] limit exists because [engineering reason],
+      which means [practical implication for the learner]."
+    </div>
+  </div>
+
+</div><!-- /outer -->
+
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')';
+      document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit();
+    window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

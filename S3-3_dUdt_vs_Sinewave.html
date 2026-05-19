@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>du/dt vs. Sine-Wave Filters | Section 3 — Installation and Filters</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
+.intro-bar { background: #f0f4ff; border: 1px solid #3d7fbd; border-radius: 6px; padding: 6px 14px; font-size: 8.5px; color: #334466; line-height: 1.5; }
+.intro-bar strong { color: #1a3a80; }
+.columns-row { display: flex; gap: 10px; flex: 1; }
+.col { flex: 1; background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.col-header { padding: 7px 14px 6px; font-size: 9px; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; color: #fff; display: flex; align-items: center; gap: 8px; }
+.col-header-blue  { background: #1d5fa8; }
+.col-header-green { background: #1a5c30; }
+.col-body { flex: 1; padding: 8px 12px; display: flex; flex-direction: column; gap: 5px; overflow: hidden; }
+.col-item { display: flex; align-items: flex-start; gap: 9px; padding: 5px 8px; background: #f8fafb; border-radius: 5px; border-left: 3px solid transparent; }
+.col-item-navy   { border-left-color: #002060; }
+.col-item-green  { border-left-color: #1a7040; }
+.col-item-blue   { border-left-color: #1d5fa8; }
+.col-item-red    { border-left-color: #cc3d00; }
+.col-item-amber  { border-left-color: #cc8800; }
+.col-item-icon { font-size: 14px; flex-shrink: 0; line-height: 1.4; }
+.col-item-text { flex: 1; font-size: 9px; color: #334466; line-height: 1.6; }
+.col-item-text strong { color: #1a3660; }
+.vs-divider { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 0 0 26px; }
+.vs-badge { width: 24px; height: 24px; border-radius: 50%; background: #8899aa; color: #fff; font-size: 9px; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">du/dt Filters vs. Sine-Wave Filters</div>
+  <div class="header-tag">Section 3 — Installation &amp; Filters</div>
+</div>
+<div class="outer">
+  <div class="intro-bar">
+    <strong>Decision Point:</strong> Both filter types protect motor winding insulation from drive voltage stress. The choice depends on cable length, motor age, and whether acoustic noise or multi-motor configurations are involved.
+  </div>
+  <div class="columns-row">
+
+    <div class="col">
+      <div class="col-header col-header-blue">&#9654; du/dt Filter — Slew Rate Limiter</div>
+      <div class="col-body">
+        <div class="col-item col-item-blue">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text"><strong>What it does:</strong> Reduces the rate of voltage rise at the drive output to below 500&nbsp;V/μs using a series LC circuit tuned above the switching frequency.</div>
+        </div>
+        <div class="col-item col-item-blue">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text"><strong>Output waveform:</strong> Still PWM — the pulses are slower-edged, not sinusoidal. Motor current is essentially the same as without the filter.</div>
+        </div>
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#10003;</span>
+          <div class="col-item-text"><strong>Best for:</strong> Cables 50–150 m. Standard inverter-duty motors. Protection against winding insulation stress only. Lowest insertion loss (~0.5% at full load).</div>
+        </div>
+        <div class="col-item col-item-amber">
+          <span class="col-item-icon">!</span>
+          <div class="col-item-text"><strong>Does not:</strong> Eliminate acoustic switching noise. Protect old non-inverter-duty motors. Significantly reduce bearing CM current.</div>
+        </div>
+        <div class="col-item col-item-navy">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text"><strong>Typical cost:</strong> 3–8% of drive cost. Compact, low loss. Can be mounted on drive or DIN rail.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vs-divider"><div class="vs-badge">vs</div></div>
+
+    <div class="col">
+      <div class="col-header col-header-green">&#9654; Sine-Wave Filter — Full Waveform Conversion</div>
+      <div class="col-body">
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text"><strong>What it does:</strong> LC filter tuned below the switching frequency — converts the PWM output to a near-sinusoidal current waveform. Peak voltage at motor terminals ≈ drive output voltage.</div>
+        </div>
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text"><strong>Output waveform:</strong> Sinusoidal current in the motor. Motor runs as if fed from a variable-frequency sine supply. Bearing current and acoustic noise are both significantly reduced.</div>
+        </div>
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#10003;</span>
+          <div class="col-item-text"><strong>Best for:</strong> Cables &gt; 150 m. Rewound motors or motors with non-inverter-rated insulation. Multiple motors on one drive output. Environments where acoustic noise is unacceptable.</div>
+        </div>
+        <div class="col-item col-item-red">
+          <span class="col-item-icon">!</span>
+          <div class="col-item-text"><strong>Trade-offs:</strong> Higher insertion loss (~1.5–2% at full load). Physical size — requires dedicated cabinet space. More expensive (8–20% of drive cost).</div>
+        </div>
+        <div class="col-item col-item-navy">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text"><strong>Maximum switching frequency:</strong> Must match the drive's carrier frequency setting. Check filter specification — most rated at 4 kHz, some at 2 kHz only.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">Use a <strong>du/dt filter</strong> when the problem is motor winding stress on cables &gt; 50 m with a standard inverter-duty motor. Use a <strong>sine-wave filter</strong> when the motor is old or non-inverter-duty, cables exceed 150 m, acoustic noise is a concern, or multiple motors share a drive output.</div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

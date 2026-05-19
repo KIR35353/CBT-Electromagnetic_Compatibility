@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Final Exam &middot; KIR-EMC-001 &middot; Electromagnetic Compatibility for AC Drive Systems</title>
+<style>
+:root {
+  --k-navy:        #002060;
+  --k-navy-mid:    #1a3a6e;
+  --k-navy-light:  #274d8a;
+  --k-blue:        #1d5fa8;
+  --k-steel:       #3d7fbd;
+  --k-steel-lt:    #80b4dc;
+  --k-orange:      #cc3d00;
+  --k-orange-lt:   #e06828;
+  --k-white:       #ffffff;
+  --k-offwhite:    #f3f6fb;
+  --k-muted:       #6a7d94;
+  --k-correct:     #1a7040;
+  --k-correct-lt:  #22a06b;
+  --k-wrong:       #991111;
+  --k-wrong-lt:    #cc3333;
+  --k-amber:       #cc8800;
+  --r:             10px;
+  --t:             0.3s ease;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; background: var(--k-navy); }
+body { font-family: 'Segoe UI', Arial, Helvetica, sans-serif; color: var(--k-white); display: flex; flex-direction: column; height: 100vh; }
+
+/* HEADER */
+header { flex-shrink: 0; background: #001245; border-bottom: 3px solid var(--k-orange); padding: 0 28px; height: 50px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.hdr-left { display: flex; align-items: center; gap: 14px; }
+.hdr-logo { height: 34px; opacity: 0.93; }
+.hdr-titles { line-height: 1.3; }
+.hdr-id { font-size: 10px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--k-orange-lt); }
+.hdr-course { font-size: 12.5px; font-weight: 600; color: var(--k-white); }
+.hdr-right { display: flex; align-items: center; gap: 14px; }
+.progress-label { font-size: 11px; color: var(--k-muted); white-space: nowrap; }
+.progress-wrap { width: 140px; background: rgba(255,255,255,0.1); border-radius: 4px; height: 6px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--k-orange); border-radius: 4px; transition: width 0.5s ease; }
+
+/* STAGE */
+.stage { flex: 1; overflow: hidden; position: relative; }
+.screen { position: absolute; inset: 0; display: none; flex-direction: column; opacity: 0; transition: opacity 0.3s ease; }
+.screen.active  { display: flex; }
+.screen.visible { opacity: 1; }
+
+/* ── INSTRUCTIONS SCREEN ── */
+.instr-screen { background: linear-gradient(160deg, #001a4a 0%, var(--k-navy) 100%); align-items: center; justify-content: center; padding: 24px 44px; }
+.instr-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; max-width: 700px; text-align: center; }
+.instr-badge { font-size: 36px; }
+.instr-tag { font-size: 10px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: var(--k-orange-lt); }
+.instr-title { font-size: 22px; font-weight: 900; line-height: 1.3; }
+.instr-rules { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; text-align: left; }
+.rule-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 11px 14px; }
+.rule-icon { font-size: 18px; margin-bottom: 4px; }
+.rule-title { font-size: 11px; font-weight: 700; color: var(--k-steel-lt); margin-bottom: 3px; }
+.rule-body  { font-size: 11px; color: var(--k-offwhite); line-height: 1.55; }
+.instr-start { margin-top: 4px; padding: 13px 48px; background: var(--k-orange); color: var(--k-white); font-size: 14px; font-weight: 700; border: none; border-radius: var(--r); cursor: pointer; letter-spacing: 0.4px; transition: background 0.2s; }
+.instr-start:hover { background: var(--k-orange-lt); }
+
+/* ── QUESTION SCREEN ── */
+.q-screen { background: var(--k-navy); padding: 18px 28px 10px; display: flex; flex-direction: column; gap: 10px; }
+.q-meta { display: flex; align-items: center; gap: 12px; }
+.q-num-badge { background: var(--k-orange); color: var(--k-white); font-size: 11px; font-weight: 900; border-radius: 6px; padding: 4px 11px; letter-spacing: 0.4px; white-space: nowrap; flex-shrink: 0; }
+.q-type-tag { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; padding: 3px 11px; font-size: 9px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--k-steel-lt); }
+.q-stem { font-size: 13.5px; font-weight: 600; color: var(--k-white); line-height: 1.55; }
+.options { display: flex; flex-direction: column; gap: 7px; }
+.opt-btn { display: flex; align-items: flex-start; gap: 12px; background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.14); border-radius: 8px; padding: 9px 14px; cursor: pointer; text-align: left; transition: background 0.15s, border-color 0.15s; width: 100%; }
+.opt-btn:not(:disabled):hover { background: rgba(29,95,168,0.25); border-color: var(--k-steel); }
+.opt-btn.selected { background: rgba(29,95,168,0.3); border-color: var(--k-steel-lt); }
+.opt-btn.correct  { background: rgba(26,112,64,0.25);  border-color: var(--k-correct-lt); cursor: default; }
+.opt-btn.wrong    { background: rgba(153,17,17,0.2);   border-color: var(--k-wrong-lt);   cursor: default; }
+.opt-btn:disabled { cursor: default; }
+.opt-letter { width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--k-steel-lt); flex-shrink: 0; transition: background 0.15s, border-color 0.15s; }
+.opt-btn.selected .opt-letter { background: var(--k-blue);    border-color: var(--k-steel-lt); color: #fff; }
+.opt-btn.correct  .opt-letter { background: var(--k-correct); border-color: var(--k-correct-lt); color: #fff; }
+.opt-btn.wrong    .opt-letter { background: var(--k-wrong);   border-color: var(--k-wrong-lt);   color: #fff; }
+.opt-text { font-size: 12px; color: var(--k-offwhite); line-height: 1.5; padding-top: 2px; }
+.q-feedback { min-height: 34px; background: rgba(255,255,255,0.04); border-radius: 7px; padding: 8px 14px; font-size: 11px; line-height: 1.6; display: none; }
+.q-feedback.show { display: block; }
+.q-feedback.fb-correct { border-left: 3px solid var(--k-correct-lt); color: #aaddbb; }
+.q-feedback.fb-wrong   { border-left: 3px solid var(--k-wrong-lt);   color: #ddaaaa; }
+.fb-verdict { font-weight: 700; margin-right: 6px; }
+.fb-verdict.c { color: var(--k-correct-lt); }
+.fb-verdict.w { color: var(--k-wrong-lt); }
+.q-actions { display: flex; align-items: center; gap: 12px; }
+.btn-submit { background: var(--k-orange); color: var(--k-white); border: none; border-radius: 7px; padding: 8px 28px; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.2s, opacity 0.2s; }
+.btn-submit:disabled { opacity: 0.32; cursor: default; }
+.btn-submit:not(:disabled):hover { background: var(--k-orange-lt); }
+.btn-next-q { background: rgba(255,255,255,0.07); color: var(--k-steel-lt); border: 1px solid rgba(255,255,255,0.18); border-radius: 7px; padding: 8px 24px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; display: none; }
+.btn-next-q:hover { background: rgba(255,255,255,0.14); }
+.btn-next-q.show { display: block; }
+
+/* ── RESULT SCREEN ── */
+.result-screen { background: linear-gradient(160deg, #001a4a 0%, var(--k-navy) 100%); align-items: center; justify-content: center; padding: 20px 44px; }
+.result-inner { display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 740px; width: 100%; }
+.result-badge { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; }
+.result-badge.pass { background: rgba(34,160,107,0.15); border: 3px solid var(--k-correct-lt); }
+.result-badge.fail { background: rgba(204,136,0,0.15);  border: 3px solid var(--k-amber); }
+.result-verdict { font-size: 22px; font-weight: 900; line-height: 1.2; }
+.result-verdict.pass { color: var(--k-correct-lt); }
+.result-verdict.fail { color: var(--k-amber); }
+.result-score-row { display: flex; align-items: center; gap: 20px; }
+.result-score { font-size: 42px; font-weight: 900; }
+.result-score.pass { color: var(--k-correct-lt); }
+.result-score.fail { color: var(--k-amber); }
+.result-score-meta { font-size: 12px; color: var(--k-muted); line-height: 1.7; }
+.result-sub { font-size: 12px; color: var(--k-steel-lt); line-height: 1.65; text-align: center; max-width: 600px; }
+.result-details { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; width: 100%; }
+.q-dot { border-radius: 6px; padding: 6px 4px; text-align: center; font-size: 10px; font-weight: 700; }
+.q-dot.c { background: rgba(26,112,64,0.2);  border: 1px solid var(--k-correct-lt); color: var(--k-correct-lt); }
+.q-dot.w { background: rgba(153,17,17,0.15); border: 1px solid var(--k-wrong-lt);   color: var(--k-wrong-lt); }
+.review-list { background: rgba(204,136,0,0.08); border: 1px solid var(--k-amber); border-radius: 8px; padding: 10px 16px; width: 100%; font-size: 11px; color: #ddcc88; line-height: 1.8; }
+.review-list strong { color: #eedd99; }
+
+/* ── AUDIO GATE ── */
+.audio-gate { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; background: rgba(0,18,69,0.88); backdrop-filter: blur(3px); transition: opacity 0.4s ease; }
+.audio-gate.hidden { opacity: 0; pointer-events: none; }
+.audio-gate-label { font-size: 12px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--k-steel-lt); }
+.audio-gate-title { font-size: 19px; font-weight: 700; color: var(--k-white); text-align: center; max-width: 560px; line-height: 1.4; }
+.audio-gate-btn { margin-top: 8px; padding: 13px 36px; background: var(--k-orange); color: var(--k-white); font-size: 15px; font-weight: 700; border: none; border-radius: var(--r); cursor: pointer; letter-spacing: 0.5px; transition: background 0.2s; }
+.audio-gate-btn:hover { background: var(--k-orange-lt); }
+
+/* FOOTER */
+footer { flex-shrink: 0; background: #001245; border-top: 1px solid rgba(255,255,255,0.08); padding: 8px 28px; display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
+.ftr-centre { font-size: 11px; color: var(--k-muted); }
+.btn-exit { background: rgba(255,255,255,0.07); color: var(--k-steel-lt); border: 1px solid rgba(255,255,255,0.14); border-radius: 7px; padding: 7px 18px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.btn-exit:hover { background: rgba(255,255,255,0.14); }
+.btn-finish { background: var(--k-correct); color: #fff; border: none; border-radius: 7px; padding: 8px 24px; font-size: 13px; font-weight: 700; cursor: pointer; display: none; }
+.btn-finish:hover { background: var(--k-correct-lt); }
+.btn-finish.show { display: block; }
+</style>
+</head>
+<body>
+
+<!-- AUDIO GATE -->
+<div class="audio-gate" id="audioGate" role="dialog" aria-modal="true">
+  <div class="audio-gate-label">KIR-EMC-001 &nbsp;&middot;&nbsp; Final Exam</div>
+  <div class="audio-gate-title">Electromagnetic Compatibility for AC Drive Systems</div>
+  <button class="audio-gate-btn" id="audioGateBtn">&#9654;&nbsp; Begin Final Exam</button>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="hdr-left">
+    <img src="kirbyflag_imagefile.png" alt="Kirby Corporation" class="hdr-logo">
+    <div class="hdr-titles">
+      <div class="hdr-id">KIR-EMC-001 &nbsp;&middot;&nbsp; Final Exam</div>
+      <div class="hdr-course">Electromagnetic Compatibility for AC Drive Systems</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <span class="progress-label" id="progressLabel">Question 0 of 18</span>
+    <div class="progress-wrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+</header>
+
+<!-- STAGE -->
+<div class="stage">
+
+  <!-- INSTRUCTIONS SCREEN ──────────────────────────────────
+       Edit the rule-card text to match the exam rules for
+       this course (question count, pass mark, attempt policy).
+  ─────────────────────────────────────────────────────────── -->
+  <div class="screen instr-screen active" id="s-instr">
+    <div class="instr-inner">
+      <div class="instr-badge">&#x1F4DD;</div>
+      <div class="instr-tag">KIR-EMC-001 &nbsp;&middot;&nbsp; Final Exam</div>
+      <div class="instr-title">Electromagnetic Compatibility<br>Final Knowledge Assessment</div>
+      <div class="instr-rules">
+        <div class="rule-card">
+          <div class="rule-icon">&#x2753;</div>
+          <div class="rule-title">18 Questions</div>
+          <div class="rule-body">All questions must be answered. Multiple choice and true/false format. Each question is worth 10 points.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">&#x1F3AF;</div>
+          <div class="rule-title">Pass Mark: 72% (13 / 18)</div>
+          <div class="rule-body">A score of 72% or higher is required to receive course completion credit for KIR-EMC-001.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">&#x26A0;&#xFE0F;</div>
+          <div class="rule-title">Single Attempt</div>
+          <div class="rule-body">This exam may only be attempted once. Answers cannot be changed after submission. There is no back navigation during the exam.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon">&#x1F4DA;</div>
+          <div class="rule-title">No Course Material</div>
+          <div class="rule-body">You may not return to the course content during the exam. Ensure you have reviewed all sections and the course summary before proceeding.</div>
+        </div>
+      </div>
+      <button class="instr-start" id="btnStart">Start Exam &#8594;</button>
+    </div>
+  </div>
+
+  <!-- QUESTION SCREENS (generated by buildQuestions()) -->
+  <div id="q-container"></div>
+
+  <!-- RESULT SCREEN -->
+  <div class="screen result-screen" id="s-result">
+    <div class="result-inner" id="resultInner"></div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <button class="btn-exit" id="btnExit" onclick="window.location.href='SUM_CourseSum.html'">&#8592; Return to Summary</button>
+  <span class="ftr-centre" id="ftrCentre">Final Exam &nbsp;&middot;&nbsp; KIR-EMC-001 &nbsp;&middot;&nbsp; Electromagnetic Compatibility for AC Drive Systems &nbsp;&middot;&nbsp; 12–18 minutes</span>
+  <button class="btn-finish" id="btnFinish" style="display:none" onclick="showResult()">Submit &amp; View Results</button>
+</footer>
+
+<script>
+/* ── QUESTION DATA ────────────────────────────────────────────
+   Each question object:
+   {
+     num:      1,                    // 1-based display number
+     type:     'MULTIPLE CHOICE',    // or 'TRUE / FALSE'
+     stem:     'Question text?',
+     options:  ['Option A', 'Option B', 'Option C', 'Option D'],
+     correct:  2,                    // 0-based index into options[]
+     feedback: 'Explanation shown after answering.'
+   }
+─────────────────────────────────────────────────────────── */
+const QUESTIONS = [
+  {
+    num:      1,
+    type:     'MULTIPLE CHOICE',
+    stem:     'Noise is transferred between two circuits via the magnetic field of a current-carrying conductor inducing a voltage in an adjacent conductor. Which coupling mechanism is this?',
+    options:  [
+    'Galvanic coupling',
+    'Capacitive coupling',
+    'Inductive coupling',
+    'Electromagnetic coupling'
+    ],
+    correct:  2,
+    feedback: 'Inductive (magnetic) coupling occurs when the magnetic field surrounding a current-carrying conductor induces a voltage in a nearby conductor.'
+  },
+  {
+    num:      2,
+    type:     'MULTIPLE CHOICE',
+    stem:     'An AC drive produces common-mode current because:',
+    options:  [
+    'The DC-link ripple voltage drives current through the output capacitors',
+    'The high du/dt switching voltage acts on parasitic capacitances to ground in the motor cable and motor',
+    'The motor back-EMF couples energy back into the drive output stage',
+    'The RFI filter generates reactive current at the switching frequency'
+    ],
+    correct:  1,
+    feedback: 'The inverter\'s high du/dt voltage is applied across the parasitic capacitances between the phase conductors and ground (in the cable and motor), producing a common-mode current equal to C × du/dt.'
+  },
+  {
+    num:      3,
+    type:     'MULTIPLE CHOICE',
+    stem:     'A shielded motor cable shield is connected to the drive chassis with a short wire twisted into a bundle (pigtail). What is the EMC consequence?',
+    options:  [
+    'No consequence — the shield is still connected to ground',
+    'The pigtail reduces transfer impedance at high frequency',
+    'The pigtail dramatically increases transfer impedance, largely defeating the shielding',
+    'The pigtail prevents ground-loop currents from flowing'
+    ],
+    correct:  2,
+    feedback: 'A pigtail introduces inductance that increases transfer impedance at the high frequencies present in drive systems, largely defeating the shielding effectiveness of the cable.'
+  },
+  {
+    num:      4,
+    type:     'MULTIPLE CHOICE',
+    stem:     'For a motor cable in an AC drive installation, the shield must be terminated:',
+    options:  [
+    'At the drive end only, to avoid ground loops',
+    'At the motor end only, as the drive chassis provides the return path',
+    'At both ends with 360-degree clamp connections',
+    'Floating at both ends to prevent saturation of the RFI filter'
+    ],
+    correct:  2,
+    feedback: 'Both ends of the motor cable shield must be terminated with a 360-degree clamp connection. Single-end termination significantly reduces shielding effectiveness and can cause interference problems.'
+  },
+  {
+    num:      5,
+    type:     'MULTIPLE CHOICE',
+    stem:     'A 50 Hz ground current is circulating in the shield of a serial communication cable between a drive and a PLC. What is this phenomenon called?',
+    options:  [
+    'Common-mode saturation',
+    'Ground loop',
+    'Differential-mode interference',
+    'Shield induction'
+    ],
+    correct:  1,
+    feedback: 'A ground loop occurs when a voltage potential difference exists between the chassis of two connected pieces of equipment, driving a 50 Hz current through the shield that couples into the signal.'
+  },
+  {
+    num:      6,
+    type:     'MULTIPLE CHOICE',
+    stem:     'The primary EMC advantage of multi-point grounding over single-point grounding is:',
+    options:  [
+    'It eliminates the need for shielded motor cables',
+    'It prevents differential-mode noise from entering the circuit',
+    'It minimises the length and therefore the impedance of each ground connection',
+    'It ensures only one ground current path exists'
+    ],
+    correct:  2,
+    feedback: 'Shorter ground connections have lower impedance, especially at high frequencies. Multi-point grounding keeps each connection short, which is essential for effective high-frequency potential equalisation.'
+  },
+  {
+    num:      7,
+    type:     'MULTIPLE CHOICE',
+    stem:     'A du/dt filter is most effective in which installation scenario?',
+    options:  [
+    'A 690 V installation with a short motor cable and an older motor with poor insulation',
+    'A 400 V installation with a 200 metre motor cable and a modern inverter-rated motor',
+    'A regenerative drive with a long cable and high-power motor',
+    'Any installation where the drive operates in the field-weakening range'
+    ],
+    correct:  0,
+    feedback: 'Du/dt filters are recommended with 690 V supply systems, old motors with poor insulation, and short motor cables. With long cables the cable itself reduces du/dt at the motor, making the filter less effective.'
+  },
+  {
+    num:      8,
+    type:     'MULTIPLE CHOICE',
+    stem:     'Compared to a du/dt filter, a sine-wave filter:',
+    options:  [
+    'Is cheaper, easier to install, and allows shorter motor cables',
+    'Produces a sinusoidal output, eliminates voltage reflections and bearing currents, but introduces a 7–10% voltage drop',
+    'Only reduces common-mode current and has no effect on differential-mode voltage',
+    'Is only suitable for installations where motor current exceeds 100 A'
+    ],
+    correct:  1,
+    feedback: 'A sine-wave filter produces a near-sinusoidal output voltage, eliminating all high-frequency harmonics, voltage reflections, and bearing currents. The trade-offs are higher cost and a 7–10% voltage drop across the filter.'
+  },
+  {
+    num:      9,
+    type:     'MULTIPLE CHOICE',
+    stem:     'When installing common-mode filter cores on a motor cable, which conductors must pass through the cores?',
+    options:  [
+    'All three phase conductors and the PE conductor',
+    'The three phase conductors only — the PE must not pass through',
+    'The PE conductor only — the phase currents cancel and have no effect',
+    'All conductors including the cable shield'
+    ],
+    correct:  1,
+    feedback: 'Only the three phase conductors pass through the cores. The PE (and shield) must not, because its current would cancel the common-mode flux created by the phase conductors, rendering the filter ineffective.'
+  },
+  {
+    num:      10,
+    type:     'MULTIPLE CHOICE',
+    stem:     'EDM damage in motor bearings is caused by:',
+    options:  [
+    'Excessive bearing load from mechanical misalignment',
+    'High-frequency current flowing through the bearing lubricant film, causing repeated electrical discharges',
+    'Overheating of the bearing grease due to high switching frequency',
+    'Resonance between the motor inductance and the cable capacitance'
+    ],
+    correct:  1,
+    feedback: 'EDM damage occurs when shaft voltage exceeds the breakdown voltage of the thin lubricant film (approximately 10 V across 0.5 μm). Each discharge melts a microscopic pit in the bearing metal.'
+  },
+  {
+    num:      11,
+    type:     'MULTIPLE CHOICE',
+    stem:     'Electron microscope analysis of a failed motor bearing shows parallel trenches with no pitting. Despite correct EMC installation and common-mode filter cores being fitted, the bearing fails repeatedly. The most likely explanation is:',
+    options:  [
+    'The common-mode cores were installed at the motor terminal box instead of the drive',
+    'The motor cable is too long for the filter cores to be effective',
+    'The bearing failure has a mechanical root cause that must be addressed mechanically',
+    'The shaft grounding brush is not making good contact with the shaft'
+    ],
+    correct:  2,
+    feedback: 'Parallel trenches without pitting indicate a mechanical root cause (such as axial overloading). Electrical mitigation measures extend bearing life but cannot fix a mechanical fault. The mechanical issue must be resolved first.'
+  },
+  {
+    num:      12,
+    type:     'MULTIPLE CHOICE',
+    stem:     'In a high-power motor application where motor current exceeds 200 A, which additional factor contributes to shaft voltage independently of the drive\'s switching?',
+    options:  [
+    'Asymmetric motor cable construction',
+    'DC-link voltage ripple at twice the supply frequency',
+    'Ground loop currents at 50 Hz',
+    'Harmonic content of the motor current'
+    ],
+    correct:  0,
+    feedback: 'At high motor currents, asymmetric motor cable construction creates an unbalanced magnetic field that contributes to shaft voltage independently of the drive\'s common-mode voltage. Symmetric motor cables are recommended to mitigate this.'
+  },
+  {
+    num:      13,
+    type:     'MULTIPLE CHOICE',
+    stem:     'A variable speed drive rated at 5.5 kW is installed in a domestic building connected directly to the public 230 V / 400 V supply. Which EN/IEC 61800-3 category applies?',
+    options:  [
+    'Category C1',
+    'Category C2',
+    'Category C3',
+    'Category C4'
+    ],
+    correct:  0,
+    feedback: 'Category C1 applies to drives connected to the public low-voltage supply in a first environment (residential, commercial, light industrial). It has the strictest emission limits to protect the wide range of sensitive equipment on the same supply.'
+  },
+  {
+    num:      14,
+    type:     'MULTIPLE CHOICE',
+    stem:     'Under the European EMC Directive, a fixed installation of AC drives built permanently into a factory substation:',
+    options:  [
+    'Must carry the CE mark and a Declaration of Conformity',
+    'Is exempt from all EMC requirements',
+    'Is not CE marked, but must be built following good engineering practices and the EMC requirements of its components',
+    'Must comply with EN 61000-6-4 as a product standard'
+    ],
+    correct:  2,
+    feedback: 'Fixed installations are not CE marked under the EMC Directive. Instead, they must be built following good engineering practice and respecting the EMC requirements stated in the documentation of the individual components used.'
+  },
+  {
+    num:      15,
+    type:     'MULTIPLE CHOICE',
+    stem:     'A very large AC drive installation with motor currents exceeding 400 A falls under EN/IEC 61800-3 Category C4. No fixed emission limits apply. What is the mandatory requirement?',
+    options:  [
+    'Compliance with the generic standard EN 61000-6-4 instead',
+    'An installation-specific EMC plan',
+    'A Declaration of Conformity to EN 55011 Class A',
+    'CE marking of the complete installation'
+    ],
+    correct:  1,
+    feedback: 'Category C4 installations have no fixed emission limits. Instead, an installation-specific EMC plan is mandatory. This plan documents the emission sources, their characteristics, and the measures taken to control interference.'
+  },
+  {
+    num:      16,
+    type:     'MULTIPLE CHOICE',
+    stem:     '46 CFR §143.570(f) states that a towing vessel\'s hull may not carry current as a conductor. In the context of a variable speed drive installation, this regulation is relevant because:',
+    options:  [
+    'Common-mode current escaping via the propeller shaft and seawater to the hull creates electrolytic corrosion and a regulatory violation',
+    'The hull must be connected to the drive chassis as a safety ground',
+    'Drive output cables may not be routed inside the hull below the waterline',
+    'The hull capacitance reduces the effectiveness of the RFI filter on long motor cables'
+    ],
+    correct:  0,
+    feedback: 'Common-mode current that finds its return path through the propeller shaft, seawater, and hull violates §143.570(f) and creates an electrolytic cell that corrodes underwater metals. Proper shield termination and shaft grounding brushes prevent this current path.'
+  },
+  {
+    num:      17,
+    type:     'MULTIPLE CHOICE',
+    stem:     'A variable speed drive\'s RFI filter includes Y-capacitors connecting each line to the chassis ground. When this drive is installed on a metallic Subchapter M towing vessel with an ungrounded (IT) distribution system, the Y-capacitors will:',
+    options:  [
+    'Provide a beneficial earth reference that stabilises the drive output voltage',
+    'Have no effect because the vessel hull is not connected to the electrical neutral',
+    'Create a leakage current path that can interfere with the vessel\'s required ground-fault detection system',
+    'Reduce common-mode current in the motor cable by providing a low-impedance return path'
+    ],
+    correct:  2,
+    feedback: 'Y-capacitors in an RFI filter connect line to chassis (which is bonded to hull on a metallic vessel), creating capacitive leakage paths. On an IT system with ground-fault detection, these leakage paths load the detector and can mask real faults. A Y-cap bypass switch or isolation transformer is needed.'
+  },
+  {
+    num:      18,
+    type:     'MULTIPLE CHOICE',
+    stem:     'An e-frac mobile pumping unit uses four variable speed drives rated at 3 MW each, powered by dedicated diesel generators. The most critical EMC concern that does not exist in a utility-connected industrial installation is:',
+    options:  [
+    'Radiated emissions from the motor cables interfering with oilfield radio communications',
+    'Harmonic currents from the drives recirculating in the isolated generator system, with no utility grid to absorb them',
+    'Common-mode currents exceeding the limits set by the European EMC Directive',
+    'Ground-fault current returning through the trailer frame instead of the cable shield'
+    ],
+    correct:  1,
+    feedback: 'On an e-frac unit, the generators are the only power source. Unlike a utility-connected installation where the grid absorbs harmonic currents, on e-frac all harmonic distortion from the drives recirculates within the local generation and distribution system. This can cause overheating, resonance, and voltage distortion that are not present in grid-connected applications. IEEE 519 harmonic limits at the generator terminals are critical.'
+  }
+];
+
+/* ── EXAM CONFIG ──────────────────────────────────────────── */
+const PASS_SCORE = 13;  /* minimum correct to pass */
+
+/* ── SECTION NAME MAP ─────────────────────────────────────────
+   Maps section number → section name for the review recommendations.
+   Each entry: [sectionNumber, 'Section N — Title']
+─────────────────────────────────────────────────────────── */
+const SECTION_NAMES = new Map([
+  [1, 'Section 1 — What Is EMC?'],
+  [2, 'Section 2 — Grounding and Shielding'],
+  [3, 'Section 3 — EMC-Correct Installation and Output Filters'],
+  [4, 'Section 4 — Bearing Electric Stress'],
+  [5, 'Section 5 — EMC Standards and Compliance'],
+  [6, 'Section 6 — Marine and Mobile Application Considerations']
+]);
+
+/* ── QUESTION-TO-SECTION MAP ──────────────────────────────────
+   One integer per question (1-based section number).
+   Length must equal QUESTIONS.length.
+─────────────────────────────────────────────────────────── */
+const Q_SECTION = [1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6];
+
+const LETTERS = ['A', 'B', 'C', 'D'];
+let answers   = new Array(QUESTIONS.length).fill(null);
+let submitted = new Array(QUESTIONS.length).fill(false);
+let curQ      = 0;
+let examStarted = false;
+
+/* ─── BUILD QUESTION SCREENS ─── */
+function buildQuestions() {
+  const container = document.getElementById('q-container');
+  QUESTIONS.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'screen q-screen';
+    div.id = 'q-' + i;
+    div.setAttribute('role', 'tabpanel');
+    div.innerHTML = buildQHTML(q, i);
+    container.appendChild(div);
+  });
+}
+
+function buildQHTML(q, i) {
+  const optHtml = q.options.map((opt, j) =>
+    '<button class="opt-btn" id="opt-' + i + '-' + j + '" onclick="selectOpt(' + i + ',' + j + ')" aria-pressed="false">' +
+    '<span class="opt-letter">' + (LETTERS[j] || (j === 0 ? 'T' : 'F')) + '</span>' +
+    '<span class="opt-text">' + escHtml(opt) + '</span></button>'
+  ).join('');
+
+  return '<div class="q-meta">' +
+    '<span class="q-num-badge">Question ' + q.num + ' of ' + QUESTIONS.length + '</span>' +
+    '<span class="q-type-tag">' + q.type + '</span></div>' +
+    '<div class="q-stem">' + escHtml(q.stem) + '</div>' +
+    '<div class="options" id="opts-' + i + '">' + optHtml + '</div>' +
+    '<div class="q-feedback" id="fb-' + i + '"></div>' +
+    '<div class="q-actions">' +
+    '<button class="btn-submit" id="sub-' + i + '" disabled onclick="submitQ(' + i + ')">Submit Answer</button>' +
+    '<button class="btn-next-q" id="nxt-' + i + '" onclick="nextQ(' + i + ')">' +
+    (i < QUESTIONS.length - 1 ? 'Next Question &#8594;' : 'View Results &#8594;') +
+    '</button></div>';
+}
+
+function escHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+/* ─── OPTION SELECTION ─── */
+function selectOpt(qi, oi) {
+  if (submitted[qi]) return;
+  answers[qi] = oi;
+  QUESTIONS[qi].options.forEach((_, j) => {
+    const btn = document.getElementById('opt-' + qi + '-' + j);
+    btn.classList.toggle('selected', j === oi);
+    btn.setAttribute('aria-pressed', j === oi ? 'true' : 'false');
+  });
+  document.getElementById('sub-' + qi).disabled = false;
+}
+
+/* ─── SUBMIT ANSWER ─── */
+function submitQ(qi) {
+  if (submitted[qi]) return;
+  submitted[qi] = true;
+  const q = QUESTIONS[qi];
+  const sel = answers[qi];
+  const isCorrect = sel === q.correct;
+
+  q.options.forEach((_, j) => {
+    const btn = document.getElementById('opt-' + qi + '-' + j);
+    btn.disabled = true;
+    btn.classList.remove('selected');
+    if (j === q.correct) btn.classList.add('correct');
+    else if (j === sel && !isCorrect) btn.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('fb-' + qi);
+  fb.className = 'q-feedback show ' + (isCorrect ? 'fb-correct' : 'fb-wrong');
+  fb.innerHTML = '<span class="fb-verdict ' + (isCorrect ? 'c' : 'w') + '">' +
+    (isCorrect ? '\u2714 Correct.' : '\u2718 Incorrect.') + '</span>' + escHtml(q.feedback);
+
+  document.getElementById('sub-' + qi).style.display = 'none';
+  document.getElementById('nxt-' + qi).classList.add('show');
+  updateProgress(qi + 1);
+}
+
+/* ─── NAVIGATION ─── */
+function nextQ(qi) { showQScreen(qi + 1); }
+
+function showQScreen(qi) {
+  document.querySelectorAll('.screen.active').forEach(s => {
+    s.classList.remove('visible');
+    setTimeout(() => s.classList.remove('active'), 300);
+  });
+  let nextEl;
+  if (qi >= QUESTIONS.length) {
+    nextEl = document.getElementById('s-result');
+    buildResult();
+  } else {
+    nextEl = document.getElementById('q-' + qi);
+  }
+  curQ = qi;
+  nextEl.classList.add('active');
+  requestAnimationFrame(() => requestAnimationFrame(() => nextEl.classList.add('visible')));
+}
+
+function updateProgress(qDone) {
+  const pct = Math.round((qDone / QUESTIONS.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent =
+    'Question ' + Math.min(qDone + 1, QUESTIONS.length) + ' of ' + QUESTIONS.length;
+}
+
+/* ─── RESULT SCREEN ─── */
+function buildResult() {
+  let score = 0;
+  answers.forEach((a, i) => { if (a === QUESTIONS[i].correct) score++; });
+  const pct  = score * 10;
+  const pass = score >= PASS_SCORE;
+
+  document.getElementById('progressLabel').textContent =
+    'Score: ' + score + ' / ' + QUESTIONS.length + ' (' + pct + '%)';
+  document.getElementById('progressFill').style.width    = '100%';
+  document.getElementById('progressFill').style.background =
+    pass ? 'var(--k-correct-lt)' : 'var(--k-amber)';
+
+  const dotHtml = QUESTIONS.map((q, i) => {
+    const c = answers[i] === q.correct;
+    return '<div class="q-dot ' + (c ? 'c' : 'w') + '">Q' + (i + 1) + '<br>' +
+      (c ? '&#x2713;' : '&#x2715;') + '</div>';
+  }).join('');
+
+  let reviewHtml = '';
+  if (!pass) {
+    const missed = new Set();
+    answers.forEach((a, i) => { if (a !== QUESTIONS[i].correct) missed.add(Q_SECTION[i]); });
+    const reviewItems = [...missed].sort((a, b) => a - b)
+      .map(s => '<div>\u2022 ' + (SECTION_NAMES.get(s) || 'Section ' + s) + '</div>').join('');
+    reviewHtml = '<div class="review-list"><strong>Recommended review before retaking:</strong>' + reviewItems + '</div>';
+  }
+
+  const passMsg = pass
+    ? 'Congratulations — you have passed the EMC for AC Drives assessment. You are now qualified to apply correct EMC practices in AC drive installations for marine vessels and mobile equipment, and to specify appropriate filters, grounding strategies, and marine-compliant distribution system solutions.'
+    : 'You did not reach the pass mark of 72% (13 out of 18). Review the sections indicated below and retake the assessment. There is no limit on retakes.';
+
+  document.getElementById('resultInner').innerHTML =
+    '<div class="result-badge ' + (pass ? 'pass' : 'fail') + '">' + (pass ? '&#x2713;' : '&#x2715;') + '</div>' +
+    '<div class="result-verdict ' + (pass ? 'pass' : 'fail') + '">' +
+    (pass ? 'PASS \u2014 Course Completion Achieved' : 'NOT YET ACHIEVED \u2014 Please Review and Retake') + '</div>' +
+    '<div class="result-score-row">' +
+    '<div class="result-score ' + (pass ? 'pass' : 'fail') + '">' + score + ' / ' + QUESTIONS.length + '</div>' +
+    '<div class="result-score-meta">Score: ' + pct + '%<br>Pass mark: 72% (' + PASS_SCORE + ' / ' + QUESTIONS.length + ')<br>Attempt: 1 of 1</div></div>' +
+    '<div class="result-sub">' + passMsg + '</div>' +
+    '<div class="result-details">' + dotHtml + '</div>' +
+    reviewHtml;
+
+  document.getElementById('ftrCentre').textContent =
+    'KIR-EMC-001 \u00b7 Final Exam \u00b7 Score: ' + score + '/' + QUESTIONS.length + ' (' + pct + '%)';
+
+  if (pass) {
+    const fb = document.getElementById('btnFinish');
+    fb.textContent = 'Course Complete \u2713';
+    fb.style.display = 'block';
+    fb.onclick = () => { window.location.href = 'SUM_CourseSum.html'; };
+  }
+}
+
+/* ─── START ─── */
+function startExam() {
+  examStarted = true;
+  document.getElementById('progressLabel').textContent = 'Question 1 of ' + QUESTIONS.length;
+  const instr = document.getElementById('s-instr');
+  instr.classList.remove('visible');
+  setTimeout(() => { instr.classList.remove('active'); }, 300);
+  const q0 = document.getElementById('q-0');
+  q0.classList.add('active');
+  requestAnimationFrame(() => requestAnimationFrame(() => q0.classList.add('visible')));
+  curQ = 0;
+}
+
+buildQuestions();
+
+document.getElementById('audioGateBtn').addEventListener('click', () => {
+  const gate = document.getElementById('audioGate');
+  gate.classList.add('hidden');
+  gate.addEventListener('transitionend', () => gate.remove(), { once: true });
+});
+
+document.getElementById('btnStart').addEventListener('click', startExam);
+
+requestAnimationFrame(() => requestAnimationFrame(() => document.getElementById('s-instr').classList.add('visible')));
+</script>
+</body>
+</html>

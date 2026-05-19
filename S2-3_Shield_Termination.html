@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Correct Shield Termination | Section 2 — Grounding and Shielding</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
+.main-row { display: flex; gap: 14px; align-items: flex-start; }
+.layers-panel { flex: 0 0 520px; display: flex; flex-direction: column; gap: 0; }
+.layer { display: flex; align-items: stretch; border-radius: 4px; overflow: hidden; border: 1.5px solid #c8d8e8; }
+.layer-bar { width: 8px; flex-shrink: 0; }
+.layer-inner { flex: 1; display: flex; align-items: center; padding: 7px 12px; gap: 10px; background: #fff; }
+.layer-badge { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: #fff; flex-shrink: 0; }
+.layer-content { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.layer-title { font-size: 9.5px; font-weight: bold; color: #1a3660; letter-spacing: 0.3px; }
+.layer-desc { font-size: 8.5px; color: #334466; line-height: 1.5; }
+.layer-status { text-align: right; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
+.status-badge { font-size: 8px; font-weight: bold; letter-spacing: 0.4px; text-transform: uppercase; padding: 2px 8px; border-radius: 10px; }
+.status-ok  { background: #e8f8ee; color: #1a5c30; border: 1px solid #1a7040; }
+.status-bad { background: #ffe8e0; color: #8b2000; border: 1px solid #cc3d00; }
+.layer-arrow { display: flex; align-items: center; justify-content: center; height: 10px; margin: 0 0 0 12px; }
+.layer-arrow::before { content: ''; display: block; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 7px solid #8899aa; }
+.layer-green   .layer-bar, .layer-green   .layer-badge { background: #1a7040; }
+.layer-green   .layer-inner { background: #e8f8ee; border-color: #1a7040; }
+.layer-blue    .layer-bar, .layer-blue    .layer-badge { background: #1d5fa8; }
+.layer-blue    .layer-inner { background: #eef4fb; border-color: #3d7fbd; }
+.layer-navy    .layer-bar, .layer-navy    .layer-badge { background: #1a3660; }
+.layer-navy    .layer-inner { background: #e8f0f8; border-color: #1a3660; }
+.layer-red     .layer-bar, .layer-red     .layer-badge { background: #cc3d00; }
+.layer-red     .layer-inner { background: #ffe8e0; border-color: #cc3d00; }
+.layer-darkred .layer-bar, .layer-darkred .layer-badge { background: #8b2000; }
+.layer-darkred .layer-inner { background: #fee8e8; border-color: #8b2000; }
+.notes-panel { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.note-box { background: #fff; border: 1.5px solid #c8d8e8; border-left: 4px solid #002060; border-radius: 0 7px 7px 0; padding: 8px 12px 8px 14px; }
+.note-head { font-size: 9.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.4px; color: #1a3660; margin-bottom: 4px; }
+.note-body { font-size: 8.5px; color: #334466; line-height: 1.65; }
+.note-body strong { color: #002060; }
+.note-box-dark { background: #002060; border: none; border-radius: 7px; padding: 8px 12px; }
+.note-box-dark .note-head { color: #cc8800; }
+.note-box-dark .note-body { color: #dce7f5; }
+.note-box-dark .note-body strong { color: #fff; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">Correct Shield Termination</div>
+  <div class="header-tag">Section 2 — Grounding &amp; Shielding</div>
+</div>
+<div class="outer">
+  <div class="main-row">
+    <div class="layers-panel">
+
+      <div class="layer layer-green">
+        <div class="layer-bar"></div>
+        <div class="layer-inner">
+          <div class="layer-badge">&#10003;</div>
+          <div class="layer-content">
+            <div class="layer-title">360° EMC Cable Gland — Drive End</div>
+            <div class="layer-desc">A metallic cable gland with a circumferential clamping ring makes contact around the full 360° of the cable braid. The gland is threaded into the drive's cable entry plate, which is bolted directly to the backplate. Low inductance, good at MHz frequencies.</div>
+          </div>
+          <div class="layer-status"><span class="status-badge status-ok">CORRECT</span></div>
+        </div>
+      </div>
+      <div class="layer-arrow"></div>
+
+      <div class="layer layer-blue">
+        <div class="layer-bar"></div>
+        <div class="layer-inner">
+          <div class="layer-badge">&#10003;</div>
+          <div class="layer-content">
+            <div class="layer-title">360° EMC Cable Gland — Motor End</div>
+            <div class="layer-desc">The same gland type at the motor terminal box. The motor frame must be earthed (bonded to PE). Both-end termination creates a Faraday cage around the cable core conductors, fully containing the CM current inside the shield.</div>
+          </div>
+          <div class="layer-status"><span class="status-badge status-ok">CORRECT</span></div>
+        </div>
+      </div>
+      <div class="layer-arrow"></div>
+
+      <div class="layer layer-navy">
+        <div class="layer-bar"></div>
+        <div class="layer-inner">
+          <div class="layer-badge">i</div>
+          <div class="layer-content">
+            <div class="layer-title">Shield Continuity and Ground Loop Prevention</div>
+            <div class="layer-desc">At power-frequency, a cable shield bonded at both ends creates a ground loop that can carry 50/60&nbsp;Hz circulating current. This is acceptable in drive installations — the CM noise benefits outweigh the minor power-frequency current in the shield. No ferrite is needed.</div>
+          </div>
+          <div class="layer-status"><span class="status-badge status-ok">ACCEPTABLE</span></div>
+        </div>
+      </div>
+      <div class="layer-arrow"></div>
+
+      <div class="layer layer-red">
+        <div class="layer-bar"></div>
+        <div class="layer-inner">
+          <div class="layer-badge">&#10007;</div>
+          <div class="layer-content">
+            <div class="layer-title">Pigtail Termination — Drive or Motor End</div>
+            <div class="layer-desc">The braid is folded back and twisted into a single wire connected to a terminal. The pigtail inductance is ~10 nH. At 10&nbsp;MHz this represents &gt;600&nbsp;mΩ of impedance — 100× worse than a 360° gland — making the shield almost useless above 1&nbsp;MHz.</div>
+          </div>
+          <div class="layer-status"><span class="status-badge status-bad">INCORRECT</span></div>
+        </div>
+      </div>
+      <div class="layer-arrow"></div>
+
+      <div class="layer layer-darkred">
+        <div class="layer-bar"></div>
+        <div class="layer-inner">
+          <div class="layer-badge">&#10007;</div>
+          <div class="layer-content">
+            <div class="layer-title">Single-End Termination (Drive End Only)</div>
+            <div class="layer-desc">Grounding the shield at only one end prevents 50 Hz ground loop current — but it means CM current has no return path at the motor end. The shield is only ~20% effective. This practice is sometimes recommended for signal cables but is <strong>wrong</strong> for motor cables.</div>
+          </div>
+          <div class="layer-status"><span class="status-badge status-bad">INCORRECT</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="notes-panel">
+      <div class="note-box">
+        <div class="note-head">Why Both Ends?</div>
+        <div class="note-body">For CM current to flow from the motor frame back to the drive chassis via the shield, the shield must form a <strong>closed loop</strong>. Grounding one end creates an open circuit for the return current — forcing it to find another path (mains supply or vessel structure).</div>
+      </div>
+      <div class="note-box">
+        <div class="note-head">EMC Gland vs. Terminal</div>
+        <div class="note-body">A <strong>360° EMC cable gland</strong> achieves &lt; 5 mΩ contact impedance at the cable entry. A pigtail to a terminal achieves 600–6000 mΩ at 10 MHz. This single difference explains most site EMC failures that occur despite using "shielded" cable.</div>
+      </div>
+      <div class="note-box-dark">
+        <div class="note-head">&#9874; Marine Requirement</div>
+        <div class="note-body">46&nbsp;CFR&nbsp;§143.575(5) requires vessel wiring to be installed and routed to <strong>avoid interference with radio reception and compass</strong>. Correct 360° shield termination is the primary technical control for compliance with this requirement on AC drive installations.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">The cable shield must be terminated with <strong>360° EMC cable glands at both ends</strong> — at the drive cable entry plate and at the motor terminal box. A pigtail or single-end termination reduces shielding effectiveness by one to two orders of magnitude at the frequencies that matter.</div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

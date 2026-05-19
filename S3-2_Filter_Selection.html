@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>When to Use Output Filters | Section 3 — Installation and Filters</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 10px; }
+.stat-row { display: flex; gap: 10px; }
+.stat-card { flex: 1; background: #fff; border: 1.5px solid #c8d8e8; border-top: 4px solid #002060; border-radius: 8px; padding: 10px 12px 8px; display: flex; flex-direction: column; gap: 4px; text-align: center; }
+.stat-navy  { border-top-color: #002060; }
+.stat-blue  { border-top-color: #1d5fa8; }
+.stat-amber { border-top-color: #cc8800; background: #fffbf2; }
+.stat-red   { border-top-color: #cc3d00; background: #fff8f5; }
+.stat-green { border-top-color: #1a7040; background: #f4fdf7; }
+.stat-super { font-size: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.6px; color: #778899; margin-bottom: 2px; }
+.stat-val { font-size: 30px; font-weight: bold; line-height: 1; color: #002060; }
+.stat-navy  .stat-val, .stat-blue  .stat-val { color: #002060; }
+.stat-green .stat-val { color: #1a5c30; }
+.stat-amber .stat-val { color: #7a5000; }
+.stat-red   .stat-val { color: #8b2000; }
+.stat-unit { font-size: 12px; font-weight: bold; color: #8899aa; margin-left: 2px; }
+.stat-label { font-size: 9px; font-weight: bold; color: #1a3660; text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px; }
+.stat-context { font-size: 7.5px; color: #778899; line-height: 1.5; margin-top: 2px; }
+.detail-row { display: flex; gap: 10px; }
+.support-panel { flex: 1; background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.support-banner { background: #1a3660; color: #88aacc; padding: 5px 14px; font-size: 9px; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; flex-shrink: 0; }
+.support-body { flex: 1; padding: 8px 12px; font-size: 9px; color: #334466; line-height: 1.65; display: flex; flex-direction: column; gap: 5px; }
+.support-body strong { color: #002060; }
+.row-item { display: flex; align-items: flex-start; gap: 8px; padding: 4px 6px; background: #f8fafb; border-radius: 4px; border-left: 3px solid #c8d8e8; }
+.row-item-l { border-left-color: #1d5fa8; }
+.row-item-a { border-left-color: #cc8800; }
+.row-item-r { border-left-color: #cc3d00; }
+.row-item-g { border-left-color: #1a7040; }
+.row-icon { flex-shrink: 0; font-size: 11px; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">When to Use Output Filters</div>
+  <div class="header-tag">Section 3 — Installation &amp; Filters</div>
+</div>
+<div class="outer">
+  <div class="stat-row">
+    <div class="stat-card stat-amber">
+      <div class="stat-super">Motor cable length trigger</div>
+      <div class="stat-val">50<span class="stat-unit">m</span></div>
+      <div class="stat-label">du/dt Filter Threshold</div>
+      <div class="stat-context">Motor cables longer than ~50 m create voltage reflection (overshoot). A du/dt filter limits slew rate to ≤ 500 V/μs and reduces peak voltage at motor terminals.</div>
+    </div>
+    <div class="stat-card stat-red">
+      <div class="stat-super">Old motor winding stress</div>
+      <div class="stat-val">500<span class="stat-unit">V/μs</span></div>
+      <div class="stat-label">Max du/dt for Standard Motors</div>
+      <div class="stat-context">Pre-2000 rewound motors and low-cost motors may have insulation not rated for modern IGBT switching. A sine-wave filter eliminates this risk entirely.</div>
+    </div>
+    <div class="stat-card stat-blue">
+      <div class="stat-super">Bearing EDM threshold</div>
+      <div class="stat-val">0.5<span class="stat-unit">μm</span></div>
+      <div class="stat-label">Lubricant Film Thickness</div>
+      <div class="stat-context">The bearing lubricant film is ~0.5 μm thick. A CM voltage across this film causes dielectric breakdown at ~10 V — leading to electrical discharge machining (EDM). A CM filter addresses this.</div>
+    </div>
+    <div class="stat-card stat-green">
+      <div class="stat-super">Acoustic noise threshold</div>
+      <div class="stat-val">1<span class="stat-unit">kHz</span></div>
+      <div class="stat-label">Switching Below Audible Range</div>
+      <div class="stat-context">If the carrier frequency falls in the audible range (1–4 kHz), motor coil vibration produces an audible tone. A sine-wave filter eliminates the harmonic content that drives this vibration.</div>
+    </div>
+  </div>
+
+  <div class="detail-row">
+    <div class="support-panel">
+      <div class="support-banner">Filter Selection Guide</div>
+      <div class="support-body">
+        <div class="row-item row-item-l">
+          <span class="row-icon">&#9632;</span>
+          <div><strong>du/dt filter:</strong> Short cables, standard motors, winding insulation stress only. Lowest cost and insertion loss. Still leaves PWM ripple on motor current.</div>
+        </div>
+        <div class="row-item row-item-a">
+          <span class="row-icon">&#9632;</span>
+          <div><strong>Sine-wave filter:</strong> Long cables (&gt; 100 m), older rewound motors, acoustic noise complaints, multi-motor configurations on one drive output. Converts PWM to near-sinusoidal output.</div>
+        </div>
+        <div class="row-item row-item-r">
+          <span class="row-icon">&#9632;</span>
+          <div><strong>CM output filter:</strong> Bearing failure protection for large motors (&gt; 75 kW on a single drive). Used when shaft grounding brushes are not practical. Reduces bearing current by 90%.</div>
+        </div>
+        <div class="row-item row-item-g">
+          <span class="row-icon">&#10003;</span>
+          <div><strong>No filter needed:</strong> Short cable (&lt; 20 m), modern inverter-duty motor, cable and motor from the same manufacturer's specified combination — check the drive's application guide.</div>
+        </div>
+      </div>
+    </div>
+    <div class="support-panel">
+      <div class="support-banner">Drive-Induced Secondary Effects</div>
+      <div class="support-body">
+        <div class="row-item row-item-a">
+          <span class="row-icon">!</span>
+          <div><strong>Motor winding insulation stress:</strong> Steep voltage edges cause voltage doubling at motor terminals due to cable impedance mismatch. Hazardous for motors not rated for inverter duty.</div>
+        </div>
+        <div class="row-item row-item-r">
+          <span class="row-icon">!</span>
+          <div><strong>Bearing EDM (electrical discharge machining):</strong> Common-mode voltage appears across bearing lubricant film. At threshold voltage, film breaks down — causing pitting on bearing races. See Section&nbsp;4.</div>
+        </div>
+        <div class="row-item row-item-l">
+          <span class="row-icon">!</span>
+          <div><strong>Acoustic switching noise:</strong> Carrier frequency audible in motor coils when f<sub>SW</sub> &lt; 4 kHz. Higher switching frequency or sine-wave filter resolves this.</div>
+        </div>
+        <div class="row-item row-item-l">
+          <span class="row-icon">!</span>
+          <div><strong>Supply harmonics:</strong> Drive input rectifier draws pulsed current — creates 5th, 7th harmonics on the supply. See IEEE&nbsp;519 for limits. Not addressed by output filters.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">Match the filter to the problem. <strong>du/dt</strong> for winding insulation stress with cable &gt; 50 m. <strong>Sine-wave</strong> for long cables, old motors, or acoustic noise. <strong>Common-mode</strong> for bearing EDM protection on large motors. Do not over-specify — each filter type adds cost, losses, and bulk.</div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

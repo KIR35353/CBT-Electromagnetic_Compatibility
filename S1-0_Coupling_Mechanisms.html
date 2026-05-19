@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Four Coupling Mechanisms | Section 1 — What Is EMC?</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #f8fafb;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 1040px;
+  min-height: 510px;
+  overflow: hidden;
+}
+.header {
+  background: #002060; color: #fff;
+  height: 50px; display: flex; align-items: center;
+  padding: 0 24px; justify-content: space-between;
+}
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag {
+  background: #1a3660; border: 1px solid #3d7fbd;
+  border-radius: 12px; padding: 4px 16px;
+  font-size: 10px; font-weight: bold; color: #88aacc;
+  letter-spacing: 0.5px; white-space: nowrap;
+}
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
+.main-row { display: flex; gap: 14px; align-items: flex-start; }
+.layers-panel { flex: 0 0 530px; display: flex; flex-direction: column; gap: 0; }
+.layer { display: flex; align-items: stretch; border-radius: 4px; overflow: hidden; border: 1.5px solid #c8d8e8; }
+.layer-bar { width: 8px; flex-shrink: 0; }
+.layer-inner { flex: 1; display: flex; align-items: center; padding: 7px 12px; gap: 10px; background: #fff; }
+.layer-badge { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: #fff; flex-shrink: 0; }
+.layer-content { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.layer-title { font-size: 9.5px; font-weight: bold; color: #1a3660; letter-spacing: 0.3px; }
+.layer-desc { font-size: 8.5px; color: #334466; line-height: 1.5; }
+.layer-icon { font-size: 22px; flex-shrink: 0; width: 30px; text-align: center; }
+.layer-arrow { display: flex; align-items: center; justify-content: center; height: 10px; margin: 0 0 0 12px; }
+.layer-arrow::before { content: ''; display: block; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 7px solid #8899aa; }
+.layer-amber  .layer-bar, .layer-amber  .layer-badge { background: #cc8800; }
+.layer-amber  .layer-inner { background: #fff8e0; border-color: #cc8800; }
+.layer-blue   .layer-bar, .layer-blue   .layer-badge { background: #1d5fa8; }
+.layer-blue   .layer-inner { background: #eef4fb; border-color: #3d7fbd; }
+.layer-navy   .layer-bar, .layer-navy   .layer-badge { background: #1a3660; }
+.layer-navy   .layer-inner { background: #e8f0f8; border-color: #1a3660; }
+.layer-orange .layer-bar, .layer-orange .layer-badge { background: #cc6000; }
+.layer-orange .layer-inner { background: #fff0e8; border-color: #cc6000; }
+.notes-panel { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.note-box { background: #fff; border: 1.5px solid #c8d8e8; border-left: 4px solid #002060; border-radius: 0 7px 7px 0; padding: 8px 12px 8px 14px; }
+.note-head { font-size: 9.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.4px; color: #1a3660; margin-bottom: 4px; }
+.note-body { font-size: 8.5px; color: #334466; line-height: 1.65; }
+.note-body strong { color: #002060; }
+.note-box-dark { background: #002060; border: none; border-radius: 7px; padding: 8px 12px; }
+.note-box-dark .note-head { color: #cc8800; }
+.note-box-dark .note-body { color: #dce7f5; }
+.note-box-dark .note-body strong { color: #fff; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">Four Coupling Mechanisms</div>
+  <div class="header-tag">Section 1 — What Is EMC?</div>
+</div>
+
+<div class="outer">
+  <div class="main-row">
+    <div class="layers-panel">
+
+      <div class="layer layer-amber">
+        <div class="layer-bar"></div>
+        <div class="layer-inner">
+          <div class="layer-icon">&#9889;</div>
+          <div class="layer-badge">1</div>
+          <div class="layer-content">
+            <div class="layer-title">Galvanic Coupling — Direct Conductive Connection</div>
+            <div class="layer-desc">A direct wire or metallic path is shared between the noise source and the victim circuit. Noise current flows through the common impedance. Example: shared neutral conductor or common PE rail.</div>
+          </div>
+        </div>
+      </div>
+      <div class="layer-arrow"></div>
+
+      <div class="layer layer-blue">
+        <div class="layer-bar"></div>
+        <div class="layer-inner">
+          <div class="layer-icon">&#9646;</div>
+          <div class="layer-badge">2</div>
+          <div class="layer-content">
+            <div class="layer-title">Capacitive Coupling — Through Parasitic Capacitances</div>
+            <div class="layer-desc">High-frequency noise transfers between conductors through parasitic capacitances — the stray capacitance between motor windings and frame is the primary capacitive path in AC drive systems. Proportional to dV/dt.</div>
+          </div>
+        </div>
+      </div>
+      <div class="layer-arrow"></div>
+
+      <div class="layer layer-navy">
+        <div class="layer-bar"></div>
+        <div class="layer-inner">
+          <div class="layer-icon">&#8651;</div>
+          <div class="layer-badge">3</div>
+          <div class="layer-content">
+            <div class="layer-title">Inductive Coupling — Magnetic Field Between Conductors</div>
+            <div class="layer-desc">A changing current in one conductor induces a voltage in a nearby conductor via mutual inductance. Minimised by separating power and signal cables and by using twisted pairs for signal wiring.</div>
+          </div>
+        </div>
+      </div>
+      <div class="layer-arrow"></div>
+
+      <div class="layer layer-orange">
+        <div class="layer-bar"></div>
+        <div class="layer-inner">
+          <div class="layer-icon">&#8764;</div>
+          <div class="layer-badge">4</div>
+          <div class="layer-content">
+            <div class="layer-title">Electromagnetic Coupling — Radiation and Reception</div>
+            <div class="layer-desc">Energy radiates from a conductor acting as an antenna. A second conductor picks up the electromagnetic wave. Dominant at high frequencies (&gt; 30 MHz). Shielded cables break this path.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /layers-panel -->
+
+    <div class="notes-panel">
+      <div class="note-box">
+        <div class="note-head">Source &#x2192; Path &#x2192; Victim Model</div>
+        <div class="note-body">Every EMI problem has three elements: a <strong>source</strong> generating the disturbance, a <strong>coupling path</strong> (one of the four above), and a <strong>victim</strong> circuit. Removing any one of the three eliminates the problem.</div>
+      </div>
+      <div class="note-box">
+        <div class="note-head">Dominant Paths in AC Drive Installations</div>
+        <div class="note-body"><strong>Capacitive</strong> coupling dominates at drive output frequencies — parasitic capacitance between winding and motor frame drives common-mode current. <strong>Inductive</strong> coupling between parallel motor and control cables causes differential interference on signal circuits.</div>
+      </div>
+      <div class="note-box-dark">
+        <div class="note-head">&#9874; Marine Context — Life-Safety Receivers</div>
+        <div class="note-body">On a towboat, <strong>AIS transponders</strong> and <strong>VHF radios</strong> are life-safety devices. 46&nbsp;CFR&nbsp;§143.575(5) requires that cable routing avoids interference with radio reception and compass. Electromagnetic coupling from improperly screened drive cables is a real risk.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">Identifying which coupling mechanism is active is the first step in fixing any EMI problem. In AC drive systems, <strong>capacitive coupling</strong> via parasitic motor-frame capacitance is the dominant mechanism — producing common-mode current that must be controlled through correct grounding and shielding.</div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')';
+      document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit();
+    window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section 4 &middot; Bearing Electric Stress | Electromagnetic Compatibility for AC Drive Systems</title>
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   KIRBY CORPORATION BRAND PALETTE
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --k-navy:        #002060;
+  --k-navy-mid:    #1a3a6e;
+  --k-navy-light:  #274d8a;
+  --k-blue:        #1d5fa8;
+  --k-steel:       #3d7fbd;
+  --k-steel-lt:    #80b4dc;
+  --k-orange:      #cc3d00;
+  --k-orange-lt:   #e06828;
+  --k-orange-glow: rgba(204,61,0,0.28);
+  --k-white:       #ffffff;
+  --k-offwhite:    #f3f6fb;
+  --k-mid:         #dce7f5;
+  --k-text-dark:   #0d1d33;
+  --k-muted:       #6a7d94;
+  --k-border:      rgba(255,255,255,0.13);
+  --r:             10px;
+  --t:             0.38s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--k-navy);
+}
+
+body {
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  color: var(--k-white);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   HEADER
+───────────────────────────────────────────────────────────── */
+header {
+  flex-shrink: 0;
+  background: #001245;
+  border-bottom: 3px solid var(--k-orange);
+  padding: 9px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hdr-left { display: flex; align-items: center; gap: 14px; }
+.hdr-logo { height: 36px; opacity: 0.93; }
+.hdr-titles { line-height: 1.3; }
+.hdr-id {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--k-orange-lt);
+}
+.hdr-course { font-size: 12.5px; font-weight: 600; color: var(--k-white); }
+
+/* Progress dots */
+.hdr-right { display: flex; align-items: center; gap: 12px; }
+.dots { display: flex; gap: 9px; }
+.dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--k-steel); background: transparent;
+  cursor: pointer; padding: 0;
+  transition: background var(--t), border-color var(--t), transform 0.2s;
+}
+.dot:hover { border-color: var(--k-steel-lt); }
+.dot.visited { background: var(--k-steel); border-color: var(--k-steel-lt); }
+.dot.active  { background: var(--k-orange); border-color: var(--k-orange-lt); transform: scale(1.3); }
+.dot-counter { font-size: 11px; color: var(--k-muted); white-space: nowrap; }
+
+/* ─────────────────────────────────────────────────────────────
+   STAGE
+───────────────────────────────────────────────────────────── */
+.stage { flex: 1; overflow: hidden; position: relative; }
+
+.screen {
+  position: absolute; inset: 0;
+  padding: 20px 44px 14px;
+  display: none; flex-direction: column; gap: 12px;
+  opacity: 0; transition: opacity 0.35s ease;
+  overflow-y: auto;
+}
+.screen.active  { display: flex; }
+.screen.visible { opacity: 1; }
+
+.scrn-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.8px;
+  text-transform: uppercase; color: var(--k-orange-lt); opacity: 0.85; flex-shrink: 0;
+}
+.scrn-h1 { font-size: 22px; font-weight: 800; line-height: 1.15; color: var(--k-white); }
+.rule { width: 64px; height: 3px; background: var(--k-orange); border-radius: 2px; margin-top: 4px; }
+
+/* ─────────────────────────────────────────────────────────────
+   IFRAME SCREENS
+───────────────────────────────────────────────────────────── */
+.iframe-screen {
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  background: var(--k-navy);
+  overflow: auto;
+}
+.iframe-screen iframe {
+  display: block;
+  border: none;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   QUIZ SCREEN
+───────────────────────────────────────────────────────────── */
+.quiz-screen {
+  background: linear-gradient(160deg, #001a4a 0%, var(--k-navy) 100%);
+}
+.quiz-body {
+  flex: 1; min-height: 0; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 18px; padding-bottom: 12px;
+}
+.quiz-progress { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.qp-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid var(--k-steel);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--k-muted);
+  transition: all 0.3s; user-select: none;
+}
+.qp-dot.active  { border-color: var(--k-orange);  color: var(--k-orange-lt); background: rgba(204,61,0,0.12); }
+.qp-dot.correct { border-color: #22a06b; color: #22a06b; background: rgba(34,160,107,0.12); }
+.qp-dot.wrong   { border-color: #e03131; color: #e03131; background: rgba(224,49,49,0.12); }
+
+.q-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; padding: 18px 20px;
+  display: none; flex-direction: column; gap: 14px;
+}
+.q-card.active { display: flex; }
+.q-number {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--k-orange-lt); margin-bottom: 4px;
+}
+.q-stem { font-size: 14.5px; font-weight: 600; color: var(--k-white); line-height: 1.5; }
+.q-options { display: flex; flex-direction: column; gap: 8px; }
+.q-opt {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 14px; border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);
+  cursor: pointer; transition: background 0.18s, border-color 0.18s;
+  font-size: 13px; line-height: 1.45; color: var(--k-offwhite); user-select: none;
+}
+.q-opt:hover:not(.locked) { background: rgba(61,127,189,0.12); border-color: var(--k-steel); }
+.q-opt.selected { background: rgba(61,127,189,0.15); border-color: var(--k-steel-lt); }
+.q-opt.correct  { background: rgba(34,160,107,0.14); border-color: #22a06b; color: #a8f4cf; }
+.q-opt.wrong    { background: rgba(224,49,49,0.12);  border-color: #e03131; color: #ffa8a8; }
+.q-opt.locked   { cursor: default; }
+.q-opt-key {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1.5px solid currentColor;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.q-feedback {
+  display: none; padding: 10px 14px; border-radius: 7px;
+  font-size: 12.5px; line-height: 1.55;
+}
+.q-feedback.show        { display: block; }
+.q-feedback.fb-correct  { background: rgba(34,160,107,0.12); border: 1px solid #22a06b; color: #a8f4cf; }
+.q-feedback.fb-wrong    { background: rgba(224,49,49,0.10);  border: 1px solid #e03131; color: #ffa8a8; }
+.q-feedback.fb-retry    { background: rgba(204,61,0,0.10);   border: 1px solid var(--k-orange); color: var(--k-orange-lt); }
+.q-actions { display: flex; justify-content: flex-end; gap: 10px; }
+.btn-check {
+  background: var(--k-orange); color: var(--k-white);
+  border: none; border-radius: 7px; padding: 7px 20px;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.btn-check:hover:not(:disabled) { background: var(--k-orange-lt); }
+.btn-check:disabled { opacity: 0.35; cursor: default; }
+.btn-qnext {
+  background: rgba(61,127,189,0.15); color: var(--k-steel-lt);
+  border: 1px solid var(--k-steel); border-radius: 7px; padding: 7px 20px;
+  font-size: 13px; font-weight: 600; cursor: pointer; display: none; transition: background 0.2s;
+}
+.btn-qnext:hover { background: rgba(61,127,189,0.25); }
+.btn-qnext.show  { display: inline-block; }
+.score-panel {
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  gap: 16px; text-align: center; padding: 20px; flex: 1;
+}
+.score-panel.show { display: flex; }
+.score-big { font-size: 64px; font-weight: 900; line-height: 1; }
+.score-big.pass { color: #22a06b; }
+.score-big.fail { color: #e03131; }
+.score-label { font-size: 14px; color: var(--k-muted); max-width: 420px; line-height: 1.6; }
+.btn-review {
+  background: rgba(255,255,255,0.07); color: var(--k-steel-lt);
+  border: 1px solid var(--k-steel); border-radius: 7px; padding: 8px 24px;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.btn-review:hover { background: rgba(255,255,255,0.14); }
+
+/* ─────────────────────────────────────────────────────────────
+   VO BAR
+───────────────────────────────────────────────────────────── */
+.vo-bar {
+  flex-shrink: 0; background: rgba(0,0,0,0.38);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 9px 28px; display: flex; align-items: center; gap: 14px; min-height: 54px;
+}
+.vo-mic {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--k-navy-mid); border: 2px solid var(--k-steel);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: border-color 0.25s, background 0.25s;
+}
+.vo-mic svg { width: 17px; height: 17px; fill: var(--k-steel-lt); transition: fill 0.25s; }
+.vo-bar.live .vo-mic { background: var(--k-orange-glow); border-color: var(--k-orange-lt); }
+.vo-bar.live .vo-mic svg { fill: var(--k-orange-lt); }
+.vo-text { flex: 1; overflow: hidden; }
+.vo-label-tag {
+  font-size: 9px; font-weight: 700; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--k-muted); margin-bottom: 2px;
+}
+.vo-caption { font-size: 12px; color: var(--k-muted); line-height: 1.45; font-style: italic; transition: color 0.25s; }
+.vo-bar.live .vo-caption { color: var(--k-white); }
+.wave { display: flex; gap: 2px; align-items: center; height: 18px; opacity: 0; transition: opacity 0.25s; }
+.vo-bar.live .wave { opacity: 1; }
+.wave span {
+  display: block; width: 3px; border-radius: 2px; background: var(--k-orange-lt);
+  animation: wv 0.75s ease-in-out infinite;
+}
+.wave span:nth-child(1) { height: 5px;  animation-delay: 0s;    }
+.wave span:nth-child(2) { height: 13px; animation-delay: 0.15s; }
+.wave span:nth-child(3) { height: 8px;  animation-delay: 0.05s; }
+.wave span:nth-child(4) { height: 16px; animation-delay: 0.2s;  }
+.wave span:nth-child(5) { height: 6px;  animation-delay: 0.1s;  }
+@keyframes wv {
+  0%,100% { transform: scaleY(1); }
+  50%      { transform: scaleY(0.3); }
+}
+.btn-pause {
+  flex-shrink: 0; background: transparent; color: var(--k-steel-lt);
+  font-size: 12px; font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.14); border-radius: 7px; padding: 7px 14px;
+  cursor: pointer; transition: color 0.2s, border-color 0.2s, opacity 0.2s;
+}
+.btn-pause:hover:not(:disabled) { color: var(--k-white); border-color: var(--k-steel); }
+.btn-pause:disabled { opacity: 0.35; cursor: default; }
+.btn-pause.paused { color: var(--k-orange-lt); border-color: var(--k-orange-lt); }
+
+/* ─────────────────────────────────────────────────────────────
+   FOOTER NAV
+───────────────────────────────────────────────────────────── */
+footer {
+  flex-shrink: 0; background: #001245;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 8px 28px; display: flex; align-items: center; justify-content: space-between;
+}
+.btn {
+  border: none; border-radius: 7px; padding: 7px 20px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+.btn:disabled { opacity: 0.32; cursor: default; }
+.btn-back { background: rgba(255,255,255,0.07); color: var(--k-steel-lt); }
+.btn-back:hover:not(:disabled) { background: rgba(255,255,255,0.14); }
+.btn-next { background: var(--k-orange); color: var(--k-white); }
+.btn-next:hover:not(:disabled) { background: var(--k-orange-lt); }
+.btn-replay {
+  background: transparent; color: var(--k-muted); font-size: 12px;
+  border: 1px solid rgba(255,255,255,0.14); border-radius: 7px; padding: 7px 14px;
+  cursor: pointer; transition: color 0.2s, border-color 0.2s;
+}
+.btn-replay:hover { color: var(--k-white); border-color: var(--k-steel); }
+.ftr-centre { font-size: 11px; color: var(--k-muted); }
+
+/* ─────────────────────────────────────────────────────────────
+   AUDIO GATE OVERLAY
+───────────────────────────────────────────────────────────── */
+.audio-gate {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 22px; background: rgba(0,18,69,0.88); backdrop-filter: blur(3px);
+  transition: opacity 0.4s ease;
+}
+.audio-gate.hidden { opacity: 0; pointer-events: none; }
+.audio-gate-label {
+  font-size: 12px; font-weight: 700; letter-spacing: 1.6px;
+  text-transform: uppercase; color: var(--k-steel-lt);
+}
+.audio-gate-title {
+  font-size: 19px; font-weight: 700; color: var(--k-white);
+  text-align: center; max-width: 560px; line-height: 1.4;
+}
+.audio-gate-btn {
+  margin-top: 8px; padding: 13px 36px;
+  background: var(--k-orange); color: var(--k-white);
+  font-size: 15px; font-weight: 700; border: none; border-radius: var(--r);
+  cursor: pointer; letter-spacing: 0.5px; transition: background 0.2s;
+}
+.audio-gate-btn:hover { background: var(--k-orange-lt); }
+</style>
+</head>
+<body>
+
+<!-- ═══ AUDIO GATE ══════════════════════════════════════════ -->
+<div class="audio-gate" id="audioGate" role="dialog" aria-modal="true"
+     aria-label="Click to begin Section 4">
+  <div class="audio-gate-label">Section 4 of 6</div>
+  <div class="audio-gate-title">Bearing Electric Stress</div>
+  <button class="audio-gate-btn" id="audioGateBtn">&#9654;&nbsp; Begin Section 4</button>
+</div>
+
+<!-- ═══ HEADER ══════════════════════════════════════════════ -->
+<header>
+  <div class="hdr-left">
+    <img src="kirbyflag_imagefile.png" alt="Kirby Corporation" class="hdr-logo">
+    <div class="hdr-titles">
+      <div class="hdr-id">KIR-EMC-001 &nbsp;&middot;&nbsp; Section 4 of 6</div>
+      <div class="hdr-course">Electromagnetic Compatibility for AC Drive Systems</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="dots" id="dots" role="tablist" aria-label="Section 4 screens"></div>
+    <span class="dot-counter" id="dotCounter">Screen 1 of 6</span>
+  </div>
+</header>
+
+<!-- ═══ STAGE ═══════════════════════════════════════════════ -->
+<div class="stage">
+
+
+  <!-- â”€â”€ SCREEN 1: THE KEY NUMBERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen active" id="s-s4-0"
+       role="tabpanel" aria-label="The Key Numbers">
+    <iframe src="S4-0_EDM_Key_Numbers.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="The Key Numbers"></iframe>
+  </div>
+  <!-- â”€â”€ SCREEN 2: SHAFT VOLTAGE CAUSES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen" id="s-s4-1"
+       role="tabpanel" aria-label="Shaft Voltage Causes">
+    <iframe src="S4-1_Shaft_Voltage.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="Shaft Voltage Causes"></iframe>
+  </div>
+  <!-- â”€â”€ SCREEN 3: DIAGNOSING BEARING FAILURES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen" id="s-s4-2"
+       role="tabpanel" aria-label="Diagnosing Bearing Failures">
+    <iframe src="S4-2_Diagnose_Failures.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="Diagnosing Bearing Failures"></iframe>
+  </div>
+  <!-- â”€â”€ SCREEN 4: MITIGATION MEASURES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen" id="s-s4-3"
+       role="tabpanel" aria-label="Mitigation Measures">
+    <iframe src="S4-3_Mitigation.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="Mitigation Measures"></iframe>
+  </div>
+  <!-- â”€â”€ SCREEN 5: INSTALLING CM CORES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen" id="s-s4-4"
+       role="tabpanel" aria-label="Installing CM Cores">
+    <iframe src="S4-4_CM_Core_Install.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="Installing CM Cores"></iframe>
+  </div>
+
+  <!-- ── QUIZ SCREEN ──────────────────────────────────────── -->
+  <div class="screen quiz-screen" id="s-quiz4"
+       role="tabpanel" aria-label="Section Quiz 4">
+
+    <span class="scrn-eyebrow">Section 4 &middot; Screen 6 of 6 &middot; Section Quiz</span>
+    <div>
+      <div class="scrn-h1">Section Quiz 4 &mdash; 4 Questions</div>
+      <div class="rule"></div>
+    </div>
+
+    <!-- Quiz progress dots and question cards are generated by buildQuiz() -->
+    <div class="quiz-progress" id="qProgress" aria-label="Quiz progress"></div>
+    <div class="quiz-body" id="quizBody"></div>
+
+    <div class="score-panel" id="scorePanel">
+      <div class="score-big" id="scoreBig"></div>
+      <div class="score-label" id="scoreLabel"></div>
+      <button class="btn-review" id="btnReviewSect">&#8635; Review Section 4</button>
+    </div>
+
+  </div><!-- /quiz screen -->
+
+</div><!-- /stage -->
+
+
+<!-- ═══ VO BAR ══════════════════════════════════════════════ -->
+<div class="vo-bar" id="voBar">
+  <div class="vo-mic" id="voMic">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 1a4 4 0 014 4v6a4 4 0 01-8 0V5a4 4 0 014-4zm-1.5 14.93A8.001 8.001 0 0120 10.5a.75.75 0 011.5 0 8 8 0 01-7.25 7.95V21h2.5a.75.75 0 010 1.5h-6.5a.75.75 0 010-1.5H12.75v-2.57A8.001 8.001 0 014 10.5a.75.75 0 011.5 0 6.5 6.5 0 005 6.34V18a2 2 0 002 0v-1.07z"/>
+    </svg>
+  </div>
+  <div class="vo-text">
+    <div class="vo-label-tag">Narration &nbsp;&middot;&nbsp; Google UK English Female</div>
+    <div class="vo-caption" id="voCaption">Press Space or click Replay VO to start narration for this screen.</div>
+  </div>
+  <div class="wave" id="wave" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <button class="btn-pause" id="btnPause" aria-label="Pause narration" disabled>&#9646;&#9646; Pause</button>
+</div>
+
+
+<!-- ═══ FOOTER NAV ═══════════════════════════════════════════ -->
+<footer>
+  <button class="btn btn-back" id="btnBack" disabled>&#8592; Back</button>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <button class="btn-replay" id="btnReplay" aria-label="Replay narration">&#8635; Replay VO</button>
+    <span class="ftr-centre" id="ftrLabel">Section 4 &nbsp;&middot;&nbsp; Bearing Electric Stress &nbsp;&middot;&nbsp; 9 minutes</span>
+  </div>
+  <button class="btn btn-next" id="btnNext">Next &#8594;</button>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════════ -->
+<script>
+/* ── SCREENS ARRAY ────────────────────────────────────────────
+   Each entry: { id, label, vo }
+   • id     — must match the HTML element id of the iframe-screen div
+   • label  — shown in dot tooltips and aria-labels
+   • vo     — full narration text (use [PAUSE] for mid-speech pauses)
+   The quiz screen is always last; add it here too so VO plays on entry.
+─────────────────────────────────────────────────────────── */
+const SCREENS = [
+  {
+    id:    's-s4-0',
+    label: 'The Key Numbers',
+    vo:    'Section four: Bearing Electric Stress. When a motor runs, the bearings are isolated from the stator by a thin film of lubricant. That film is only about 0.5 micrometres thick. A voltage as low as 10 volts across that film is enough to cause a breakdown and an electrical discharge. [PAUSE] Each discharge melts a microscopic pit in the bearing race or ball surface. The accumulation of pits is called pitting. Over time, pits form a regular grooved pattern called fluting — a classic indicator of electrical bearing damage. This progressive erosion of bearing metal is called Electrical Discharge Machining, or EDM.'
+  },
+  {
+    id:    's-s4-1',
+    label: 'Shaft Voltage Causes',
+    vo:    'The main cause of EDM in variable speed drive applications is shaft voltage. The root cause is the combination of the inverter\'s steep du/dt switching and the common-mode voltage it produces. [PAUSE] Capacitive coupling between the stator winding and rotor — via the stator-rotor air gap capacitance — transfers a portion of the common-mode voltage to the rotor shaft. Inductive coupling from circulating stator currents can also contribute. In high-power motors where current exceeds 100 to 200 amperes, asymmetric motor cables are an additional factor — even independent of the drive\'s switching.'
+  },
+  {
+    id:    's-s4-2',
+    label: 'Diagnosing Bearing Failures',
+    vo:    'Not every bearing failure is electrical in origin. Mechanical root causes are in fact the most frequent. Before taking any corrective action, the root cause must be identified. A bearing that has suffered electrical stress typically shows a fluting pattern under visual inspection, with microscopic pitting visible under an electron scanning microscope. A bearing that has suffered mechanical stress — such as incorrect axial loading — shows parallel trenches across the surface. [PAUSE] Here\'s the key point: when a mechanical problem exists, it will accelerate electrical degradation. Mitigating the electrical stress in that case extends bearing life but does not fix the underlying problem. Mechanical faults must be addressed mechanically first.'
+  },
+  {
+    id:    's-s4-3',
+    label: 'Mitigation Measures',
+    vo:    'Mitigation measures fall into two groups: mechanical and electrical. On the mechanical side: verify motor-to-load alignment, check that radial and axial bearing loads are within specification, check vibration levels, and ensure the bearing is correctly lubricated for the operating speed. On the electrical side: provide a low-impedance high-frequency return path for common-mode currents — which means following EMC installation rules, using a shielded cable correctly terminated at both ends, and ensuring the motor chassis has a good high-frequency earth connection. [PAUSE] Additional electrical measures include shaft grounding brushes to directly drain shaft voltage, symmetrical motor cables in high-power applications, and common-mode filter cores. Note that common-mode filters reduce stress but do not replace a correct EMC installation. [PAUSE] In marine propulsion motor applications, shaft grounding brushes are standard practice for another reason: the propeller shaft connects the motor to seawater, which provides a low-impedance path for shaft voltage to discharge through the hull. A shaft grounding brush prevents that discharge path from causing electrolytic corrosion of the propeller, shaft bearings, and underwater metalwork.'
+  },
+  {
+    id:    's-s4-4',
+    label: 'Installing CM Cores',
+    vo:    'High-frequency common-mode cores consist of nanocrystalline magnetic rings. All three motor phase conductors must pass through the cores — it is essential to follow the installation instructions exactly. If not all phases pass through, or if the shield or PE conductor is included, the core will saturate or become ineffective. [PAUSE] The cores can be fitted at the drive terminals or inside the motor terminal box. At the drive terminals, the cores also reduce high-frequency noise on the motor cable — but the cable\'s capacitive current can saturate the cores in long-cable applications. Inside the motor terminal box, saturation risk is eliminated because only the motor current flows through the cores at that point. However, the cable itself will still radiate in that case.'
+  },
+  {
+    id:    's-quiz4',
+    label: 'Section Quiz 4',
+    vo:    'Let\'s test your understanding of bearing electric stress. Four questions from the pool — three correct needed to proceed.'
+  }
+];
+
+let cur         = 0;
+let quizPassed  = false;
+let hasGestured = false;
+let voPaused    = false;
+let curVoText   = '';
+let voiceUK     = null;
+const synth     = window.speechSynthesis;
+
+function loadVoice() {
+  const v = synth.getVoices();
+  voiceUK =
+    v.find(x => x.name === 'Google UK English Female') ||
+    v.find(x => x.lang === 'en-GB' && /female/i.test(x.name)) ||
+    v.find(x => x.lang === 'en-GB') ||
+    v.find(x => /en.gb/i.test(x.lang)) ||
+    v.find(x => x.lang.startsWith('en'));
+}
+loadVoice();
+if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = loadVoice;
+}
+
+function speakOne(text) {
+  synth.cancel();
+  curVoText = text;
+  voPaused = false;
+  updatePauseBtn();
+  const segments = text.split('[PAUSE]').map(s => s.trim()).filter(s => s.length > 0);
+  function speakSegment(i) {
+    if (i >= segments.length) { setLive(false); return; }
+    const u = new SpeechSynthesisUtterance(segments[i]);
+    if (voiceUK) u.voice = voiceUK;
+    u.lang = 'en-GB'; u.rate = 0.93; u.pitch = 1.0; u.volume = 1.0;
+    if (i === 0) u.onstart = () => setLive(true, text);
+    u.onend = () => { if (i < segments.length - 1) { setTimeout(() => speakSegment(i + 1), 700); } else { setLive(false); } };
+    u.onerror = () => setLive(false);
+    synth.speak(u);
+  }
+  speakSegment(0);
+}
+
+function setLive(on, text) {
+  const bar = document.getElementById('voBar');
+  const cap = document.getElementById('voCaption');
+  if (on) { bar.classList.add('live'); cap.textContent = text || '\u2026'; }
+  else    { bar.classList.remove('live'); voPaused = false; }
+  updatePauseBtn();
+}
+
+function updatePauseBtn() {
+  const btn = document.getElementById('btnPause');
+  if (!btn) return;
+  if (voPaused) {
+    btn.textContent = '\u25b6 Resume'; btn.classList.add('paused'); btn.disabled = false;
+  } else if (synth.speaking) {
+    btn.textContent = '\u23f8 Pause'; btn.classList.remove('paused'); btn.disabled = false;
+  } else {
+    btn.textContent = '\u23f8 Pause'; btn.classList.remove('paused'); btn.disabled = true;
+  }
+}
+
+function pauseResume() {
+  if (voPaused) {
+    synth.resume();
+    voPaused = false;
+    document.getElementById('voBar').classList.add('live');
+    updatePauseBtn();
+  } else if (synth.speaking) {
+    synth.pause(); voPaused = true;
+    document.getElementById('voBar').classList.remove('live');
+    updatePauseBtn();
+  }
+}
+
+function goTo(idx, autoSpeak) {
+  if (idx < 0 || idx >= SCREENS.length) return;
+  const oldEl = document.getElementById(SCREENS[cur].id);
+  oldEl.classList.remove('visible');
+  setTimeout(() => { oldEl.classList.remove('active'); }, 360);
+  cur = idx;
+  const newEl = document.getElementById(SCREENS[cur].id);
+  newEl.classList.add('active');
+  requestAnimationFrame(() => { requestAnimationFrame(() => { newEl.classList.add('visible'); }); });
+  updateDots(); updateNav();
+  synth.cancel();
+  if (autoSpeak !== false && hasGestured) {
+    setTimeout(() => speakOne(SCREENS[cur].vo), 400);
+  }
+}
+
+function updateNav() {
+  document.getElementById('btnBack').disabled = (cur === 0);
+  const nextBtn = document.getElementById('btnNext');
+  if (cur === SCREENS.length - 1) {
+    /* ── QUIZ SCREEN: gate Next behind quiz pass ── */
+    if (quizPassed) {
+      nextBtn.textContent = 'Section 5 ▸';
+      nextBtn.disabled    = false;
+      nextBtn.onclick     = () => { window.location.href = 'S5_Section5.html'; };
+    } else {
+      nextBtn.textContent = 'Pass Quiz to Continue';
+      nextBtn.disabled    = true;
+      nextBtn.onclick     = null;
+    }
+  } else {
+    nextBtn.textContent = 'Next \u2192';
+    nextBtn.disabled    = false;
+    nextBtn.onclick     = null;
+  }
+  document.getElementById('dotCounter').textContent =
+    'Screen ' + (cur + 1) + ' of ' + SCREENS.length;
+}
+
+function buildDots() {
+  const container = document.getElementById('dots');
+  SCREENS.forEach((s, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'dot' + (i === 0 ? ' active' : '');
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-label', 'Screen ' + (i + 1) + ': ' + s.label);
+    btn.title = s.label;
+    btn.addEventListener('click', () => goTo(i));
+    container.appendChild(btn);
+  });
+}
+
+function updateDots() {
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.classList.remove('active', 'visited');
+    if      (i === cur) d.classList.add('active');
+    else if (i < cur)   d.classList.add('visited');
+  });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { if (cur < SCREENS.length - 1) goTo(cur + 1); }
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { if (cur > 0) goTo(cur - 1); }
+  else if (e.key === ' ') { e.preventDefault(); speakOne(SCREENS[cur].vo); }
+});
+
+document.getElementById('btnBack').addEventListener('click', () => { if (cur > 0) goTo(cur - 1); });
+document.getElementById('btnNext').addEventListener('click', () => { if (cur < SCREENS.length - 1) goTo(cur + 1); });
+document.getElementById('btnReplay').addEventListener('click', () => { hasGestured = true; speakOne(SCREENS[cur].vo); });
+document.getElementById('btnPause').addEventListener('click', pauseResume);
+
+buildDots();
+updateNav();
+requestAnimationFrame(() => { requestAnimationFrame(() => { document.getElementById(SCREENS[0].id).classList.add('visible'); }); });
+
+document.getElementById('audioGateBtn').addEventListener('click', () => {
+  hasGestured = true;
+  const gate = document.getElementById('audioGate');
+  gate.classList.add('hidden');
+  gate.addEventListener('transitionend', () => gate.remove(), { once: true });
+  speakOne(SCREENS[0].vo);
+});
+
+/* ─── QUIZ LOGIC ──────────────────────────────────────────────
+   QUIZ_POOL — full bank of questions for this section.
+   The builder selects QUIZ_PICK items at random each attempt.
+
+   Each question object:
+   {
+     stem:    'Question text?',
+     options: [ { val: 'A', text: '...' }, { val: 'B', text: '...' }, ... ],
+     correct: 'B',           // must match a val
+     feedback: {
+       correct: '✓ Correct. Explanation...',
+       wrong:   '✗ Not quite. Explanation...',
+       retry:   'Incorrect — try again.'
+     }
+   }
+─────────────────────────────────────────────────────────── */
+const QUIZ_POOL = [
+  {
+    stem: 'What is the approximate thickness of the lubricant film that isolates the bearing races at normal operating speed?',
+    options: [
+      { val: 'A', text: '0.5 millimetres' },
+      { val: 'B', text: '5 micrometres' },
+      { val: 'C', text: '0.5 micrometres' },
+      { val: 'D', text: '50 nanometres' }
+    ],
+    correct: 'C',
+    feedback: {
+      correct: '✓ Correct. The lubricant film is approximately 0.5 micrometres thick. This extremely thin film means a shaft voltage of only around 10 V can cause an electrical breakdown and discharge.',
+      wrong:   '✗ Not quite. The lubricant film is approximately 0.5 micrometres (0.5 × 10⁻⁶ metres) thick. Only about 10 V is needed to break it down.',
+      retry:   'Incorrect — recall the order of magnitude for the lubricant film thickness and why it makes bearings vulnerable to even low shaft voltages.'
+    }
+  },
+  {
+    stem: 'The term EDM in the context of motor bearings stands for:',
+    options: [
+      { val: 'A', text: 'Electromagnetic Disturbance Mechanism' },
+      { val: 'B', text: 'Electrical Discharge Machining' },
+      { val: 'C', text: 'Electronic Drive Mode' },
+      { val: 'D', text: 'Eddy-current Damping Mechanism' }
+    ],
+    correct: 'B',
+    feedback: {
+      correct: '✓ Correct. EDM stands for Electrical Discharge Machining — the same process used industrially to shape metal, but here occurring destructively inside the bearing.',
+      wrong:   '✗ Not quite. EDM stands for Electrical Discharge Machining. The repeated micro-discharges through the lubricant film ablate the metal of the races and balls.',
+      retry:   'Incorrect — this abbreviation is borrowed from a manufacturing process that shapes metal using electrical discharges.'
+    }
+  },
+  {
+    stem: 'A visual inspection of a failed motor bearing reveals a regular grooved pattern across the bearing race surface. What does this most likely indicate?',
+    options: [
+      { val: 'A', text: 'The bearing has suffered mechanical overload from incorrect axial loading' },
+      { val: 'B', text: 'The bearing grease has broken down due to excessive temperature' },
+      { val: 'C', text: 'The bearing has suffered electrical discharge damage (EDM), indicated by a fluting pattern' },
+      { val: 'D', text: 'The bearing inner race has spun on the shaft due to incorrect fit' }
+    ],
+    correct: 'C',
+    feedback: {
+      correct: '✓ Correct. A regular grooved fluting pattern is the classic visual indicator of electrical bearing damage caused by repeated EDM discharges over time.',
+      wrong:   '✗ Not quite. A fluting pattern — regular grooves across the bearing race — is characteristic of EDM. Mechanical damage typically shows as parallel trenches or pitting from impact loading.',
+      retry:   'Incorrect — recall which type of damage produces a characteristic regular groove pattern on the bearing race surface.'
+    }
+  },
+  {
+    stem: 'What is the primary root cause of increased shaft voltage when a variable speed drive is used, compared to direct-on-line operation?',
+    options: [
+      { val: 'A', text: 'The motor runs at variable speed, changing the bearing lubricant film properties' },
+      { val: 'B', text: 'The steep du/dt switching of the inverter combined with the common-mode voltage it produces' },
+      { val: 'C', text: 'The RFI filter inside the drive generates high-frequency voltages on the motor shaft' },
+      { val: 'D', text: 'The DC-link capacitors discharge through the motor winding-to-rotor parasitic capacitance' }
+    ],
+    correct: 'B',
+    feedback: {
+      correct: '✓ Correct. The steep du/dt of the inverter, combined with the common-mode voltage it inherently produces, is capacitively coupled from the stator winding to the rotor — raising shaft voltage above what occurs in direct-on-line operation.',
+      wrong:   '✗ Not quite. The key factor is the inverter\'s steep du/dt switching rate combined with the common-mode voltage at the output. This creates a capacitive coupling path from stator winding to rotor that does not exist to the same degree in direct-on-line operation.',
+      retry:   'Incorrect — consider what is different about the motor\'s applied voltage waveform when a variable speed drive is used compared to a direct sinusoidal supply.'
+    }
+  },
+  {
+    stem: 'A motor bearing fails repeatedly despite fitting common-mode filter cores. The root cause has not been investigated. What is the most likely explanation?',
+    options: [
+      { val: 'A', text: 'The common-mode filter cores are not suitable for this motor type' },
+      { val: 'B', text: 'An unresolved mechanical root cause is continuing to stress the bearing, with electrical stress accelerating the damage' },
+      { val: 'C', text: 'The cores have been fitted at the motor terminal box instead of the drive terminals' },
+      { val: 'D', text: 'The motor cable is too long for common-mode filter cores to be effective' }
+    ],
+    correct: 'B',
+    feedback: {
+      correct: '✓ Correct. If a mechanical root cause is present, electrical mitigation extends bearing life but does not fix the underlying problem. The mechanical fault must be identified and corrected first.',
+      wrong:   '✗ Not quite. Electrical mitigation can reduce the rate of damage, but if a mechanical root cause exists (misalignment, overloading, incorrect lubrication), the bearing will continue to fail until that is addressed.',
+      retry:   'Incorrect — recall the guidance on diagnosing bearing failures and what happens when a mechanical root cause exists alongside electrical stress.'
+    }
+  },
+  {
+    stem: 'Which measure provides the most direct path to eliminate shaft voltage by draining it away continuously?',
+    options: [
+      { val: 'A', text: 'Using a symmetric motor cable' },
+      { val: 'B', text: 'Installing a sine-wave filter' },
+      { val: 'C', text: 'Fitting a shaft grounding brush' },
+      { val: 'D', text: 'Connecting a 100 nF capacitor from shaft to frame' }
+    ],
+    correct: 'C',
+    feedback: {
+      correct: '✓ Correct. A shaft grounding brush makes direct electrical contact with the rotating shaft, providing a continuous low-impedance path to drain shaft voltage to the motor frame before it builds up to the breakdown level.',
+      wrong:   '✗ Not quite. A shaft grounding brush makes direct contact with the rotating shaft, providing a low-impedance continuous discharge path that prevents shaft voltage from building up to the lubricant breakdown level.',
+      retry:   'Incorrect — consider which measure makes direct electrical contact with the rotating shaft itself.'
+    }
+  },
+  {
+    stem: 'In a high-power motor installation where motor current exceeds 200 A, which cable type is recommended to reduce shaft voltage from motor asymmetry?',
+    options: [
+      { val: 'A', text: 'Standard single-layer braided shielded cable' },
+      { val: 'B', text: 'Symmetrical motor cable' },
+      { val: 'C', text: 'Aluminium armoured cable with steel wire' },
+      { val: 'D', text: 'Unshielded twisted pair' }
+    ],
+    correct: 'B',
+    feedback: {
+      correct: '✓ Correct. In high-power applications, motor cable asymmetry contributes to shaft voltage independently of the drive. Symmetric motor cables (with equally spaced phase conductors) minimise this asymmetric contribution.',
+      wrong:   '✗ Not quite. In high-power applications with motor currents over 100–200 A, cable asymmetry itself contributes to shaft voltage. Symmetric motor cables are recommended to minimise this effect.',
+      retry:   'Incorrect — recall which cable construction minimises the electromagnetic asymmetry that contributes to shaft voltage in high-power applications.'
+    }
+  }
+];
+
+/* Number of questions selected per attempt (≤ QUIZ_POOL.length) */
+const QUIZ_PICK = 4;
+
+let QUIZ   = [];
+let qState = {};
+
+function buildQuiz() {
+  /* Fisher-Yates shuffle, then slice QUIZ_PICK items */
+  const pool = QUIZ_POOL.slice();
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  QUIZ = pool.slice(0, QUIZ_PICK);
+  const n = QUIZ.length;
+
+  /* Regenerate progress dots */
+  const prog = document.getElementById('qProgress');
+  prog.innerHTML = '';
+  for (let i = 0; i < n; i++) {
+    const d = document.createElement('div');
+    d.className = 'qp-dot' + (i === 0 ? ' active' : '');
+    d.id = 'qpd-' + i;
+    d.textContent = i + 1;
+    prog.appendChild(d);
+  }
+
+  /* Regenerate question cards */
+  const body = document.getElementById('quizBody');
+  body.innerHTML = '';
+  QUIZ.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card' + (i === 0 ? ' active' : '');
+    card.id = 'qcard-' + i;
+    card.innerHTML =
+      '<div><div class="q-number">Question ' + (i + 1) + ' of ' + n + '</div>' +
+      '<div class="q-stem">' + q.stem + '</div></div>' +
+      '<div class="q-options" id="qopts-' + i + '">' +
+      q.options.map(o =>
+        '<div class="q-opt" data-q="' + i + '" data-val="' + o.val + '">' +
+        '<span class="q-opt-key">' + o.val + '</span><span>' + o.text + '</span></div>'
+      ).join('') +
+      '</div><div class="q-feedback" id="qfb-' + i + '"></div>' +
+      '<div class="q-actions">' +
+      '<button class="btn-check" id="qchk-' + i + '" disabled>Check Answer</button>' +
+      '<button class="btn-qnext" id="qnxt-' + i + '">' +
+      (i === n - 1 ? 'View Results &#x2192;' : 'Next Question &#x2192;') +
+      '</button></div>';
+    body.appendChild(card);
+  });
+
+  qState = {
+    cur:      0,
+    scores:   Array(n).fill(null),
+    attempts: Array(n).fill(0),
+    selected: Array(n).fill(null)
+  };
+
+  document.querySelectorAll('.q-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const q = parseInt(opt.dataset.q);
+      if (qState.scores[q] !== null || qState.attempts[q] >= 2) return;
+      document.querySelectorAll('[data-q="' + q + '"]').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      qState.selected[q] = opt.dataset.val;
+      document.getElementById('qchk-' + q).disabled = false;
+    });
+  });
+
+  for (let i = 0; i < n; i++) {
+    document.getElementById('qchk-' + i).addEventListener('click', () => checkAnswer(i));
+    document.getElementById('qnxt-' + i).addEventListener('click', () => advanceQuiz(i));
+  }
+}
+
+function quizInit() {
+  buildQuiz();
+  document.getElementById('btnReviewSect').addEventListener('click', () => { resetQuiz(); goTo(0); });
+}
+
+function checkAnswer(q) {
+  const sel = qState.selected[q];
+  if (!sel) return;
+  const data = QUIZ[q];
+  qState.attempts[q]++;
+  const opts = document.querySelectorAll('[data-q="' + q + '"]');
+  const fb   = document.getElementById('qfb-' + q);
+  const chk  = document.getElementById('qchk-' + q);
+  const nxt  = document.getElementById('qnxt-' + q);
+  if (sel === data.correct) {
+    qState.scores[q] = 1;
+    opts.forEach(o => { o.classList.add('locked'); if (o.dataset.val === data.correct) o.classList.add('correct'); });
+    fb.textContent = data.feedback.correct; fb.className = 'q-feedback show fb-correct';
+    chk.disabled = true; nxt.classList.add('show');
+    updateQDot(q, 'correct');
+  } else if (qState.attempts[q] >= 2) {
+    qState.scores[q] = 0;
+    opts.forEach(o => {
+      o.classList.add('locked');
+      if (o.dataset.val === sel)          o.classList.add('wrong');
+      if (o.dataset.val === data.correct) o.classList.add('correct');
+    });
+    fb.textContent = data.feedback.wrong; fb.className = 'q-feedback show fb-wrong';
+    chk.disabled = true; nxt.classList.add('show');
+    updateQDot(q, 'wrong');
+  } else {
+    opts.forEach(o => o.classList.remove('selected'));
+    qState.selected[q] = null;
+    fb.textContent = data.feedback.retry; fb.className = 'q-feedback show fb-retry';
+    chk.disabled = true;
+  }
+}
+
+function advanceQuiz(q) {
+  if (q < QUIZ.length - 1) {
+    document.getElementById('qcard-' + q).classList.remove('active');
+    document.getElementById('qpd-'   + q).classList.remove('active');
+    const next = q + 1;
+    document.getElementById('qcard-' + next).classList.add('active');
+    document.getElementById('qpd-'   + next).classList.add('active');
+    qState.cur = next;
+  } else {
+    document.getElementById('qcard-' + q).classList.remove('active');
+    document.getElementById('quizBody').style.display  = 'none';
+    document.getElementById('qProgress').style.display = 'none';
+    showScore();
+  }
+}
+
+function updateQDot(q, state) {
+  const dot = document.getElementById('qpd-' + q);
+  dot.classList.remove('active'); dot.classList.add(state);
+}
+
+function showScore() {
+  const correct = qState.scores.filter(s => s === 1).length;
+  const panel   = document.getElementById('scorePanel');
+  const big     = document.getElementById('scoreBig');
+  const lbl     = document.getElementById('scoreLabel');
+  big.textContent = correct + ' / ' + QUIZ.length;
+  big.className = 'score-big ' + (correct >= 3 ? 'pass' : 'fail');
+  lbl.textContent = correct >= 3
+    ? 'Excellent — you understand the causes and mitigation of electrical bearing stress. Move on to Section 5.'
+    : 'Review the section — in particular the EDM mechanism, the diagnostic indicators, and the mitigation strategies — then try again.';
+  panel.classList.add('show');
+  if (correct >= 3) { quizPassed = true; }
+  updateNav();
+}
+
+function resetQuiz() {
+  document.getElementById('scorePanel').classList.remove('show');
+  document.getElementById('quizBody').style.display  = '';
+  document.getElementById('qProgress').style.display = '';
+  buildQuiz();
+}
+
+  quizInit();
+</script>
+
+<style>
+.iframe-screen { overflow: hidden !important; }
+</style>
+<script>
+function scaleIframes() {
+  var stage = document.querySelector('.stage');
+  if (!stage) return;
+  var sw = stage.clientWidth, sh = stage.clientHeight;
+  var s  = Math.min(sw / 1040, sh / 510);
+  var ox = (sw - 1040 * s) / 2;
+  var oy = (sh -  510 * s) / 2;
+  document.querySelectorAll('.iframe-screen iframe').forEach(function (fr) {
+    fr.style.position        = 'absolute';
+    fr.style.left            = ox + 'px';
+    fr.style.top             = oy + 'px';
+    fr.style.transformOrigin = '0 0';
+    fr.style.transform       = 'scale(' + s + ')';
+  });
+}
+window.addEventListener('resize', scaleIframes);
+window.addEventListener('load',   scaleIframes);
+if (window.ResizeObserver) {
+  new ResizeObserver(scaleIframes).observe(document.querySelector('.vo-bar'));
+}
+</script>
+</body>
+</html>

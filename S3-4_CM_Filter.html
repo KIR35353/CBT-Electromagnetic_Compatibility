@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Common-Mode Output Filters | Section 3 — Installation and Filters</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
+.main-row { display: flex; gap: 12px; align-items: stretch; }
+.diagram-panel { flex: 0 0 540px; background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.diagram-banner { background: #1a3660; color: #88aacc; padding: 5px 14px; font-size: 9px; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; flex-shrink: 0; }
+.diagram-body { flex: 1; display: flex; align-items: center; justify-content: center; padding: 8px 10px; }
+.card-stack { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.info-card { background: #fff; border: 1.5px solid #c8d8e8; border-left: 4px solid #002060; border-radius: 0 7px 7px 0; padding: 7px 12px 7px 14px; display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.card-head { font-size: 9.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.4px; color: #1a3660; }
+.card-body { font-size: 9px; color: #334466; line-height: 1.6; }
+.card-body strong { color: #002060; }
+.accent-navy  { border-left-color: #002060; }
+.accent-blue  { border-left-color: #1d5fa8; }
+.accent-amber { border-left-color: #cc8800; }
+.accent-green { border-left-color: #1a7040; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">Common-Mode Output Filters</div>
+  <div class="header-tag">Section 3 — Installation &amp; Filters</div>
+</div>
+<div class="outer">
+  <div class="main-row">
+    <div class="diagram-panel">
+      <div class="diagram-banner">CM Filter — Nanocrystalline Core Topology</div>
+      <div class="diagram-body">
+        <svg width="516" height="340" viewBox="0 0 516 340" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif" font-size="8.5">
+          <rect width="516" height="340" rx="5" fill="#f4f8fc"/>
+
+          <!-- DRIVE box -->
+          <rect x="10" y="80" width="90" height="100" rx="5" fill="#002060" stroke="#3d7fbd" stroke-width="2"/>
+          <text x="55" y="126" text-anchor="middle" font-size="9" font-weight="bold" fill="#fff">AC DRIVE</text>
+          <text x="55" y="140" text-anchor="middle" font-size="8" fill="#88aacc">Inverter output</text>
+
+          <!-- CM FILTER CORES (toroid representation) -->
+          <rect x="130" y="70" width="110" height="118" rx="6" fill="#e8f0f8" stroke="#3d7fbd" stroke-width="1.5"/>
+          <text x="185" y="82" text-anchor="middle" font-size="8" font-weight="bold" fill="#1a3660">CM FILTER</text>
+
+          <!-- Toroid symbols (3 rings) -->
+          <ellipse cx="185" cy="102" rx="28" ry="10" fill="none" stroke="#1d5fa8" stroke-width="3"/>
+          <ellipse cx="185" cy="116" rx="28" ry="10" fill="none" stroke="#1d5fa8" stroke-width="3"/>
+          <ellipse cx="185" cy="130" rx="28" ry="10" fill="none" stroke="#1d5fa8" stroke-width="3"/>
+          <text x="185" y="154" text-anchor="middle" font-size="7.5" fill="#334466">Nanocrystalline</text>
+          <text x="185" y="165" text-anchor="middle" font-size="7.5" fill="#334466">toroid cores</text>
+          <text x="185" y="178" text-anchor="middle" font-size="7" fill="#778899">(all 3 phases threaded through)</text>
+
+          <!-- Phase conductors through cores (U, V, W) -->
+          <defs>
+            <marker id="a1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0,6 3,0 6" fill="#cc3d00"/></marker>
+          </defs>
+          <!-- U phase -->
+          <line x1="100" y1="100" x2="130" y2="100" stroke="#cc3d00" stroke-width="2"/>
+          <line x1="240" y1="100" x2="310" y2="100" stroke="#cc3d00" stroke-width="2" marker-end="url(#a1)"/>
+          <text x="155" y="97" font-size="7" fill="#cc3d00">U</text>
+          <!-- V phase -->
+          <line x1="100" y1="117" x2="130" y2="117" stroke="#1d5fa8" stroke-width="2"/>
+          <line x1="240" y1="117" x2="310" y2="117" stroke="#1d5fa8" stroke-width="2" marker-end="url(#a1)"/>
+          <text x="155" y="114" font-size="7" fill="#1d5fa8">V</text>
+          <!-- W phase -->
+          <line x1="100" y1="132" x2="130" y2="132" stroke="#1a7040" stroke-width="2"/>
+          <line x1="240" y1="132" x2="310" y2="132" stroke="#1a7040" stroke-width="2" marker-end="url(#a1)"/>
+          <text x="155" y="129" font-size="7" fill="#1a7040">W</text>
+
+          <!-- MOTOR -->
+          <ellipse cx="370" cy="128" rx="40" ry="50" fill="#e8f0f8" stroke="#3d7fbd" stroke-width="2"/>
+          <text x="370" y="122" text-anchor="middle" font-size="9" font-weight="bold" fill="#1a3660">MOTOR</text>
+          <text x="370" y="135" text-anchor="middle" font-size="8" fill="#334466">M</text>
+
+          <!-- Bearing detail -->
+          <ellipse cx="370" cy="80" rx="18" ry="8" fill="#fff" stroke="#8899aa" stroke-width="1.5"/>
+          <text x="370" y="83" text-anchor="middle" font-size="6.5" fill="#778899">bearing</text>
+
+          <!-- How CM flux cancels — physics explanation -->
+          <rect x="10" y="210" width="496" height="118" rx="5" fill="#fff" stroke="#c8d8e8" stroke-width="1"/>
+          <text x="258" y="225" text-anchor="middle" font-size="9" font-weight="bold" fill="#1a3660">HOW IT WORKS — MAGNETIC FLUX CANCELLATION</text>
+          <line x1="10" y1="230" x2="506" y2="230" stroke="#c8d8e8" stroke-width="1"/>
+
+          <!-- DM currents cancel -->
+          <text x="20" y="245" font-size="8.5" font-weight="bold" fill="#1a5c30">Differential-mode (load) currents:</text>
+          <text x="20" y="258" font-size="8" fill="#334466">U + V + W phase currents sum to zero at any instant (Kirchhoff). Their magnetic fields in the toroid core cancel.</text>
+          <text x="20" y="271" font-size="8" fill="#334466">The core sees zero net DM flux &#x2192; no impedance to differential current &#x2192; motor performance unchanged.</text>
+
+          <!-- CM currents add -->
+          <text x="20" y="286" font-size="8.5" font-weight="bold" fill="#8b2000">Common-mode currents:</text>
+          <text x="20" y="299" font-size="8" fill="#334466">CM current flows in the same direction on all conductors simultaneously. Their magnetic fields ADD in the toroid core.</text>
+          <text x="20" y="312" font-size="8" fill="#334466">High-permeability nanocrystalline core presents very high impedance &#x2192; CM current is attenuated by 90–95% &#x2192; bearing voltage drops below threshold.</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="card-stack">
+      <div class="info-card accent-navy">
+        <div class="card-head">What a CM Filter Addresses</div>
+        <div class="card-body">A CM output filter reduces the <strong>common-mode current</strong> flowing from the inverter output through parasitic motor-frame capacitance. This directly reduces shaft voltage and bearing current — the cause of EDM bearing failure in motors &gt; 75 kW.</div>
+      </div>
+      <div class="info-card accent-blue">
+        <div class="card-head">Nanocrystalline Cores</div>
+        <div class="card-body">High-permeability nanocrystalline alloy toroids present <strong>very high impedance to CM current</strong> (typically 50–500 Ω at 10 kHz) while presenting near-zero impedance to differential-mode load current. Only CM current is attenuated — motor performance is unchanged.</div>
+      </div>
+      <div class="info-card accent-amber">
+        <div class="card-head">Critical Installation Rule</div>
+        <div class="card-body"><strong>All three phase conductors must pass through the core.</strong> If any phase is omitted, or if the PE conductor or cable shield passes through the core, the DM cancellation is disrupted and the filter will not work correctly. Follow the manufacturer's wiring diagram exactly.</div>
+      </div>
+      <div class="info-card accent-green">
+        <div class="card-head">When to Use vs. Shaft Brush</div>
+        <div class="card-body">For motors &gt; 75 kW: CM output filter is preferred. For smaller motors: a shaft grounding brush is lower cost. On marine propulsion drives, <strong>shaft grounding brushes</strong> serve double duty — they also prevent stray current corrosion of bronze propellers and sea chests.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">CM output filters use nanocrystalline toroids to present high impedance to common-mode current while passing differential (motor) current unchanged. <strong>All three phases must pass through the core.</strong> CM filters reduce bearing voltage and are used alongside shaft grounding brushes for large motors on marine propulsion drives.</div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

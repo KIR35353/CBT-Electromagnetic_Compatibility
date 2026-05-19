@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Drive Categories | Section 5 — Standards and Regulations</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 8px 14px 0; display: flex; gap: 10px; height: calc(510px - 50px); }
+.table-wrap { flex: 0 0 610px; display: flex; flex-direction: column; }
+.table-instr { font-size: 8px; color: #778899; margin-bottom: 4px; text-align: right; }
+table { width: 100%; border-collapse: collapse; font-size: 8.5px; }
+th { background: #002060; color: #fff; padding: 6px 8px; text-align: left; font-size: 8px; font-weight: bold; letter-spacing: 0.4px; text-transform: uppercase; }
+th:first-child { width: 62px; }
+tr { cursor: pointer; }
+tr.data-row:hover td { background: #dce8f8; }
+tr.data-row.selected td { background: #b8d4f0; }
+td { padding: 6px 8px; border-bottom: 1px solid #e0e8f0; font-size: 8.5px; color: #334466; vertical-align: top; }
+td:first-child { font-weight: bold; color: #002060; }
+.cat-tag { display: inline-block; border-radius: 10px; padding: 1px 8px; font-size: 8px; font-weight: bold; color: #fff; }
+.tag-c1  { background: #1a7040; }
+.tag-c2  { background: #1d5fa8; }
+.tag-c3  { background: #cc8800; }
+.tag-c4  { background: #cc3d00; }
+.tag-iec { background: #5a3080; }
+.tag-cfr { background: #334466; }
+.detail-wrap { flex: 1; display: flex; flex-direction: column; }
+.detail-panel { flex: 1; background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.detail-banner { background: #1a3660; color: #88aacc; padding: 6px 14px; font-size: 9px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; }
+.detail-body { flex: 1; padding: 10px 14px; font-size: 9px; color: #334466; line-height: 1.75; }
+.detail-body strong { color: #002060; }
+.detail-empty { color: #aabbcc; font-style: italic; }
+.detail-section { margin-bottom: 7px; }
+.detail-section-head { font-weight: bold; color: #1a3660; text-transform: uppercase; letter-spacing: 0.3px; font-size: 9px; margin-bottom: 2px; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 7px 16px; margin-top: 8px; font-size: 9px; color: #334466; line-height: 1.6; }
+.key-concept-bar strong { color: #8b2000; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">EN/IEC 61800-3 Drive Categories</div>
+  <div class="header-tag">Section 5 — Standards &amp; Regulations</div>
+</div>
+<div class="outer">
+  <div class="table-wrap">
+    <div class="table-instr">&#9655; Click a row to see details</div>
+    <table id="catTable">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Environment</th>
+          <th>Max Power</th>
+          <th>EMC Requirement</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="data-row" data-key="c1">
+          <td><span class="cat-tag tag-c1">C1</span></td>
+          <td>Public / Residential</td>
+          <td>&lt; 1 kW</td>
+          <td>Strictest emission limits; internal filter mandatory</td>
+        </tr>
+        <tr class="data-row" data-key="c2">
+          <td><span class="cat-tag tag-c2">C2</span></td>
+          <td>Industrial (restricted distribution)</td>
+          <td>Any</td>
+          <td>Emission limits met with optional external filter</td>
+        </tr>
+        <tr class="data-row" data-key="c3">
+          <td><span class="cat-tag tag-c3">C3</span></td>
+          <td>Industrial (second env.) high power</td>
+          <td>&gt; 400 V, any</td>
+          <td>Relaxed limits; rated for industrial interference environment</td>
+        </tr>
+        <tr class="data-row" data-key="c4">
+          <td><span class="cat-tag tag-c4">C4</span></td>
+          <td>Industrial — complex systems &gt; 1 kV</td>
+          <td>&gt; 1 kV or &gt; 400 kW</td>
+          <td>No fixed limits; EMC plan required (system integrator)</td>
+        </tr>
+        <tr class="data-row" data-key="iec60533">
+          <td><span class="cat-tag tag-iec">IEC 60533</span></td>
+          <td>Ships, offshore structures</td>
+          <td>Any</td>
+          <td>Class A (machinery space); HF-range critical (2–30 MHz)</td>
+        </tr>
+        <tr class="data-row" data-key="cfr143">
+          <td><span class="cat-tag tag-cfr">46 CFR §143</span></td>
+          <td>US-flag towing vessels (Subchapter M)</td>
+          <td>Any</td>
+          <td>§143.570 grounding; §143.575 EMC; §143.585 single-fault propulsion</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="key-concept-bar">
+      <strong>Key:</strong> The installer is responsible for ensuring the complete PDS (drive + cable + motor) is installed per the declared category. A C2 drive installed with a cable longer than declared loses category compliance. For US vessels: <strong>46 CFR §143 applies</strong> — C-category is still relevant for reading drive datasheets.
+    </div>
+  </div>
+  <div class="detail-wrap">
+    <div class="detail-panel">
+      <div class="detail-banner" id="detailBanner">Category Details</div>
+      <div class="detail-body" id="detailBody">
+        <div class="detail-empty">Select a row in the table to see detailed requirements and notes.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+var DETAIL = {
+  c1: {
+    banner: 'Category C1 — Public / Residential',
+    html: '<div class="detail-section"><div class="detail-section-head">Environment</div>Residential, commercial, and light-industrial environments where the drive shares a public low-voltage supply with domestic loads. Public supply = grid connected without a dedicated supply transformer.</div><div class="detail-section"><div class="detail-section-head">Emission Limits</div>Strictest limits. Conducted emissions: must meet CISPR 11 Class B limits (0.15–30 MHz). Radiated emissions: EN 55011 Class B. <strong>An internal or integral EMC filter is required.</strong></div><div class="detail-section"><div class="detail-section-head">Power / Voltage</div>Typically &lt; 1 kW, 230 V single-phase or 400 V three-phase. Not practical for industrial motors.</div><div class="detail-section"><div class="detail-section-head">Relevance for Marine / E-Frac</div>Not applicable to industrial or propulsion drives. Useful to know as the reference "strictest" point on the scale.</div>'
+  },
+  c2: {
+    banner: 'Category C2 — Industrial (Restricted Distribution)',
+    html: '<div class="detail-section"><div class="detail-section-head">Environment</div>Industrial environment, second environment (dedicated supply transformer, not shared with residential loads). "Restricted distribution" means the drive may only be sold through qualified installers who can ensure correct EMC installation.</div><div class="detail-section"><div class="detail-section-head">Emission Limits</div>Conducted emissions: CISPR 11 Class A limits with external EMC filter fitted. Without filter: drive may not meet C2 limits — check datasheet. Maximum cable length declared by manufacturer (typically 25–100 m with filter).</div><div class="detail-section"><div class="detail-section-head">Installer Obligation</div>The installer must comply with the manufacturer\'s installation instructions, including filter, cable shielding, and maximum cable length. Deviating invalidates the C2 declaration for the PDS.</div><div class="detail-section"><div class="detail-section-head">Relevance</div>Most standard industrial VSD installations. Many marine auxiliary drives. Reference category for most filter selection guidance.</div>'
+  },
+  c3: {
+    banner: 'Category C3 — Industrial, High Power',
+    html: '<div class="detail-section"><div class="detail-section-head">Environment</div>Industrial second environment — high-power drives above 400 V. Not intended for use in public supply networks. If connected to a public network, additional measures are required and the user takes responsibility.</div><div class="detail-section"><div class="detail-section-head">Emission Limits</div>Relaxed compared to C2. Conducted emission limits: CISPR 11 Class A (no external filter required in many configurations). Higher current harmonics are tolerated due to the industrial supply context.</div><div class="detail-section"><div class="detail-section-head">Cable / Filter</div>Longer cable lengths are possible without an EMC filter compared to C2. Check datasheet — the manufacturer specifies the maximum cable length and shielding requirement for each power level.</div><div class="detail-section"><div class="detail-section-head">Relevance for Marine / E-Frac</div>Propulsion drives on towboats (typically 400–750 kW) and e-frac pump drives (500–5,000 kW) typically fall in C3 or C4 range. IEC 60533 / 46 CFR §143 still apply in addition to or instead of C3 category requirements.</div>'
+  },
+  c4: {
+    banner: 'Category C4 — Complex Industrial Systems > 1 kV',
+    html: '<div class="detail-section"><div class="detail-section-head">Environment</div>Industrial second environment; rated voltage &gt; 1,000 V or rated current &gt; 400 A or intended for use in complex power systems.</div><div class="detail-section"><div class="detail-section-head">Emission Limits</div><strong>No fixed emission limits.</strong> Instead, the standard requires that an <strong>EMC plan</strong> be prepared by the system integrator. The plan identifies all emission sources, sensitive receptors, coupling paths, and the mitigation measures that will be applied.</div><div class="detail-section"><div class="detail-section-head">EMC Plan Contents (IEC 61800-3 Annex C)</div>Must include: list of equipment, layout drawing, cable segregation plan, filter and shielding measures, grounding diagram, and post-installation acceptance test plan.</div><div class="detail-section"><div class="detail-section-head">Relevance for Marine / E-Frac</div>Large e-frac pump drives (MV, &gt; 1 kV) and offshore platform drives fall in C4. The EMC plan approach aligns with how 46 CFR Part 143 requires documentation for propulsion system design.</div>'
+  },
+  iec60533: {
+    banner: 'IEC 60533 — Ships, Offshore, Marine Units',
+    html: '<div class="detail-section"><div class="detail-section-head">Scope</div>EMC requirements for ships, offshore platforms, and other marine structures. Applies to all electrical and electronic equipment installed on board.</div><div class="detail-section"><div class="detail-section-head">Environments</div><strong>Class A:</strong> Machinery spaces, engine rooms, pump rooms, below-deck. Drive, motor, and switchgear installations. Emission limits are less strict than Class B but immunity requirements are high (heavy industrial environment).</div><div class="detail-section"><div class="detail-section-head">Class B</div><strong>Class B:</strong> Navigation bridge, radio rooms, sensitive electronics. The Class B immunity requirements drive the need for effective EMC control in Class A machinery spaces — interference generated in the engine room must not affect bridge navigation equipment.</div><div class="detail-section"><div class="detail-section-head">Key Frequency Range</div>2–30 MHz: HF marine communication and navigation band. Drive conducted emissions in this range are of particular concern. IEC 60533 emission limits in this band are more stringent than generic industrial limits to protect safety-critical radio systems.</div>'
+  },
+  cfr143: {
+    banner: '46 CFR Part 143 — USCG Subchapter M Towing Vessels',
+    html: '<div class="detail-section"><div class="detail-section-head">Applicability</div>Applies to US-flag towing vessels (towboats, tugboats, push boats) subject to USCG Subchapter M. Electrical engineering requirements including distribution system design and EMC-related provisions.</div><div class="detail-section"><div class="detail-section-head">§143.570 — Grounding of Electrical Systems</div>Requires IT (ungrounded) distribution system on metallic towing vessels. VSD drives with Y-filter capacitors create a conflict — Y-caps create a reference to ground. See Section 6 for mitigation options.</div><div class="detail-section"><div class="detail-section-head">§143.575 — EMC Requirements</div>Electromagnetic compatibility requirements for propulsion control, navigation, and communication systems. Drive installations must not interfere with navigation or communication equipment.</div><div class="detail-section"><div class="detail-section-head">§143.585 — Propulsion System Single-Fault Tolerance</div>Propulsion and steering control systems must be designed so that a single fault does not result in complete loss of propulsion or steering. Relevant to drive redundancy and bearing failure consequence management.</div>'
+  }
+};
+
+document.querySelectorAll('.data-row').forEach(function(row) {
+  row.addEventListener('click', function() {
+    document.querySelectorAll('.data-row').forEach(function(r) { r.classList.remove('selected'); });
+    row.classList.add('selected');
+    var key = row.getAttribute('data-key');
+    var d = DETAIL[key];
+    document.getElementById('detailBanner').textContent = d.banner;
+    document.getElementById('detailBody').innerHTML = d.html;
+  });
+});
+
+(function () {
+  document.documentElement.style.overflow = 'hidden';
+  function scaleToFit() {
+    var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+    document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+  }
+  scaleToFit(); window.addEventListener('resize', scaleToFit);
+})();
+</script>
+</body>
+</html>

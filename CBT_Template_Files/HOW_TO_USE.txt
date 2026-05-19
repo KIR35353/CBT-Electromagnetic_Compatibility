@@ -1,0 +1,522 @@
+================================================================================
+  CBT TEMPLATE SYSTEM — HOW TO USE
+  Kirby Power | Interactive CBT Authoring
+================================================================================
+
+CONTENTS
+  1. Overview
+  2. How the system works
+  3. What's in _cbt_template/
+  4. Step-by-step: building a new course
+  5. Filling in _course_manifest.json
+  6. Creating content screens
+  7. Running the builder
+  8. Testing your course
+  9. Voiceover (VO) writing tips
+ 10. Quiz writing tips
+ 11. Troubleshooting
+
+
+================================================================================
+  1. OVERVIEW
+================================================================================
+
+This system lets you build a fully functional browser-based CBT course by:
+
+  (a) Writing your content and narration scripts in a single JSON file
+      (_course_manifest.json)
+
+  (b) Building your 1040×510 lesson slides as standalone HTML files using
+      the provided layout templates
+
+  (c) Running a PowerShell script (_build_course.ps1) that combines those
+      two things into complete, ready-to-deliver HTML files
+
+The result is a set of self-contained HTML files — no server, no LMS
+dependencies — that run directly in any modern browser from a local folder
+or USB drive.
+
+
+================================================================================
+  2. HOW THE SYSTEM WORKS
+================================================================================
+
+The CBT has a two-layer architecture:
+
+  LAYER 1 — WRAPPER FILES  (the shell)
+  ──────────────────────────────────────
+  These are the files the learner actually navigates:
+    CBT_Introduction.html   — Title card, audience, application, objectives
+    S1_Section1.html        — Section 1 with lesson slides + quiz
+    S2_Section2.html        — Section 2
+    ... etc.
+    SUM_CourseSum.html      — Course summary
+    EXAM_Final.html         — Final assessment
+
+  Wrapper files contain: navigation, VO engine, quiz engine, brand chrome.
+  They load each lesson slide inside an <iframe> as the learner progresses.
+  You do NOT write wrapper files by hand — the builder generates them.
+
+  LAYER 2 — CONTENT SCREEN FILES  (the slides)
+  ──────────────────────────────────────────────
+  These are the 1040×510 px HTML files displayed inside the iframes:
+    S1-1_How_It_Works.html
+    S2-3_Island_Mode_Derate.html
+    ... etc.
+
+  You DO write these by hand, using the layout templates in _cbt_template/.
+  They are static visuals — no navigation, no quiz logic, just the lesson
+  content for one screen.
+
+  THE BUILD PIPELINE
+  ──────────────────
+  _course_manifest.json
+        |
+        v
+  _build_course.ps1  →  reads manifest + templates  →  writes wrapper HTML files
+        |
+        v
+  S1_Section1.html, S2_Section2.html, CBT_Introduction.html, EXAM_Final.html
+  (generated into the workspace root alongside your content screen files)
+
+
+================================================================================
+  3. WHAT'S IN _cbt_template/
+================================================================================
+
+  HOW_TO_USE.txt               ← you are here
+
+  MANIFEST
+  ─────────────────────────────────────────────────────
+  _course_manifest.json        ← blank schema: fill this in for your course
+  _course_manifest_EXAMPLE.json← fully worked example (GTG Island Mode course)
+
+  BUILDER
+  ─────────────────────────────────────────────────────
+  _build_course.ps1            ← PowerShell script that generates wrapper HTML
+
+  WRAPPER TEMPLATES  (used by the builder — do not edit unless extending the system)
+  ─────────────────────────────────────────────────────
+  _TPL_section_wrapper.html    ← template for SN_SectionN.html files
+  _TPL_intro.html              ← template for CBT_Introduction.html
+  _TPL_exam.html               ← template for EXAM_Final.html
+
+  CONTENT SCREEN TEMPLATES  (copy and edit these to build lesson slides)
+  ─────────────────────────────────────────────────────
+  _TPL_content_screen.html     ← two equal panels + numbered step list
+  _TPL_diagram_cards.html      ← wide diagram/SVG left + stacked info cards right
+  _TPL_process_layers.html     ← vertical numbered layers with arrows (hierarchies)
+  _TPL_comparison.html         ← two side-by-side columns with colour-coded headers
+  _TPL_table_detail.html       ← clickable HTML table + detail side panel (JS)
+  _TPL_stat_callouts.html      ← hero numbers / key values with optional formula
+
+
+================================================================================
+  4. STEP-BY-STEP: BUILDING A NEW COURSE
+================================================================================
+
+STEP 1 — Set up the workspace folder
+  Create a new folder for your course (e.g. C:\MyCourse\).
+  Copy the entire _cbt_template\ folder into it.
+
+STEP 2 — Plan your course structure
+  Decide how many sections you need and how many screens per section.
+  Write a brief outline. The manifest has one JSON block per section.
+  Typical section: 4–8 content screens + 1 quiz (auto-added by the builder).
+
+STEP 3 — Create your content screens
+  For each lesson slide, copy the appropriate layout template from
+  _cbt_template/ into your workspace root (NOT into _cbt_template/).
+  Rename it using the convention:  SN-INDEX_Short_Description.html
+    e.g.  S2-3_Island_Mode_Derate.html
+
+  Edit the HTML — replace placeholder text, SVG, and labels with your
+  actual lesson content. The screen dimensions are fixed at 1040×510 px.
+  See section 6 below for guidance on choosing a template.
+
+STEP 4 — Fill in the manifest
+  Open _cbt_template/_course_manifest.json (or copy it to your workspace root).
+  Replace every "TODO:" value with your course content.
+  See section 5 below for a field-by-field guide.
+
+STEP 5 — Run the builder
+  Open PowerShell and run:
+
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+    cd C:\[your workspace folder]
+    .\_cbt_template\_build_course.ps1
+
+  The builder reads the manifest, fills in all {{PLACEHOLDER}} tokens in the
+  wrapper templates, and writes the output HTML files to your workspace root.
+  Green [OK] lines = success. Red = error (see section 11).
+
+STEP 6 — Test in a browser
+  Open CBT_Introduction.html in Chrome or Edge.
+  Navigate through the course. Check VO, navigation, and quiz behaviour.
+  Iterate: edit the manifest or content screens → re-run the builder → refresh.
+
+STEP 7 — Deliver
+  Zip the workspace root (all HTML files + any SVG/image assets).
+  The learner opens CBT_Introduction.html. No installation required.
+
+
+================================================================================
+  5. FILLING IN _course_manifest.json
+================================================================================
+
+The manifest is a single JSON file. Open it in VS Code for syntax highlighting.
+JSON does not allow comments — the "_comment" fields are documentation only
+and are ignored by the builder. Do not delete them (they help future authors).
+
+See _course_manifest_EXAMPLE.json for a complete worked example at any time.
+
+── COURSE SECTION ────────────────────────────────────────────────────────────
+
+  "id"          Short course code, e.g. "KIR-GTG-001"
+  "title"       Full course title — appears in the header on every wrapper
+  "title_short" Abbreviated title — used in footer labels
+  "logo_file"   Logo image filename (place the file in the workspace root)
+
+── INTRO SECTION ─────────────────────────────────────────────────────────────
+
+  "first_section_href"   Filename of Section 1 wrapper, e.g. "S1_Section1.html"
+  "title_html"           Big heading on the title card. Use <br> for line breaks.
+  "subtitle"             Smaller subtitle below the heading
+  "duration_badge"       e.g. "45-minute course"
+  "sections_badge"       e.g. "6 Sections + Final Exam"
+  "audience_badge"       e.g. "For: Data Centre Power Engineers"
+  "footer_label"         Time estimate shown in the intro footer
+
+  screens[]              Four entries, IDs must be: s-int1, s-int2, s-int3, s-int4
+    vo[]                 Narration for each intro screen
+    INT-4 revealAt[]     Parallel to vo[]: integer (1-based objective number)
+                         or null to not reveal an objective for that segment
+
+  objectives[]           One per learning objective
+    num                  1-based integer — must match revealAt[] values
+    tag                  Short label shown next to the objective, e.g. "Section 3"
+    text                 The objective sentence shown on screen
+
+  int2_cards[]           Cards on the INT-2 (audience) screen
+    border_color         CSS colour — use var(--k-orange) or var(--k-steel)
+    body                 Card body HTML
+
+  int3_kp[]              Bullet points on the INT-3 (application) screen
+    dot_class            "bl" = blue dot, "or" = orange dot
+    body                 Point body HTML
+  "int3_highlight"       Orange callout box text (or null to omit)
+  "int3_closing"         Final orange-dot closing point (or null to omit)
+
+── SECTIONS ARRAY ────────────────────────────────────────────────────────────
+
+  Duplicate the section block for each section. Required fields:
+
+  "num"                  Section number (integer, 1-based)
+  "output_file"          Output filename, e.g. "S3_Section3.html"
+  "title"                Full section title
+  "title_short"          Short version for footers/tooltips
+  "duration"             e.g. "8 minutes"
+  "next_section_href"    Filename of the next wrapper to navigate to.
+                         Use "SUM_CourseSum.html" for the last section.
+  "next_section_btn_label" Label on the Next Section button, e.g. "Section 4 ▸"
+
+  screens[]              One entry per lesson slide (quiz is added automatically)
+    "id"                 Unique ID, convention: s-sN-INDEX  (e.g. s-s3-2)
+    "file"               Filename of the content screen HTML
+    "label"              Short label shown in the progress dot tooltip
+    "vo"                 Full narration script for this screen (string)
+
+  quiz{}                 One quiz per section
+    "screen_id"          Unique ID for the quiz screen, e.g. "s-quiz3"
+    "quiz_vo"            Narration for the quiz intro
+    "pick"               Number of questions selected per attempt
+    "pass_threshold"     Minimum correct to pass (must be ≤ pick)
+    "pass_msg"           Message shown on pass, e.g. "Well done — move on."
+    "fail_msg"           Message shown on fail, e.g. "Review and try again."
+    pool[]               Full question bank (shuffle + pick happens at runtime)
+      "stem"             Question text
+      options[]          Answer options — each has "val" (A/B/C/D) and "text"
+      "correct"          The val of the correct option, e.g. "B"
+      feedback{}         "correct": shown on right answer
+                         "wrong":   shown on wrong answer (2nd attempt)
+                         "retry":   shown after 1st wrong answer (encouragement)
+
+── SUMMARY SECTION ───────────────────────────────────────────────────────────
+
+  "output_file"          e.g. "SUM_CourseSum.html"
+  screens[] and quiz{}   Same structure as sections above.
+
+── EXAM SECTION ──────────────────────────────────────────────────────────────
+
+  "output_file"          e.g. "EXAM_Final.html"
+  "total_q"             Total questions in the exam
+  "pass_score"           Minimum correct answers to pass
+  "pass_pct"             Pass percentage string shown on screen, e.g. "70%"
+  "instr_title"          Instruction screen heading
+  "duration"             e.g. "20 minutes"
+  "pass_msg"             Shown on pass result screen
+  "fail_msg"             Shown on fail result screen
+  "return_href"          Where "Return to Course" button links, e.g. "SUM_CourseSum.html"
+
+  questions[]            Exam questions — each has the same structure as pool[]
+                         above (stem, options, correct, feedback) plus:
+    "section"            Section key string used in the review recommendations
+
+  section_names{}        Maps section key → display name for review suggestions
+                         e.g. { "s1": "Section 1 — Grid vs Island" }
+
+  q_section_map{}        Maps question index (0-based, as string) → section key
+                         e.g. { "0": "s1", "1": "s1", "2": "s2" }
+
+
+================================================================================
+  6. CREATING CONTENT SCREENS
+================================================================================
+
+Content screens are 1040×510 px standalone HTML files. Each screen shows one
+lesson topic. The wrapper loads it in an iframe; the learner cannot navigate
+out of it — there is no need for buttons or links inside a content screen.
+
+CHOOSING A TEMPLATE
+─────────────────────────────────────────────────────────────────────────────
+
+  _TPL_content_screen.html
+    Two equal panels side by side, with a numbered step list in the right panel.
+    Use for: procedural content, feature descriptions, any "how to" screen
+    where you want two balanced areas.
+
+  _TPL_diagram_cards.html
+    Wide area on the left (560 px) for a diagram or schematic, with 3–5
+    stacked info cards on the right.
+    Use for: labelled diagrams, system schematics, performance curves —
+    any screen where the diagram IS the content and text is annotation.
+
+  _TPL_process_layers.html
+    Vertical stack of numbered layers with colour-coded severity bars and
+    CSS down-arrows between each layer. Right panel has 2–3 notes boxes.
+    Use for: protection hierarchies, decision chains, sequential processes,
+    anything where ORDER and RELATIONSHIP between steps matters.
+
+  _TPL_comparison.html
+    Two columns side by side with colour-coded headers and item rows.
+    Optional "vs" divider badge between columns.
+    Use for: Grid vs Island, Mode A vs Mode B, correct vs incorrect practice,
+    before/after, any direct contrast of two approaches.
+
+  _TPL_table_detail.html  [has JavaScript — click interaction]
+    HTML table with clickable rows on the left, detail panel on the right
+    that populates on click. Edit the DETAIL_DATA object in the script.
+    Use for: parameter specs, settings tables, mismatch risks, any reference
+    content where each row has a consequence or explanation worth showing.
+
+  _TPL_stat_callouts.html
+    Row of 3–4 hero numbers (big font) with optional formula and bar-chart
+    support panels below.
+    Use for: rated values, thresholds, efficiency figures, response times —
+    any "here are the numbers to know" screen.
+
+STEPS FOR EACH CONTENT SCREEN
+─────────────────────────────────────────────────────────────────────────────
+
+  1. Copy the chosen template from _cbt_template/ to your workspace root.
+  2. Rename it:  SN-INDEX_Short_Description.html
+     (e.g. S4-3_ROCOF_Threshold.html)
+  3. Open it and edit:
+       - Replace the <title> tag content
+       - Replace {{SCREEN_TITLE}} and {{SECTION_LABEL}} in the header div
+       - Replace all placeholder text in the body
+       - Replace placeholder SVGs with your diagrams
+       - Adjust accent colours as needed (see comments in each template)
+       - Update the Key Concept bar at the bottom
+  4. Open the file in a browser to preview it.
+     Resize the browser window — the scaleToFit() script adjusts automatically.
+
+SCREEN DIMENSIONS
+─────────────────────────────────────────────────────────────────────────────
+
+  Total:        1040 × 510 px  (fixed — set on <body>)
+  Header:       50 px height
+  Content area: 460 px usable height (below header)
+  Padding:      10 px top, 16 px sides (adjust as needed)
+
+  For SVG diagrams, keep inline SVGs within these recommended limits:
+    Full-width SVG:  ~1000 × 380 px
+    Half-width SVG:  ~500 × 360 px
+    Diagram-card:    ~510 × 360 px
+
+
+================================================================================
+  7. RUNNING THE BUILDER
+================================================================================
+
+Prerequisites: PowerShell 5.1+ (included with Windows 10/11)
+
+Command:
+  Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+  cd C:\[your workspace folder]
+  .\_cbt_template\_build_course.ps1
+
+Flags:
+  -WhatIf     Preview what files would be written without actually writing them.
+              Use this to check for manifest errors before generating files.
+  -Verbose    Print every placeholder substitution as it runs.
+              Use this to debug unexpected output.
+
+The manifest must be at:  _cbt_template\_course_manifest.json
+(relative to the workspace root)
+
+Output files are written to the workspace root. Existing files are overwritten
+without prompting — run the builder as many times as needed.
+
+If the manifest has a JSON syntax error, PowerShell will report the line number.
+If a template file is missing, the script will throw with the missing filename.
+
+
+================================================================================
+  8. TESTING YOUR COURSE
+================================================================================
+
+  1. Run the builder (section 7 above).
+  2. Open CBT_Introduction.html in Chrome or Edge.
+     (Firefox works but Chrome/Edge have better Web Speech API support for VO.)
+  3. Work through the full course as a learner would.
+
+WHAT TO CHECK
+  - All screens load (no blank iframes — check filenames match manifest)
+  - Voiceover plays on each screen (allow autoplay if prompted)
+  - Progress dots appear and update as you navigate
+  - Quiz: questions are drawn correctly, pass/fail messages show correctly
+  - Quiz gating: the "Next Section" button is NOT available until the quiz passes
+  - Exam: all questions appear, review recommendations reference correct sections
+  - Summary and Exam navigation back to intro works
+
+ITERATION CYCLE
+  Edit manifest or content screen → re-run builder → Ctrl+Shift+R in browser
+  (hard refresh, bypasses cache)
+
+
+================================================================================
+  9. VOICEOVER (VO) WRITING TIPS
+================================================================================
+
+The VO engine uses the Web Speech API with Google UK English Female voice
+at rate 0.93 and pitch 1.0. It reads each screen's "vo" string aloud.
+
+GENERAL RULES
+  - Write conversational spoken English, not formal written text.
+  - Keep sentences short. One idea per sentence.
+  - Aim for 100–140 words per screen (about 45–65 seconds of speech).
+  - Read each VO aloud before adding it to the manifest.
+
+PACING
+  Use [PAUSE] within a VO string to insert a brief pause mid-speech.
+  Useful when pointing to different parts of a diagram in sequence.
+  Example:  "Notice the blue curve rises sharply here. [PAUSE]
+             That is the onset of the transient response."
+
+NUMBERS AND UNITS
+  Spell out units for cleaner speech:
+    "18.8 megawatts"  not  "18.8 MW"
+    "50 hertz"        not  "50 Hz"
+    "0.5 hertz per second" not "0.5 Hz/s"
+
+REFERRING TO THE SCREEN
+  It is fine to say "as you can see on screen" or "the diagram shows..."
+  The learner is looking at the screen while the VO plays.
+
+QUIZ VO
+  The quiz_vo should transition naturally from the last content screen.
+  e.g. "Before moving on, let's check your understanding of this section.
+  You'll be presented with [N] questions drawn from a pool. You need [X]
+  correct to proceed."
+
+
+================================================================================
+ 10. QUIZ WRITING TIPS
+================================================================================
+
+Each section's quiz draws `pick` questions randomly from `pool` each attempt.
+The learner gets two attempts per question. The quiz is passed when the
+learner scores ≥ `pass_threshold` correct. On fail, the whole quiz resets.
+
+POOL SIZE
+  Aim for at least 6–8 questions in the pool for a `pick` of 4.
+  More questions = more variety between attempts = less "I'll just click
+  through again" behaviour.
+
+QUESTION QUALITY
+  - Each question should test a single concept.
+  - Avoid questions that are purely vocabulary ("What does X stand for?").
+    Prefer application: "A technician observes X — what does this indicate?"
+  - All four options should be plausible to someone who hasn't studied.
+  - The correct answer should not be longer or more carefully worded than
+    the wrong ones (learners spot this).
+
+FEEDBACK STRINGS
+  "correct"   1–2 sentences confirming the right answer and explaining why.
+  "wrong"     Shown after the second failed attempt. Be constructive, not
+              punishing. Explain the correct answer.
+  "retry"     Shown after the first wrong attempt. Encourage without giving
+              away the answer. e.g. "Not quite — consider the effect on
+              reactive power sharing and try again."
+
+PASS THRESHOLD
+  Typical settings:
+    pick: 4, pass_threshold: 3  (75% pass rate — standard sections)
+    pick: 3, pass_threshold: 2  (67% pass rate — shorter/lighter sections)
+
+EXAM QUESTIONS
+  The final exam uses `questions` (not a pool — all questions appear).
+  Write one question per section topic. A 6-section course typically has
+  18–24 exam questions (3–4 per section).
+  Set q_section_map so each question is mapped to a section key —
+  this drives the review recommendations on the result screen.
+
+
+================================================================================
+ 11. TROUBLESHOOTING
+================================================================================
+
+PROBLEM: Builder exits with "Unexpected character" or "Invalid JSON"
+  FIX: Open _course_manifest.json in VS Code. Look for:
+       - Trailing commas after the last item in an array or object
+       - Missing commas between items
+       - Unescaped double quotes inside strings (use \" inside double-quoted strings,
+         or use the HTML entity &quot; for quotes you want displayed on screen)
+       - Unescaped backslashes (use \\ for a literal backslash)
+
+PROBLEM: A content screen shows as blank / white in the iframe
+  FIX: Check the "file" field in the manifest matches the actual filename
+       exactly (including capitalisation). HTML filenames are case-sensitive
+       on some systems.
+
+PROBLEM: VO does not play
+  FIX: Chrome and Edge require a user gesture before allowing speech.
+       Click anywhere on the page first. If the correct voice is unavailable,
+       the engine falls back to the best available English voice.
+       Check that your system has voices installed (Windows: Settings →
+       Time & Language → Speech → Add voices).
+
+PROBLEM: Quiz "Next" button never appears
+  FIX: The Next Section button is gated behind passing the quiz.
+       Make sure quizPassed is being set — it will not be set if the
+       pass_threshold is higher than pick in the manifest.
+
+PROBLEM: Progress dots don't update / navigation is broken
+  FIX: Screen IDs must be unique across the entire manifest.
+       Duplicate IDs cause the dot system to behave incorrectly.
+
+PROBLEM: Exam review panel recommends the wrong section
+  FIX: Check that q_section_map keys are 0-based string indices
+       ("0", "1", "2"...) matching the order of questions[] in the manifest,
+       and that the values match keys in section_names{}.
+
+PROBLEM: scaleToFit() makes text blurry at certain window sizes
+  FIX: This is a browser CSS transform limitation at non-integer scale factors.
+       It is most visible on lower-resolution displays. Delivering at full
+       1040×510 px (no scaling needed) gives the sharpest result. For
+       projector delivery, set browser zoom to 100% before launching.
+
+================================================================================
+  END OF DOCUMENT
+================================================================================

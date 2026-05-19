@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Shaft Voltage Causes | Section 4 — Bearing Electric Stress</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
+.main-row { display: flex; gap: 12px; align-items: stretch; }
+.diagram-panel { flex: 0 0 540px; background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.diagram-banner { background: #1a3660; color: #88aacc; padding: 5px 14px; font-size: 9px; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; flex-shrink: 0; }
+.diagram-body { flex: 1; display: flex; align-items: center; justify-content: center; padding: 8px; }
+.card-stack { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.info-card { background: #fff; border: 1.5px solid #c8d8e8; border-left: 4px solid #002060; border-radius: 0 7px 7px 0; padding: 7px 12px 7px 14px; display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.card-head { font-size: 9.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.4px; color: #1a3660; }
+.card-body { font-size: 9px; color: #334466; line-height: 1.6; }
+.card-body strong { color: #002060; }
+.accent-navy  { border-left-color: #002060; }
+.accent-blue  { border-left-color: #1d5fa8; }
+.accent-amber { border-left-color: #cc8800; }
+.accent-red   { border-left-color: #cc3d00; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">Shaft Voltage — Causes and Mechanism</div>
+  <div class="header-tag">Section 4 — Bearing Electric Stress</div>
+</div>
+<div class="outer">
+  <div class="main-row">
+    <div class="diagram-panel">
+      <div class="diagram-banner">Shaft Voltage Capacitive Divider Model</div>
+      <div class="diagram-body">
+        <svg width="516" height="338" viewBox="0 0 516 338" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif" font-size="8.5">
+          <rect width="516" height="338" rx="5" fill="#f4f8fc"/>
+          <defs>
+            <marker id="arw" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0,6 3,0 6" fill="#cc3d00"/></marker>
+          </defs>
+
+          <!-- STATOR FRAME -->
+          <rect x="20" y="50" width="300" height="200" rx="10" fill="#e0e8f4" stroke="#3d7fbd" stroke-width="2"/>
+          <text x="170" y="68" text-anchor="middle" font-size="9" font-weight="bold" fill="#1a3660">STATOR FRAME</text>
+
+          <!-- STATOR WINDING -->
+          <rect x="40" y="78" width="260" height="80" rx="6" fill="#c8d8f0" stroke="#3d7fbd" stroke-width="1.5"/>
+          <text x="170" y="116" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#1a3660">STATOR WINDING</text>
+          <text x="170" y="130" text-anchor="middle" font-size="8" fill="#334466">Carries CM voltage from inverter output</text>
+
+          <!-- Cws — winding to stator cap -->
+          <text x="20" y="175" text-anchor="end" font-size="8" fill="#cc8800" font-weight="bold">C<tspan font-size="6.5">ws</tspan></text>
+          <line x1="23" y1="173" x2="40" y2="160" stroke="#cc8800" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <text x="20" y="185" text-anchor="end" font-size="7" fill="#778899">winding→</text>
+          <text x="20" y="194" text-anchor="end" font-size="7" fill="#778899">stator cap.</text>
+
+          <!-- ROTOR / SHAFT -->
+          <ellipse cx="170" cy="200" rx="80" ry="36" fill="#d0dce8" stroke="#8899aa" stroke-width="1.5"/>
+          <text x="170" y="197" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#1a3660">ROTOR / SHAFT</text>
+          <text x="170" y="210" text-anchor="middle" font-size="7.5" fill="#334466">Capacitively coupled to stator winding</text>
+
+          <!-- Cwr — winding to rotor cap -->
+          <text x="100" y="165" font-size="8" fill="#1d5fa8" font-weight="bold">C<tspan font-size="6.5">wr</tspan></text>
+          <line x1="120" y1="160" x2="130" y2="180" stroke="#1d5fa8" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <text x="85" y="175" font-size="7" fill="#778899">winding→</text>
+          <text x="85" y="184" font-size="7" fill="#778899">rotor cap.</text>
+
+          <!-- Crb — rotor to bearing -->
+          <rect x="140" y="228" width="60" height="16" rx="3" fill="#cc3d00" opacity="0.2" stroke="#cc3d00" stroke-width="1"/>
+          <text x="170" y="239" text-anchor="middle" font-size="7.5" fill="#8b2000" font-weight="bold">BEARING</text>
+          <text x="226" y="240" font-size="8" fill="#cc3d00" font-weight="bold">C<tspan font-size="6.5">rb</tspan></text>
+          <text x="226" y="250" font-size="7" fill="#778899">rotor→</text>
+          <text x="226" y="259" font-size="7" fill="#778899">bearing cap.</text>
+
+          <!-- Ground line -->
+          <line x1="170" y1="244" x2="170" y2="268" stroke="#334466" stroke-width="1.5"/>
+          <line x1="150" y1="268" x2="190" y2="268" stroke="#334466" stroke-width="2"/>
+          <line x1="156" y1="273" x2="184" y2="273" stroke="#334466" stroke-width="1.5"/>
+          <line x1="162" y1="278" x2="178" y2="278" stroke="#334466" stroke-width="1"/>
+          <text x="170" y="292" text-anchor="middle" font-size="8" fill="#334466">PE (Stator frame → ground)</text>
+
+          <!-- Voltage divider formula -->
+          <rect x="336" y="50" width="170" height="200" rx="5" fill="#fff" stroke="#c8d8e8" stroke-width="1"/>
+          <text x="421" y="68" text-anchor="middle" font-size="9" font-weight="bold" fill="#1a3660">SHAFT VOLTAGE</text>
+          <text x="421" y="80" text-anchor="middle" font-size="8" fill="#334466">FORMULA</text>
+          <line x1="336" y1="85" x2="506" y2="85" stroke="#c8d8e8" stroke-width="1"/>
+
+          <text x="421" y="105" text-anchor="middle" font-size="8.5" fill="#334466">V<tspan font-size="6">shaft</tspan> = V<tspan font-size="6">CM</tspan> ×</text>
+          <!-- Fraction -->
+          <line x1="380" y1="120" x2="462" y2="120" stroke="#002060" stroke-width="1.5"/>
+          <text x="421" y="115" text-anchor="middle" font-size="9" font-weight="bold" fill="#1d5fa8">C<tspan font-size="6.5">wr</tspan></text>
+          <text x="421" y="133" text-anchor="middle" font-size="9" font-weight="bold" fill="#334466">C<tspan font-size="6.5">wr</tspan> + C<tspan font-size="6.5">rb</tspan></text>
+
+          <text x="421" y="155" text-anchor="middle" font-size="7.5" fill="#778899">Capacitive voltage divider:</text>
+          <text x="421" y="167" text-anchor="middle" font-size="7.5" fill="#778899">winding-to-rotor (C<tspan font-size="6">wr</tspan>) vs.</text>
+          <text x="421" y="179" text-anchor="middle" font-size="7.5" fill="#778899">rotor-to-bearing (C<tspan font-size="6">rb</tspan>)</text>
+
+          <rect x="344" y="192" width="154" height="48" rx="4" fill="#ffe8e0" stroke="#cc3d00" stroke-width="1"/>
+          <text x="421" y="208" text-anchor="middle" font-size="8" fill="#8b2000">Typical V<tspan font-size="6">CM</tspan> = 200–400 V</text>
+          <text x="421" y="220" text-anchor="middle" font-size="8" fill="#8b2000">Typical V<tspan font-size="6">shaft</tspan> = 10–50 V</text>
+          <text x="421" y="232" text-anchor="middle" font-size="8" font-weight="bold" fill="#8b2000">EDM threshold ≈ 10 V</text>
+
+          <!-- Process note -->
+          <rect x="10" y="300" width="496" height="28" rx="4" fill="#002060"/>
+          <text x="258" y="311" text-anchor="middle" font-size="8.5" fill="#88aacc">CM voltage is produced by the inverter's high-frequency switching — V<tspan font-size="6">CM</tspan> = (V<tspan font-size="6">U</tspan> + V<tspan font-size="6">V</tspan> + V<tspan font-size="6">W</tspan>) / 3</text>
+          <text x="258" y="323" text-anchor="middle" font-size="8.5" fill="#dce7f5">The shaft-voltage fraction depends on the motor's internal capacitance geometry — cannot be changed by the user</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="card-stack">
+      <div class="info-card accent-navy">
+        <div class="card-head">Root Cause</div>
+        <div class="card-body">The inverter's switching produces a <strong>common-mode voltage (V<sub>CM</sub>)</strong> on the motor output — the average of the three-phase voltages. This voltage drives current through parasitic capacitances between the winding and rotor, appearing as a <strong>shaft-to-ground voltage</strong>.</div>
+      </div>
+      <div class="info-card accent-blue">
+        <div class="card-head">Capacitive Voltage Divider</div>
+        <div class="card-body">Shaft voltage is a fraction of V<sub>CM</sub>, determined by the ratio of winding-to-rotor capacitance (C<sub>wr</sub>) to rotor-to-bearing capacitance (C<sub>rb</sub>). <strong>This ratio is fixed by motor design</strong> — the user cannot change it. Typical shaft-voltage ratio: 5–25% of V<sub>CM</sub>.</div>
+      </div>
+      <div class="info-card accent-amber">
+        <div class="card-head">High-Frequency Circulating Current</div>
+        <div class="card-body">In motors &gt; 100 kW with long rotors, a <strong>circulating bearing current</strong> mechanism also occurs: the changing magnetic flux creates a loop current through stator frame → bearing → shaft → opposite bearing. This is distinct from EDM but occurs in the same motors.</div>
+      </div>
+      <div class="info-card accent-red">
+        <div class="card-head">When It Becomes Failure</div>
+        <div class="card-body">When V<sub>shaft</sub> exceeds the bearing lubricant breakdown voltage (~10 V), a <strong>spark discharge</strong> crosses the film. Each discharge removes a microscopic volume of metal from the race surface. Millions of discharges per hour produce the characteristic <strong>frosted (fluted) surface</strong> — leading to rough running and eventual spalling.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">Shaft voltage is caused by <strong>capacitive coupling</strong> between the inverter's CM voltage and the rotor — it cannot be eliminated by the motor designer. The only effective controls are <strong>shaft grounding brushes</strong> (provide a low-impedance discharge path) or <strong>CM output filters</strong> (reduce V<sub>CM</sub> at the motor terminals).</div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

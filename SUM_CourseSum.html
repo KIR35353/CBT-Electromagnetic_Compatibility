@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Summary | Electromagnetic Compatibility for AC Drive Systems</title>
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   KIRBY CORPORATION BRAND PALETTE
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --k-navy:        #002060;
+  --k-navy-mid:    #1a3a6e;
+  --k-navy-light:  #274d8a;
+  --k-blue:        #1d5fa8;
+  --k-steel:       #3d7fbd;
+  --k-steel-lt:    #80b4dc;
+  --k-orange:      #cc3d00;
+  --k-orange-lt:   #e06828;
+  --k-orange-glow: rgba(204,61,0,0.28);
+  --k-white:       #ffffff;
+  --k-offwhite:    #f3f6fb;
+  --k-mid:         #dce7f5;
+  --k-text-dark:   #0d1d33;
+  --k-muted:       #6a7d94;
+  --k-border:      rgba(255,255,255,0.13);
+  --r:             10px;
+  --t:             0.38s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--k-navy);
+}
+
+body {
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  color: var(--k-white);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   HEADER
+───────────────────────────────────────────────────────────── */
+header {
+  flex-shrink: 0;
+  background: #001245;
+  border-bottom: 3px solid var(--k-orange);
+  padding: 9px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hdr-left { display: flex; align-items: center; gap: 14px; }
+.hdr-logo { height: 36px; opacity: 0.93; }
+.hdr-titles { line-height: 1.3; }
+.hdr-id {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--k-orange-lt);
+}
+.hdr-course { font-size: 12.5px; font-weight: 600; color: var(--k-white); }
+
+/* Progress dots */
+.hdr-right { display: flex; align-items: center; gap: 12px; }
+.dots { display: flex; gap: 9px; }
+.dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--k-steel); background: transparent;
+  cursor: pointer; padding: 0;
+  transition: background var(--t), border-color var(--t), transform 0.2s;
+}
+.dot:hover { border-color: var(--k-steel-lt); }
+.dot.visited { background: var(--k-steel); border-color: var(--k-steel-lt); }
+.dot.active  { background: var(--k-orange); border-color: var(--k-orange-lt); transform: scale(1.3); }
+.dot-counter { font-size: 11px; color: var(--k-muted); white-space: nowrap; }
+
+/* ─────────────────────────────────────────────────────────────
+   STAGE
+───────────────────────────────────────────────────────────── */
+.stage { flex: 1; overflow: hidden; position: relative; }
+
+.screen {
+  position: absolute; inset: 0;
+  padding: 20px 44px 14px;
+  display: none; flex-direction: column; gap: 12px;
+  opacity: 0; transition: opacity 0.35s ease;
+  overflow-y: auto;
+}
+.screen.active  { display: flex; }
+.screen.visible { opacity: 1; }
+
+/* ─────────────────────────────────────────────────────────────
+   IFRAME SCREENS
+───────────────────────────────────────────────────────────── */
+.iframe-screen {
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  background: var(--k-navy);
+  overflow: auto;
+}
+.iframe-screen iframe {
+  display: block;
+  border: none;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   VO BAR
+───────────────────────────────────────────────────────────── */
+.vo-bar {
+  flex-shrink: 0; background: rgba(0,0,0,0.38);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 9px 28px; display: flex; align-items: center; gap: 14px; min-height: 54px;
+}
+.vo-mic {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--k-navy-mid); border: 2px solid var(--k-steel);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: border-color 0.25s, background 0.25s;
+}
+.vo-mic svg { width: 17px; height: 17px; fill: var(--k-steel-lt); transition: fill 0.25s; }
+.vo-bar.live .vo-mic { background: var(--k-orange-glow); border-color: var(--k-orange-lt); }
+.vo-bar.live .vo-mic svg { fill: var(--k-orange-lt); }
+.vo-text { flex: 1; overflow: hidden; }
+.vo-label-tag {
+  font-size: 9px; font-weight: 700; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--k-muted); margin-bottom: 2px;
+}
+.vo-caption { font-size: 12px; color: var(--k-muted); line-height: 1.45; font-style: italic; transition: color 0.25s; }
+.vo-bar.live .vo-caption { color: var(--k-white); }
+.wave { display: flex; gap: 2px; align-items: center; height: 18px; opacity: 0; transition: opacity 0.25s; }
+.vo-bar.live .wave { opacity: 1; }
+.wave span {
+  display: block; width: 3px; border-radius: 2px; background: var(--k-orange-lt);
+  animation: wv 0.75s ease-in-out infinite;
+}
+.wave span:nth-child(1) { height: 5px;  animation-delay: 0s;    }
+.wave span:nth-child(2) { height: 13px; animation-delay: 0.15s; }
+.wave span:nth-child(3) { height: 8px;  animation-delay: 0.05s; }
+.wave span:nth-child(4) { height: 16px; animation-delay: 0.2s;  }
+.wave span:nth-child(5) { height: 6px;  animation-delay: 0.1s;  }
+@keyframes wv {
+  0%,100% { transform: scaleY(1); }
+  50%      { transform: scaleY(0.3); }
+}
+.btn-pause {
+  flex-shrink: 0; background: transparent; color: var(--k-steel-lt);
+  font-size: 12px; font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.14); border-radius: 7px; padding: 7px 14px;
+  cursor: pointer; transition: color 0.2s, border-color 0.2s, opacity 0.2s;
+}
+.btn-pause:hover:not(:disabled) { color: var(--k-white); border-color: var(--k-steel); }
+.btn-pause:disabled { opacity: 0.35; cursor: default; }
+.btn-pause.paused { color: var(--k-orange-lt); border-color: var(--k-orange-lt); }
+
+/* ─────────────────────────────────────────────────────────────
+   FOOTER NAV
+───────────────────────────────────────────────────────────── */
+footer {
+  flex-shrink: 0; background: #001245;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 8px 28px; display: flex; align-items: center; justify-content: space-between;
+}
+.btn {
+  border: none; border-radius: 7px; padding: 7px 20px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+.btn:disabled { opacity: 0.32; cursor: default; }
+.btn-back { background: rgba(255,255,255,0.07); color: var(--k-steel-lt); }
+.btn-back:hover:not(:disabled) { background: rgba(255,255,255,0.14); }
+.btn-next { background: var(--k-orange); color: var(--k-white); }
+.btn-next:hover:not(:disabled) { background: var(--k-orange-lt); }
+.btn-replay {
+  background: transparent; color: var(--k-muted); font-size: 12px;
+  border: 1px solid rgba(255,255,255,0.14); border-radius: 7px; padding: 7px 14px;
+  cursor: pointer; transition: color 0.2s, border-color 0.2s;
+}
+.btn-replay:hover { color: var(--k-white); border-color: var(--k-steel); }
+.ftr-centre { font-size: 11px; color: var(--k-muted); }
+
+/* ─────────────────────────────────────────────────────────────
+   AUDIO GATE OVERLAY
+───────────────────────────────────────────────────────────── */
+.audio-gate {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 22px; background: rgba(0,18,69,0.88); backdrop-filter: blur(3px);
+  transition: opacity 0.4s ease;
+}
+.audio-gate.hidden { opacity: 0; pointer-events: none; }
+.audio-gate-label {
+  font-size: 12px; font-weight: 700; letter-spacing: 1.6px;
+  text-transform: uppercase; color: var(--k-steel-lt);
+}
+.audio-gate-title {
+  font-size: 19px; font-weight: 700; color: var(--k-white);
+  text-align: center; max-width: 560px; line-height: 1.4;
+}
+.audio-gate-btn {
+  margin-top: 8px; padding: 13px 36px;
+  background: var(--k-orange); color: var(--k-white);
+  font-size: 15px; font-weight: 700; border: none; border-radius: var(--r);
+  cursor: pointer; letter-spacing: 0.5px; transition: background 0.2s;
+}
+.audio-gate-btn:hover { background: var(--k-orange-lt); }
+</style>
+</head>
+<body>
+
+<!-- ═══ AUDIO GATE ══════════════════════════════════════════ -->
+<div class="audio-gate" id="audioGate" role="dialog" aria-modal="true"
+     aria-label="Click to begin Course Summary">
+  <div class="audio-gate-label">KIR-EMC-001</div>
+  <div class="audio-gate-title">Course Summary</div>
+  <button class="audio-gate-btn" id="audioGateBtn">&#9654;&nbsp; Begin Summary</button>
+</div>
+
+<!-- ═══ HEADER ══════════════════════════════════════════════ -->
+<header>
+  <div class="hdr-left">
+    <img src="kirbyflag_imagefile.png" alt="Kirby Corporation" class="hdr-logo">
+    <div class="hdr-titles">
+      <div class="hdr-id">KIR-EMC-001 &nbsp;&middot;&nbsp; Course Summary</div>
+      <div class="hdr-course">Electromagnetic Compatibility for AC Drive Systems</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="dots" id="dots" role="tablist" aria-label="Summary screens"></div>
+    <span class="dot-counter" id="dotCounter">Screen 1 of 2</span>
+  </div>
+</header>
+
+<!-- ═══ STAGE ═══════════════════════════════════════════════ -->
+<div class="stage">
+
+
+  <!-- â”€â”€ SUMMARY SCREEN 1: KEY TAKEAWAYS â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen active" id="s-sum-0"
+       role="tabpanel" aria-label="Key Takeaways">
+    <iframe src="SUM-1_Key_Takeaways.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="Key Takeaways"></iframe>
+  </div>
+  <!-- â”€â”€ SUMMARY SCREEN 2: BEST PRACTICES â”€â”€â”€â”€â”€â”€â”€ -->
+  <div class="screen iframe-screen" id="s-sum-1"
+       role="tabpanel" aria-label="Best Practices">
+    <iframe src="SUM-2_Best_Practices.html"
+            width="1040" height="510"
+            sandbox="allow-scripts allow-same-origin"
+            frameborder="0" scrolling="no"
+            title="Best Practices"></iframe>
+  </div>
+
+</div><!-- /stage -->
+
+
+<!-- ═══ VO BAR ══════════════════════════════════════════════ -->
+<div class="vo-bar" id="voBar">
+  <div class="vo-mic" id="voMic">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 1a4 4 0 014 4v6a4 4 0 01-8 0V5a4 4 0 014-4zm-1.5 14.93A8.001 8.001 0 0120 10.5a.75.75 0 011.5 0 8 8 0 01-7.25 7.95V21h2.5a.75.75 0 010 1.5h-6.5a.75.75 0 010-1.5H12.75v-2.57A8.001 8.001 0 014 10.5a.75.75 0 011.5 0 6.5 6.5 0 005 6.34V18a2 2 0 002 0v-1.07z"/>
+    </svg>
+  </div>
+  <div class="vo-text">
+    <div class="vo-label-tag">Narration &nbsp;&middot;&nbsp; Google UK English Female</div>
+    <div class="vo-caption" id="voCaption">Press Space or click Replay VO to start narration for this screen.</div>
+  </div>
+  <div class="wave" id="wave" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <button class="btn-pause" id="btnPause" aria-label="Pause narration" disabled>&#9646;&#9646; Pause</button>
+</div>
+
+
+<!-- ═══ FOOTER NAV ═══════════════════════════════════════════ -->
+<footer>
+  <button class="btn btn-back" id="btnBack" disabled>&#8592; Back</button>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <button class="btn-replay" id="btnReplay" aria-label="Replay narration">&#8635; Replay VO</button>
+    <span class="ftr-centre" id="ftrLabel">KIR-EMC-001 &nbsp;&middot;&nbsp; Course Summary</span>
+  </div>
+  <button class="btn btn-next" id="btnNext">Next &#8594;</button>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════════ -->
+<script>
+/* ── SCREENS ARRAY ────────────────────────────────────────────
+   Each entry: { id, label, vo }
+─────────────────────────────────────────────────────────── */
+const SCREENS = [
+  {
+    id:    's-sum-0',
+    label: 'Key Takeaways',
+    vo:    'Let\'s review the six key takeaways from this course. First: controlling the common-mode current return path is the central principle of EMC in AC drive systems. Second: cable shield termination must be 360 degrees at both ends — a pigtail or single-end termination defeats the purpose of the shielded cable. Third: choose your output filter based on the application — du/dt for winding stress with short cables, sine-wave for long cables and old motors, common-mode for bearing stress reduction. Fourth: always diagnose bearing failures before treating them — a mechanical root cause must be fixed mechanically. Fifth: know your applicable standard — on US vessels it is 46 CFR Part 143 and IEC 60533, not the EU EMC Directive. Sixth: on vessels and mobile equipment, EMC decisions affect hull corrosion, IT system integrity, and single-fault-tolerant propulsion design — not just interference margins.'
+  },
+  {
+    id:    's-sum-1',
+    label: 'Best Practices',
+    vo:    'Before you take the final exam, here is an EMC installation checklist for marine and mobile applications. Use shielded motor cable — single-layer braided copper wire is the minimum. Terminate the shield at both ends with 360-degree EMC cable glands. Mount the drive on a bare-metal backplate — remove paint at all mounting points. Segregate control cables from power cables. Provide a potential equalisation conductor of at least 10 square millimetres. [PAUSE] For vessel installations: verify that the drive’s Y-capacitor configuration is compatible with the vessel’s ungrounded IT distribution system — request a Y-cap bypass switch or use an isolation transformer if needed. Fit shaft grounding brushes on propulsion motors. Verify IP54 or better for machinery spaces. Document the installation as required by 46 CFR §143.570 and §143.575. [PAUSE] For e-frac: use flex-rated cable for all connections subject to trailer transport. Assess IEEE 519 harmonic limits at the generator terminals. Confirm drive IP rating and vibration type-approval test report before design commitment.'
+  }
+];
+
+const NEXT_HREF = 'EXAM_Final.html';
+
+let cur         = 0;
+let hasGestured = false;
+let voPaused    = false;
+let voiceUK     = null;
+const synth     = window.speechSynthesis;
+
+function loadVoice() {
+  const v = synth.getVoices();
+  voiceUK =
+    v.find(x => x.name === 'Google UK English Female') ||
+    v.find(x => x.lang === 'en-GB' && /female/i.test(x.name)) ||
+    v.find(x => x.lang === 'en-GB') ||
+    v.find(x => /en.gb/i.test(x.lang)) ||
+    v.find(x => x.lang.startsWith('en'));
+}
+loadVoice();
+if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = loadVoice;
+}
+
+function speakOne(text) {
+  synth.cancel();
+  voPaused = false;
+  updatePauseBtn();
+  const segments = text.split('[PAUSE]').map(s => s.trim()).filter(s => s.length > 0);
+  function speakSegment(i) {
+    if (i >= segments.length) { setLive(false); return; }
+    const u = new SpeechSynthesisUtterance(segments[i]);
+    if (voiceUK) u.voice = voiceUK;
+    u.lang = 'en-GB'; u.rate = 0.93; u.pitch = 1.0; u.volume = 1.0;
+    if (i === 0) u.onstart = () => setLive(true, text);
+    u.onend = () => { if (i < segments.length - 1) { setTimeout(() => speakSegment(i + 1), 700); } else { setLive(false); } };
+    u.onerror = () => setLive(false);
+    synth.speak(u);
+  }
+  speakSegment(0);
+}
+
+function setLive(on, text) {
+  const bar = document.getElementById('voBar');
+  const cap = document.getElementById('voCaption');
+  if (on) { bar.classList.add('live'); cap.textContent = text || '\u2026'; }
+  else    { bar.classList.remove('live'); voPaused = false; }
+  updatePauseBtn();
+}
+
+function updatePauseBtn() {
+  const btn = document.getElementById('btnPause');
+  if (!btn) return;
+  if (voPaused) {
+    btn.textContent = '\u25b6 Resume'; btn.classList.add('paused'); btn.disabled = false;
+  } else if (synth.speaking) {
+    btn.textContent = '\u23f8 Pause'; btn.classList.remove('paused'); btn.disabled = false;
+  } else {
+    btn.textContent = '\u23f8 Pause'; btn.classList.remove('paused'); btn.disabled = true;
+  }
+}
+
+function pauseResume() {
+  if (voPaused) {
+    synth.resume();
+    voPaused = false;
+    document.getElementById('voBar').classList.add('live');
+    updatePauseBtn();
+  } else if (synth.speaking) {
+    synth.pause(); voPaused = true;
+    document.getElementById('voBar').classList.remove('live');
+    updatePauseBtn();
+  }
+}
+
+function goTo(idx, autoSpeak) {
+  if (idx < 0 || idx >= SCREENS.length) return;
+  const oldEl = document.getElementById(SCREENS[cur].id);
+  oldEl.classList.remove('visible');
+  setTimeout(() => { oldEl.classList.remove('active'); }, 360);
+  cur = idx;
+  const newEl = document.getElementById(SCREENS[cur].id);
+  newEl.classList.add('active');
+  requestAnimationFrame(() => { requestAnimationFrame(() => { newEl.classList.add('visible'); }); });
+  updateDots(); updateNav();
+  synth.cancel();
+  if (autoSpeak !== false && hasGestured) {
+    setTimeout(() => speakOne(SCREENS[cur].vo), 400);
+  }
+}
+
+function updateNav() {
+  document.getElementById('btnBack').disabled = (cur === 0);
+  const nextBtn = document.getElementById('btnNext');
+  if (cur === SCREENS.length - 1) {
+    /* Last screen — link to exam */
+    nextBtn.textContent = 'Final Exam &#x25b8;';
+    nextBtn.disabled    = false;
+    nextBtn.onclick     = () => { window.location.href = NEXT_HREF; };
+  } else {
+    nextBtn.textContent = 'Next \u2192';
+    nextBtn.disabled    = false;
+    nextBtn.onclick     = null;
+  }
+  document.getElementById('dotCounter').textContent =
+    'Screen ' + (cur + 1) + ' of ' + SCREENS.length;
+}
+
+function buildDots() {
+  const container = document.getElementById('dots');
+  SCREENS.forEach((s, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'dot' + (i === 0 ? ' active' : '');
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-label', 'Screen ' + (i + 1) + ': ' + s.label);
+    btn.title = s.label;
+    btn.addEventListener('click', () => goTo(i));
+    container.appendChild(btn);
+  });
+}
+
+function updateDots() {
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.classList.remove('active', 'visited');
+    if      (i === cur) d.classList.add('active');
+    else if (i < cur)   d.classList.add('visited');
+  });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { if (cur < SCREENS.length - 1) goTo(cur + 1); }
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { if (cur > 0) goTo(cur - 1); }
+  else if (e.key === ' ') { e.preventDefault(); speakOne(SCREENS[cur].vo); }
+});
+
+document.getElementById('btnBack').addEventListener('click', () => { if (cur > 0) goTo(cur - 1); });
+document.getElementById('btnNext').addEventListener('click', () => { if (cur < SCREENS.length - 1) goTo(cur + 1); });
+document.getElementById('btnReplay').addEventListener('click', () => { hasGestured = true; speakOne(SCREENS[cur].vo); });
+document.getElementById('btnPause').addEventListener('click', pauseResume);
+
+buildDots();
+updateNav();
+requestAnimationFrame(() => { requestAnimationFrame(() => { document.getElementById(SCREENS[0].id).classList.add('visible'); }); });
+
+document.getElementById('audioGateBtn').addEventListener('click', () => {
+  hasGestured = true;
+  const gate = document.getElementById('audioGate');
+  gate.classList.add('hidden');
+  gate.addEventListener('transitionend', () => gate.remove(), { once: true });
+  speakOne(SCREENS[0].vo);
+});
+</script>
+
+<style>
+.iframe-screen { overflow: hidden !important; }
+</style>
+<script>
+function scaleIframes() {
+  var stage = document.querySelector('.stage');
+  if (!stage) return;
+  var sw = stage.clientWidth, sh = stage.clientHeight;
+  var s  = Math.min(sw / 1040, sh / 510);
+  var ox = (sw - 1040 * s) / 2;
+  var oy = (sh -  510 * s) / 2;
+  document.querySelectorAll('.iframe-screen iframe').forEach(function (fr) {
+    fr.style.position        = 'absolute';
+    fr.style.left            = ox + 'px';
+    fr.style.top             = oy + 'px';
+    fr.style.transformOrigin = '0 0';
+    fr.style.transform       = 'scale(' + s + ')';
+  });
+}
+window.addEventListener('resize', scaleIframes);
+window.addEventListener('load',   scaleIframes);
+if (window.ResizeObserver) {
+  new ResizeObserver(scaleIframes).observe(document.querySelector('.vo-bar'));
+}
+</script>
+</body>
+</html>

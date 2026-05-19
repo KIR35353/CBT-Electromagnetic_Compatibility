@@ -1,0 +1,197 @@
+
+============================================================
+=== PDF PAGE 146 ===
+============================================================
+Fig. 6.17 Electron scanning microscope picture of the bearing pitting
+Before taking corrective actions, it is important to determine the root cause of the bearing
+failure. Bearing analysis consists of visual inspection, electron microscope imaging and a
+chemical analysis of the lubricant.
+Bearing failures can have mechanical root causes and electrical root causes. Mechanical root
+causes are the most frequent, but they are often handled incorrectly by interpreting them
+as electrical faults. Indeed, when the root cause is mechanical, the electric discharges will
+accelerate the wear-out. In such cases, mitigating the electric stress will extend the life time but
+not fix the root cause. Mechanical root causes need to be mitigated mechanically first.
+The following pictures (taken with electron microscope) show examples of bearings which have
+suffered damage. The first picture shows a bearing that has suffered electric stress – in this case
+an electric measure is needed. The second picture shows a bearing that has suffered mechanical
+stress through incorrect axial loading. The parallel trenches in the metal have been caused by
+the incorrect load. But near the trenches, pitting can be seen – a sign that the damage started
+mechanically but was accelerated by electric stress.
+ig. 6.18 Bearing which has suffered electric stress
+146 Electromagnetic Compatibility
+
+============================================================
+=== PDF PAGE 147 ===
+============================================================
+Fig. 6.19 Bearing which has suffered mechanic stress through axial loading and subsequent electric
+stress
+Fig. 6.20 Axial loading of a bearing
+Mechanical mitigation measures
+• Make sure that the motor and the load are properly aligned
+• Make sure that the mechanical loading of the bearing (radial and axial) is within specifications
+• Check the vibration level
+• Check the grease of the bearing and make sure the bearing is correctly lubricated for the
+given operating conditions
+Electric mitigation measures
+• Provide a low-impedance return path to the high-frequency currents
+• Follow EMC installation rules strictly, for example by using a shielded cable between drive and
+motor, and connecting the shield at both ends with a proper high-frequency connection
+• Make sure the motor is properly grounded and the grounding has a low impedance for high
+frequency currents
+• Provide a good high-frequency grounding between motor chassis and load
+• It is possible to use shaft grounding brushes for eliminating the shaft voltage
+• Use symmetrical motor cables, especially in high power applications where the motor current
+exceeds 100 – 200 A
+• Use common-mode filters for reducing the high frequency currents between drive and
+motors
+High frequency common-mode filters are a good solution for reducing electric bearing stress,
+but the use of such filters does not eliminate the need of an EMC-correct installation.
+Electromagnetic Compatibility 147
+
+============================================================
+=== PDF PAGE 148 ===
+============================================================
+High-frequency common-mode filters consist of magnetic cores built using highly permeable
+magnetic material (nanocrystalline core). The three motor phases pass through the cores – it is
+absolutely necessary to follow the correct mounting instructions. Not passing all motor phases
+through the cores will lead to core saturation, or passing also the shield of the cable will deem
+the cores ineffective.
+The high frequency cores can be installed either at the drive terminals or in the motor terminal
+box. When installed at the drive terminals, the cores will also reduce high frequency noise in the
+motor cable. The disadvantage of installing at the drive terminals is that the capacitive currents
+through the long motor cable can saturate the cores. The mounting of the cores in the motor
+terminal box eliminates the risk of core saturation. But in this case there will be no reduction of
+the electromagnetic noise from the motor cable.
+Fig. 6.21 Common-mode cores installed at the drive terminals
+Fig. 6.22 Common-mode cores installed in the motor terminal box
+148 Electromagnetic Compatibility
+
+============================================================
+=== PDF PAGE 149 ===
+============================================================
+6.7 European EMC Directive and EMC Standards
+European EMC Directive
+The latest EMC Directive is 2014/30/EU, which came into force on the 20th of April 2016
+replacing the previous directive 2004/108/EC. This directive is a legal requirement in the
+European Union. In essence the requirements are simple:
+• Products must not emit unwanted electromagnetic interference (limits emission)
+• Products must be immune to a reasonable amount of interference (sets immunity
+requirements)
+The directive itself is a political document and gives no specific technical requirements. A
+producer has the possibility of using harmonized standards to demonstrate compliance with
+the directive. Compliance with the EMC Directive (and also with other relevant directives such as
+the Low Voltage Directive – LVD) is stated in the product’s Declaration of Conformity and the “CE”
+mark is affixed to the product.
+The scope of the EMC Directive consists of the following two categories:
+• Apparatus: a finished appliance made commercially available as a single-function unit and
+intended for the end user. Apparatus complying with the requirements of the Directive are
+marked with the CE mark
+• Fixed installations: a combination of apparatus or other devices which is permanently installed
+at a predefined location. Fixed installations are built following “good engineering practices”
+and respecting the information on the intended use of its components. Fixed installations are
+not CE marked
+EMC Standards
+There are different categories of standards, as follows:
+• Basic standards deal with general aspects such as test set-up, measurement technique and
+emission lines. For adjustable speed drives the emission limits specified in EN55011 are
+commonly used
+• Generic standards deal with specific environments and have been mainly developed to
+fill in the lack of specific product standards. For residential, commercial and light industry
+environments the generic immunity standard is EN61000-6-1 and the generic emission
+standard is EN61000-6-3. For industrial environments the generic immunity standard is
+EN61000-6-2 and the generic emission standard is EN61000-6-4
+• Product standards apply for a specific product family. For AC drives the standard is EN/
+IEC61800-3
+The product standard for AC drives sets both immunity and emission limits depending on the
+environment where the drive is used: residential environment (more strict emission limits, not
+so high immunity levels) or industrial environment (less strict emission limits, higher immunity
+levels).
+Electromagnetic Compatibility 149
+
+============================================================
+=== PDF PAGE 150 ===
+============================================================
+EN/IEC 61800-3 EN 55011 EN 61000
+Environment
+Product standard Environmental standard Generic standard
+1. Environment Cat. C1 Class B EN 61000-6-3
+Residential,
+commercial or Cat. C2
+and light (restricted use) - -
+industiral
+Cat C2 Class A, group 1 EN 61000-6-4
+Cat. C3 - (<20 kVA) -
+Calss A, group 1,
+Cat. C3
+20-75 kVA high power -
+(I > 100 A)
+2. electronic equipment
+Environement
+Class A, group 1,
+Industrial Cat. C3
+>75 kVA high power -
+(I > 100 A)
+electronic equipment
+Cat. C4
+No emmision limits - -
+(prepare EMC plan)
+Table 6.1 EMC emission standards for drives.
+150 Electromagnetic Compatibility
+
+============================================================
+=== PDF PAGE 151 ===
+============================================================
+Electromagnetic Compatibility 151
+
+============================================================
+=== PDF PAGE 152 ===
+============================================================
+PROTECTION AGAINST
+07
+ELECTRIC SHOCK AND
+ENERGY HAZARDS
+7 Protection against Electric Shock and Energy Hazards ............................................153
+7.1 General ............................................................................................................................................................................153
+7.2 Mains Supply System .............................................................................................................................................154
+7.3 DC Supply Systems ..................................................................................................................................................157
+7.4 Ground Fault Protection .......................................................................................................................................158
+7.5 Fuses and Circuit Breakers ...................................................................................................................................160
+7.6 DC Guard for Common DC Bus Systems ...................................................................................................162
+152 Protection against Electric Shock and Energy Hazards
+
+============================================================
+=== PDF PAGE 153 ===
+============================================================
+7 Protection against Electric Shock and
+Energy Hazards
+7.1 General
+Electrical products are often operated with voltages and currents that are potentially hazardous
+to people, animals and systems. These hazards can result from physical contact, overloading,
+short-circuiting, destruction of components or the influence of heat or moisture.
+The resulting potential hazards must be avoided, or at least reduced to an acceptable minimum,
+by means of precautionary planning and design combined with fault analysis and estimation of
+the residual risk.
+Considerations to ensure the safety of AC drives during installation, normal operating conditions
+and maintenance needs to be addressed during the design and construction of the AC drive.
+Also, consideration shall be given to minimize hazards resulting from reasonably foreseeable
+misuse of the AC drive which might occur during its lifetime.
+The protection against electrical shock is basically obtained by two levels of protection.
+• Basic protection which protects the user against electrical shock under normal operating
+conditions. The basic protection is normally obtained by physical enclosure or barriers, or
+clearance /creepage distances
+• Fault protection which protects the user against electrical shock under a single fault condition.
+The fault protection in AC drives is normally obtained by use of plastic enclosures or
+appropriate protective earth connection
+Additionally, a protective galvanic isolation is provided between the accessible control
+components/circuits and power components of AC drives. This is to ensure that no dangerous
+voltage (e.g. mains voltage, DC-voltage and motor voltage) can appear on the control lines. This
+would make contact with the control lines potentially lethal, as well as creating a risk of damage
+to the equipment.
+The international/European standard IEC/EN61800-5-1 describes in detail the requirement for
+protection against electrical shock as well as protection against other hazards applicable to AC
+drives.
+The enclosure of the AC drive provides protection against injury or damage from contact. A
+protection rating better than IP 21 prevents personal injury due to contact. Compliance with
+national accident prevention regulations (such as BGV-A3, which is mandatory for electrical
+equipment in Germany) is also necessary to ensure protection against contact hazards.
+Protection against Electric Shock and Energy Hazards 153

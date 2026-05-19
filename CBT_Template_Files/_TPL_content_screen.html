@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>{{SCREEN_TITLE}} | {{SECTION_LABEL}}</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   CONTENT SCREEN TEMPLATE — 1040 × 510 px fixed canvas
+   This file is displayed inside an iframe in the section wrapper.
+   The wrapper scales the iframe to fit the viewport.
+
+   LAYOUT GUIDE
+   ───────────────────────────────────────────────────────────
+   • Body:    1040 × 510 px, overflow hidden, background #f8fafb
+   • Header:  50 px tall, navy background, white text
+   • Content: 460 px remaining (510 - 50)
+   • Typical inner padding: 14–18 px sides, 12–14 px top/bottom
+
+   COMMON PATTERNS (copy-paste as needed)
+   ───────────────────────────────────────────────────────────
+   Two-column layout (.main with two .panel divs)
+   Left panel: diagram/infographic  Right panel: text explanation
+   Use background: rgba(255,255,255,0.N) for sub-panel cards.
+
+   Key concept bar (.key-concept-bar) — orange-accent callout
+   at the bottom of the main content area.
+
+   Bullet rows (.reason-row) — icon + title + description stacked list.
+
+   Process steps — numbered circles + text in a flex row.
+
+   TYPOGRAPHY SCALE
+   ───────────────────────────────────────────────────────────
+   Screen heading:  14–16 px, bold, #002060
+   Body text:       11–12 px, #334466 or #002060, line-height 1.5–1.6
+   Caption / label: 9–10 px, uppercase, #6a7d94
+   Key concept:     10–11 px, #334466, line-height 1.6
+   Big numbers:     24–36 px, bold, brand colour
+
+   BRAND COLOURS (reference)
+   ───────────────────────────────────────────────────────────
+   Navy:     #002060   Orange:   #cc3d00   Orange Lt: #e06828
+   Steel:    #3d7fbd   Steel Lt: #80b4dc   Muted:     #6a7d94
+   White:    #ffffff   Off-white: #f8fafb  Text dark: #334466
+═══════════════════════════════════════════════════════════════ */
+
+/* ── RESET & BASE ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  width: 1040px;
+  min-height: 510px;
+  overflow: hidden;
+  background: #f8fafb;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: #334466;
+}
+
+/* ── HEADER (50 px) ───────────────────────────────────────── */
+.header {
+  background: #002060;
+  color: #ffffff;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  flex-shrink: 0;
+}
+
+.header-title {
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.header-tag {
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #80b4dc;
+  background: rgba(255,255,255,0.1);
+  padding: 3px 10px;
+  border-radius: 10px;
+}
+
+/* ── MAIN CONTENT AREA (460 px) ───────────────────────────── */
+.main {
+  /* Remaining height: 510 - 50 = 460 px */
+  height: 460px;
+  display: flex;
+  gap: 12px;
+  padding: 14px 18px 12px;
+  /* Add flex-direction: column; for stacked layout */
+}
+
+/* ── PANEL — reusable container block ─────────────────────── */
+.panel {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #dce7f5;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Panel header */
+.panel-heading {
+  font-size: 11px;
+  font-weight: bold;
+  color: #002060;
+  border-bottom: 2px solid #cc3d00;
+  padding-bottom: 5px;
+  margin-bottom: 4px;
+}
+
+/* ── KEY CONCEPT BAR ──────────────────────────────────────── */
+.key-concept-bar {
+  margin: 8px 16px 0;
+  background: #fff4ee;
+  border: 1px solid #e8c0a8;
+  border-left: 4px solid #cc3d00;
+  border-radius: 7px;
+  padding: 10px 18px 10px 22px;
+}
+
+.key-concept-head {
+  font-size: 11px;
+  font-weight: bold;
+  color: #8b2000;
+  margin-bottom: 3px;
+}
+
+.key-concept-text {
+  font-size: 10px;
+  color: #334466;
+  line-height: 1.6;
+}
+
+/* ── DATA TABLE ───────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10.5px;
+}
+
+.data-table th {
+  background: #002060;
+  color: #ffffff;
+  padding: 6px 10px;
+  text-align: left;
+  font-size: 10px;
+  letter-spacing: 0.4px;
+}
+
+.data-table td {
+  padding: 5px 10px;
+  border-bottom: 1px solid #dce7f5;
+  color: #334466;
+}
+
+.data-table tr:nth-child(even) td { background: #f3f7fc; }
+.data-table tr:hover td { background: #e8f0fa; }
+
+/* ── CALLOUT PILL ─────────────────────────────────────────── */
+.callout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(204, 61, 0, 0.08);
+  border: 1px solid #e8a000;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #7a3000;
+}
+
+/* ── STEP ROW (numbered process steps) ───────────────────── */
+.step-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #002060;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-body {
+  font-size: 11px;
+  color: #334466;
+  line-height: 1.5;
+}
+
+.step-body strong { color: #002060; }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ──────────────────────────────────────────────── -->
+<div class="header">
+  <div class="header-title">{{SCREEN_TITLE}}</div>
+  <div class="header-tag">{{SECTION_LABEL}}</div>
+</div>
+
+<!-- ── MAIN CONTENT ────────────────────────────────────────── -->
+<!--
+  CHOOSE A LAYOUT PATTERN:
+
+  A) Two panels side-by-side (diagram left, text right):
+  ┌──────────────────────────────────────────────────────────┐
+  │  .main (flex row, gap 12px)                              │
+  │  ┌──────────────────────────┐  ┌───────────────────────┐ │
+  │  │ .panel  (diagram / SVG)  │  │ .panel (text content) │ │
+  │  └──────────────────────────┘  └───────────────────────┘ │
+  └──────────────────────────────────────────────────────────┘
+
+  B) Single wide panel + key concept bar at bottom:
+  ┌──────────────────────────────────────────────────────────┐
+  │  .main (flex column)                                     │
+  │  ┌────────────────────────────────────────────────────┐  │
+  │  │ .panel (full-width content)                        │  │
+  │  └────────────────────────────────────────────────────┘  │
+  │  .key-concept-bar (pinned bottom callout)                │
+  └──────────────────────────────────────────────────────────┘
+
+  C) Three columns:
+  Add flex: 1 to each .panel. Adjust gap and padding.
+
+  DELETE THIS COMMENT BLOCK WHEN BUILDING THE SCREEN.
+-->
+
+<div class="main">
+
+  <!-- Example: left panel (diagram placeholder) -->
+  <div class="panel" style="flex: 1.6;">
+    <div class="panel-heading">DIAGRAM / INFOGRAPHIC AREA</div>
+    <!-- Insert SVG, table, or diagram content here -->
+    <div style="flex:1; display:flex; align-items:center; justify-content:center; background:#f0f4fa; border-radius:6px; color:#6a7d94; font-size:11px;">
+      [diagram or infographic]
+    </div>
+  </div>
+
+  <!-- Example: right panel (text content) -->
+  <div class="panel" style="flex: 1;">
+    <div class="panel-heading">KEY POINTS</div>
+
+    <!-- Step rows example -->
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-body"><strong>First key point.</strong> Supporting explanation text that provides context and detail.</div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-body"><strong>Second key point.</strong> Additional context, numbers, or engineering constraints.</div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-body"><strong>Third key point.</strong> Conclusion or implication for the practitioner.</div>
+    </div>
+
+  </div>
+
+</div><!-- /main -->
+
+<!-- ── KEY CONCEPT BAR (optional) ──────────────────────────── -->
+<div class="key-concept-bar">
+  <div class="key-concept-head">Key Concept</div>
+  <div class="key-concept-text">
+    Replace this text with the core takeaway for this screen. Keep it to 1–2 sentences.
+    This bar uses the orange-accent style to draw attention to the most important idea.
+  </div>
+</div>
+
+<!-- ── SCALE-TO-FIT SCRIPT (leave unchanged) ───────────────── -->
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')';
+      document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit();
+    window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

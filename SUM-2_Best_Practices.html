@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Best Practices Checklist | Course Summary</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #cc3d00; border: 1px solid #e06828; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #fff; letter-spacing: 0.5px; white-space: nowrap; }
+.main-content { display: flex; gap: 14px; padding: 10px 16px; height: calc(510px - 50px); box-sizing: border-box; }
+.col { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.section-card { background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; }
+.section-banner { padding: 6px 14px; font-size: 9px; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; color: #fff; }
+.banner-navy  { background: #002060; }
+.banner-blue  { background: #1d5fa8; }
+.banner-amber { background: #8b5500; }
+.banner-green { background: #1a7040; }
+.section-body { padding: 7px 12px; }
+.chk-item { display: flex; align-items: flex-start; gap: 8px; padding: 3px 0; font-size: 9px; color: #334466; line-height: 1.6; border-bottom: 1px solid #f0f4f8; }
+.chk-item:last-child { border-bottom: none; }
+.chk-box { flex-shrink: 0; width: 14px; height: 14px; border: 1.5px solid #aabbc8; border-radius: 3px; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #1a7040; font-weight: bold; }
+.chk-item strong { color: #1a3660; }
+.reg-note { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 6px; padding: 6px 12px; font-size: 9px; color: #5a2000; line-height: 1.65; }
+.reg-note strong { color: #8b2000; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">EMC Installation Best Practices</div>
+  <div class="header-tag">Course Summary</div>
+</div>
+<div class="main-content">
+
+  <div class="col">
+    <div class="section-card">
+      <div class="section-banner banner-navy">Universal — Every VSD Installation</div>
+      <div class="section-body">
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>Shielded motor cable</strong> — braided copper or foil + braid, min. 85% coverage</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>360° gland termination</strong> at both drive end and motor end — no pigtails</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>Bare-metal backplate</strong> in drive cabinet — no paint under DIN rail or cable cleats</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>Cable segregation</strong> — motor (power) cables ≥ 300 mm from signal and control cables</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>10 mm² equipotential bonding conductor</strong> alongside motor cable (or use cable screen as PE)</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>Filter selection</strong> per cable length and motor type — verify against drive datasheet category declaration</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>Confirm V<sub>shaft</sub> &lt; 10 V</strong> after commissioning on motors &gt; 75 kW</div></div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-banner banner-blue">E-Frac Mobile Equipment</div>
+      <div class="section-body">
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>Flex-rated IEC 60245 cable</strong> — standard fixed-install cable will fatigue-crack after trailer moves</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>Re-check alignment and shield terminations</strong> after every trailer relocation</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>IEEE 519</strong> harmonic distortion: THD-I ≤ 5% at generator bus — specify AFE or 12-pulse rectifier if required</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>IP54 minimum</strong>, vibration-isolated drive mounts, −40 °C / +70 °C rated equipment</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>Type-B RCDs</strong> in wellsite distribution if present — verify CM leakage current within trip threshold</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="section-card">
+      <div class="section-banner banner-amber">Marine — USCG Subchapter M Towing Vessels</div>
+      <div class="section-body">
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>Y-cap bypass / IT compatibility:</strong> Bypass switch, isolation transformer, or delta-filter drive — document choice in Electrical Plan</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>Shaft grounding brushes</strong> on propulsion motor — redundant brushes for §143.585 single-fault tolerance</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>Verify IMD does not alarm</strong> after drive energisation — confirms Y-cap bypass working</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>LSZH fire-retardant cables</strong> — standard PVC cables not acceptable on classified vessels</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>IP54 minimum</strong> for machinery space drives; IEC 60068-2-52 salt-mist type-approved equipment</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div><strong>Classification society type-approval</strong> (ABS, DNV, LR, or BV) verified for drive model and power rating</div></div>
+      </div>
+    </div>
+
+    <div class="reg-note">
+      <strong>Regulatory Compliance Summary:</strong><br>
+      &#x2022; <strong>46 CFR §143.570</strong> — IT system, no hull grounding, Y-cap management<br>
+      &#x2022; <strong>46 CFR §143.575</strong> — EMC — no interference to navigation/communication equipment<br>
+      &#x2022; <strong>46 CFR §143.585</strong> — Single-fault tolerance for propulsion and steering control<br>
+      &#x2022; <strong>IEC 60533</strong> — Ship EMC, Class A machinery space limits<br>
+      &#x2022; <strong>EN/IEC 61800-3</strong> — Drive C-category (required to interpret drive datasheet and specify filters correctly)<br>
+      &#x2022; <strong>IEEE 519</strong> — Harmonic distortion at generator bus (e-frac)
+    </div>
+
+    <div class="section-card">
+      <div class="section-banner banner-green">Documentation to Keep on File</div>
+      <div class="section-body">
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div>Drive datasheet with declared EN/IEC 61800-3 category and maximum cable length</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div>Pre/post-commissioning shaft voltage measurement records (oscilloscope screenshots)</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div>Bearing inspection records (photographs of removed bearings, failure mode classification)</div></div>
+        <div class="chk-item"><div class="chk-box">&#10003;</div><div>Marine: classification society type-approval certificates + IMD test records</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

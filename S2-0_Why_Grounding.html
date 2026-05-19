@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Why Grounding Matters | Section 2 — Grounding and Shielding</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { width: 1040px; min-height: 510px; overflow: hidden; background: #f8fafb; font-family: Arial, Helvetica, sans-serif; font-size: 11px; color: #334466; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; flex-shrink: 0; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.3px; text-transform: uppercase; }
+.header-tag { font-size: 9px; font-weight: bold; letter-spacing: 1.4px; text-transform: uppercase; color: #80b4dc; background: rgba(255,255,255,0.1); padding: 3px 10px; border-radius: 10px; }
+.main { height: 460px; display: flex; gap: 12px; padding: 14px 18px 12px; }
+.panel { flex: 1; background: #fff; border-radius: 8px; border: 1px solid #dce7f5; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.panel-heading { font-size: 11px; font-weight: bold; color: #002060; border-bottom: 2px solid #cc3d00; padding-bottom: 5px; margin-bottom: 4px; }
+.two-row { display: flex; gap: 10px; flex: 1; }
+.sub-panel { flex: 1; background: #f3f7fc; border-radius: 7px; border: 1px solid #dce7f5; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+.sub-head { font-size: 10px; font-weight: bold; color: #002060; border-left: 3px solid #cc3d00; padding-left: 8px; }
+.sub-body { font-size: 9.5px; color: #334466; line-height: 1.6; }
+.sub-body strong { color: #002060; }
+.reason-row { display: flex; align-items: flex-start; gap: 9px; }
+.reason-icon { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; margin-top: 1px; }
+.reason-body { font-size: 9.5px; color: #334466; line-height: 1.55; }
+.reason-body strong { color: #002060; }
+.reg-box { background: #002060; border-radius: 7px; padding: 9px 14px; }
+.reg-box-text { font-size: 9px; color: #dce7f5; line-height: 1.65; }
+.reg-box-text strong { color: #fff; }
+.key-concept-bar { margin: 0 16px 0; background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 10px 18px 10px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">Why Grounding Matters</div>
+  <div class="header-tag">Section 2 — Grounding &amp; Shielding</div>
+</div>
+<div class="main">
+  <div class="panel" style="flex: 1.1;">
+    <div class="panel-heading">TWO PURPOSES OF GROUNDING</div>
+    <div class="two-row">
+      <div class="sub-panel">
+        <div class="sub-head">&#9899; Safety Grounding</div>
+        <div class="sub-body">Connects equipment metalwork to earth so that if <strong>insulation fails</strong>, the fault current flows through the PE conductor to trip the protective device — not through a person. Mandatory under every electrical code.</div>
+        <div class="sub-body" style="margin-top:4px;">The PE conductor must be continuous, low-resistance, and rated for fault current. It is <strong>not</strong> a signal reference.</div>
+      </div>
+      <div class="sub-panel">
+        <div class="sub-head">&#9899; EMC / Functional Grounding</div>
+        <div class="sub-body">Provides a <strong>low-impedance, high-frequency return path</strong> for common-mode current — back to the drive's DC link. Without this path, CM current flows through the mains supply, causing interference.</div>
+        <div class="sub-body" style="margin-top:4px;">Requires direct <strong>metal-to-metal</strong> bonding — paint must be removed. The impedance must be low at <strong>MHz frequencies</strong>, not just DC.</div>
+      </div>
+    </div>
+    <div class="reg-box">
+      <div class="reg-box-text"><strong>46&nbsp;CFR&nbsp;§143.570 — IT System Requirement (Subchapter M Vessels):</strong> Metallic towing vessels must use an <strong>ungrounded (IT) distribution system</strong> with continuous ground-fault detection. The hull must <em>not</em> be used as a current-carrying conductor. This creates a conflict with drive Y-capacitors that connect to ground — addressed in Section&nbsp;6.</div>
+    </div>
+  </div>
+
+  <div class="panel" style="flex: 0.9;">
+    <div class="panel-heading">GROUNDING REQUIREMENTS FOR AC DRIVES</div>
+    <div class="reason-row">
+      <div class="reason-icon" style="background:#002060; color:#fff;">&#9632;</div>
+      <div class="reason-body"><strong>Direct metal-to-metal contact with backplate.</strong> Remove paint from all mounting contact surfaces. Paint is an insulator at high frequency.</div>
+    </div>
+    <div class="reason-row">
+      <div class="reason-icon" style="background:#1d5fa8; color:#fff;">&#9632;</div>
+      <div class="reason-body"><strong>PE conductor from drive to main PE bar.</strong> Sized per code. Short and direct. Use braided strap in preference to single round conductor for lower HF impedance.</div>
+    </div>
+    <div class="reason-row">
+      <div class="reason-icon" style="background:#1a7040; color:#fff;">&#9632;</div>
+      <div class="reason-body"><strong>Motor cable shield bonded to drive chassis at both ends.</strong> 360° cable gland connection — not a pigtail. This is the EMC-purpose ground return path for common-mode current.</div>
+    </div>
+    <div class="reason-row">
+      <div class="reason-icon" style="background:#cc8800; color:#fff;">!</div>
+      <div class="reason-body"><strong>Equipotential bonding conductor (≥ 10 mm²).</strong> Connect drive chassis, motor frame, and panel earth to the same reference. Eliminates ground loops between equipment.</div>
+    </div>
+    <div class="reason-row">
+      <div class="reason-icon" style="background:#cc3d00; color:#fff;">!</div>
+      <div class="reason-body"><strong>No hull as conductor (marine).</strong> 46&nbsp;CFR&nbsp;§143.570(f) prohibits using the vessel hull as a return current conductor. The PE system must be self-contained within the vessel wiring — not hull-referenced.</div>
+    </div>
+  </div>
+</div>
+<div class="key-concept-bar">
+  <div class="key-concept-head">Key Concept</div>
+  <div class="key-concept-text">Grounding serves two distinct purposes: <strong>safety</strong> (fault protection) and <strong>EMC</strong> (CM current return). On marine vessels, 46&nbsp;CFR&nbsp;§143.570 requires an IT (ungrounded) distribution system — which conflicts with standard drive Y-cap grounding. Awareness of this conflict is essential before specifying a drive installation on any inspected vessel.</div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

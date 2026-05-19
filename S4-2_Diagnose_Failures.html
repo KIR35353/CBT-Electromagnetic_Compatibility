@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Diagnose Bearing Failures | Section 4 — Bearing Electric Stress</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
+.intro-bar { background: #f0f4ff; border: 1px solid #3d7fbd; border-radius: 6px; padding: 6px 14px; font-size: 8.5px; color: #334466; line-height: 1.5; }
+.intro-bar strong { color: #1a3a80; }
+.columns-row { display: flex; gap: 10px; flex: 1; }
+.col { flex: 1; background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.col-header { padding: 7px 14px 6px; font-size: 9px; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; color: #fff; display: flex; align-items: center; gap: 8px; }
+.col-header-blue  { background: #1d5fa8; }
+.col-header-red   { background: #8b2000; }
+.col-body { flex: 1; padding: 8px 12px; display: flex; flex-direction: column; gap: 5px; overflow: hidden; }
+.col-item { display: flex; align-items: flex-start; gap: 9px; padding: 5px 8px; background: #f8fafb; border-radius: 5px; border-left: 3px solid transparent; }
+.col-item-blue  { border-left-color: #1d5fa8; }
+.col-item-red   { border-left-color: #cc3d00; }
+.col-item-amber { border-left-color: #cc8800; }
+.col-item-green { border-left-color: #1a7040; }
+.col-item-navy  { border-left-color: #002060; }
+.col-item-icon { font-size: 14px; flex-shrink: 0; line-height: 1.4; }
+.col-item-text { flex: 1; font-size: 9px; color: #334466; line-height: 1.6; }
+.col-item-text strong { color: #1a3660; }
+.vs-divider { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 0 0 26px; }
+.vs-badge { width: 24px; height: 24px; border-radius: 50%; background: #8899aa; color: #fff; font-size: 9px; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+.diagnosis-callout { background: #fff8e0; border: 1.5px solid #cc8800; border-radius: 6px; padding: 6px 14px; font-size: 9px; color: #5a3800; }
+.diagnosis-callout strong { color: #7a4400; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">Diagnosing Bearing Failures</div>
+  <div class="header-tag">Section 4 — Bearing Electric Stress</div>
+</div>
+<div class="outer">
+  <div class="intro-bar">
+    <strong>Diagnose before treating:</strong> Most bearing failures are mechanical or lubrication-related — not electrical. Applying EDM mitigation without confirming the root cause wastes cost and misses the real problem. Inspect removed bearings to determine actual failure mode.
+  </div>
+  <div class="columns-row">
+
+    <div class="col">
+      <div class="col-header col-header-blue">&#9654; Mechanical Bearing Failure</div>
+      <div class="col-body">
+        <div class="col-item col-item-blue">
+          <span class="col-item-icon">&#128269;</span>
+          <div class="col-item-text"><strong>Visual appearance:</strong> Pitting, spalling, or scoring concentrated at load zone. Smooth pits in a broad area. Possible metal-to-metal contact wear from lubrication loss. Race surface has no regular pattern.</div>
+        </div>
+        <div class="col-item col-item-blue">
+          <span class="col-item-icon">&#128295;</span>
+          <div class="col-item-text"><strong>Common causes:</strong> Shaft misalignment, excessive radial/axial load, improper fit (tight bore → preload), vibration transmission from connected equipment, contamination ingress, lubrication degradation or incorrect grease.</div>
+        </div>
+        <div class="col-item col-item-amber">
+          <span class="col-item-icon">!</span>
+          <div class="col-item-text"><strong>Warning signs before failure:</strong> Rising operating temperature, increasing vibration (broadband), grease discolouration, periodic noise linked to rotation speed harmonics.</div>
+        </div>
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#10003;</span>
+          <div class="col-item-text"><strong>Corrective actions:</strong> Align shaft (check both angular and offset), verify bearing selection for load, re-lubricate with correct quantity and grade of grease, inspect seals and ingress protection, verify coupling condition.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vs-divider"><div class="vs-badge">vs</div></div>
+
+    <div class="col">
+      <div class="col-header col-header-red">&#9654; Electrical Bearing Failure — EDM</div>
+      <div class="col-body">
+        <div class="col-item col-item-red">
+          <span class="col-item-icon">&#128269;</span>
+          <div class="col-item-text"><strong>Visual appearance — Frosting:</strong> Dull, matte "frosted" finish across the entire race surface. Under magnification: uniform micro-pitting from individual spark craters. Not load-zone specific — affects the whole race circumference.</div>
+        </div>
+        <div class="col-item col-item-red">
+          <span class="col-item-icon">&#128269;</span>
+          <div class="col-item-text"><strong>Visual appearance — Fluting:</strong> Regular washboard-like ridges across the race, perpendicular to the rolling direction. Ridges spaced at intervals related to the switching frequency / rotation speed. Distinctive and unmistakable once you have seen it.</div>
+        </div>
+        <div class="col-item col-item-amber">
+          <span class="col-item-icon">!</span>
+          <div class="col-item-text"><strong>Confirm with shaft voltage measurement:</strong> Use a high-impedance oscilloscope probe (min 100 MΩ) to measure shaft-to-ground voltage before bearing replacement. If V<sub>shaft</sub> &gt; 10 V peak, EDM is confirmed. Document for warranty or incident reporting.</div>
+        </div>
+        <div class="col-item col-item-navy">
+          <span class="col-item-icon">&#128295;</span>
+          <div class="col-item-text"><strong>Corrective actions:</strong> Install shaft grounding brush and/or CM output filter. For large motors: insulated non-drive-end bearing. Replace bearing — the existing damage cannot be reversed. Confirm V<sub>shaft</sub> &lt; 10 V after mitigation before returning to service.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="diagnosis-callout">
+    <strong>Marine Context:</strong> After a bearing failure on a VSD-driven propulsion motor, <strong>46&nbsp;CFR&nbsp;§143.585</strong> requires documentation that the cause is identified and that recurrence risk is addressed before returning the vessel to service. A frosted or fluted bearing race is forensic evidence for the incident report. Preserve the bearing in a labelled container.
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text"><strong>Frosting</strong> (uniform micro-pitting) and <strong>fluting</strong> (regular ridges across the race) are the diagnostic signatures of EDM bearing failure. Neither pattern appears in mechanical failures. Always measure shaft voltage before and after mitigation. <strong>Treat the cause — not just the symptom.</strong></div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

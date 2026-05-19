@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Drive Fault Consequences | Section 6 — Marine and Mobile Applications</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; }
+.intro-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 6px; padding: 6px 14px; font-size: 8.5px; color: #5a2000; line-height: 1.5; }
+.intro-bar strong { color: #8b2000; }
+.columns-row { display: flex; gap: 10px; flex: 1; }
+.col { flex: 1; background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.col-header { padding: 8px 14px 7px; font-size: 9px; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; color: #fff; display: flex; align-items: center; gap: 8px; }
+.col-header-navy { background: #002060; }
+.col-header-amber { background: #8b5500; }
+.col-body { flex: 1; padding: 8px 12px; display: flex; flex-direction: column; gap: 5px; overflow: hidden; }
+.col-item { display: flex; align-items: flex-start; gap: 9px; padding: 5px 8px; background: #f8fafb; border-radius: 5px; border-left: 3px solid transparent; }
+.col-item-red   { border-left-color: #cc3d00; }
+.col-item-amber { border-left-color: #cc8800; }
+.col-item-navy  { border-left-color: #002060; }
+.col-item-green { border-left-color: #1a7040; }
+.col-item-blue  { border-left-color: #1d5fa8; }
+.col-item-icon { font-size: 14px; flex-shrink: 0; line-height: 1.4; }
+.col-item-text { flex: 1; font-size: 9px; color: #334466; line-height: 1.6; }
+.col-item-text strong { color: #1a3660; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">Drive Fault Consequences — Safety-Critical Applications</div>
+  <div class="header-tag">Section 6 — Marine &amp; Mobile Applications</div>
+</div>
+<div class="outer">
+  <div class="intro-bar">
+    <strong>Context:</strong> In industrial applications, a drive trip is a production event. In safety-critical applications — marine propulsion and e-frac pump drives — the same trip is a potential safety emergency. EMC design decisions directly affect consequence severity.
+  </div>
+  <div class="columns-row">
+
+    <div class="col">
+      <div class="col-header col-header-navy">&#9654; Marine — USCG Subchapter M Towboat</div>
+      <div class="col-body">
+        <div class="col-item col-item-red">
+          <span class="col-item-icon">&#9888;</span>
+          <div class="col-item-text"><strong>Consequence of propulsion drive trip:</strong> Immediate loss of vessel manoeuvring. A loaded tank-barge tow at river speed has tremendous momentum — it cannot stop or steer without engine power. This creates an <strong>imminent allision or grounding risk</strong>.</div>
+        </div>
+        <div class="col-item col-item-red">
+          <span class="col-item-icon">&#9888;</span>
+          <div class="col-item-text"><strong>Regulatory requirement:</strong> <strong>46 CFR §143.585</strong> — propulsion and steering control systems must be designed for <strong>single-fault tolerance</strong>. A single hardware or EMC fault must not cause complete propulsion loss. Drive EMI tripping the VFD's fault relay violates this requirement.</div>
+        </div>
+        <div class="col-item col-item-amber">
+          <span class="col-item-icon">!</span>
+          <div class="col-item-text"><strong>EMC fault mechanism:</strong> Drive-generated CM current radiated onto the vessel's navigation and steering control wiring can cause steering system faults. Under-rated EMI filters or missing cable shielding are the typical cause. The USCG can issue a vessel detention order for single-fault intolerance.</div>
+        </div>
+        <div class="col-item col-item-navy">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text"><strong>Design implication:</strong> Redundant propulsion drives, proper shield termination on all control wiring, and separation of power and signal wiring are regulatory requirements — not engineering preferences. Document the EMC design as part of the Subchapter M Stability and Electrical Plan.</div>
+        </div>
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#10003;</span>
+          <div class="col-item-text"><strong>USCG inspection:</strong> Inspectors verify drive installation to §143.570/575 at the initial COI inspection and at annual re-inspection. Non-compliant installations will fail inspection.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="col-header col-header-amber">&#9654; E-Frac — Mobile Hydraulic Fracturing</div>
+      <div class="col-body">
+        <div class="col-item col-item-red">
+          <span class="col-item-icon">&#9888;</span>
+          <div class="col-item-text"><strong>Consequence of pump drive trip during fracturing:</strong> Immediate wellbore pressure loss. During hydraulic fracturing, fracturing fluid is pumped at 50–100 MPa. A sudden pressure loss can cause wellbore instability — including <strong>sand screen failure, screen-out events, or casing damage</strong>.</div>
+        </div>
+        <div class="col-item col-item-red">
+          <span class="col-item-icon">&#9888;</span>
+          <div class="col-item-text"><strong>Multiple simultaneous drives:</strong> An e-frac spread deploys 8–20 VFD pump units simultaneously. A drive trip cascade — one drive trips, its CM transient couples to adjacent drives' control wiring, triggering further trips — is a known failure mode from insufficient cable segregation.</div>
+        </div>
+        <div class="col-item col-item-amber">
+          <span class="col-item-icon">!</span>
+          <div class="col-item-text"><strong>Diesel interference:</strong> Legacy e-frac pump trailers use diesel gensets collocated with electronic controls. The genset's ignition transients + drive CM emissions combine to exceed immunity thresholds of pump controllers. <strong>IEEE 519</strong> harmonic distortion limits apply at the wellsite generator bus.</div>
+        </div>
+        <div class="col-item col-item-blue">
+          <span class="col-item-icon">&#9632;</span>
+          <div class="col-item-text"><strong>Cable management at the wellsite:</strong> E-frac trailers are relocated frequently. After every move: check cable routing, verify shield terminations at glands (360° rule), and inspect for cables draped across other trailers (common coupling path for CM noise).</div>
+        </div>
+        <div class="col-item col-item-green">
+          <span class="col-item-icon">&#10003;</span>
+          <div class="col-item-text"><strong>Equipment type-approval:</strong> E-frac drives operating on US wellsites must comply with <strong>FCC Part 15 Class A</strong> for unintentional radiated emissions. Wellsite spread operators increasingly require IEC 61000-4 immunity test reports for all electronic equipment.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">In safety-critical applications, <strong>drive EMC failures are not production incidents — they are safety events.</strong> For marine propulsion: <strong>46 CFR §143.585</strong> requires single-fault tolerance. For e-frac: drive trip cascades from EMI coupling are a known failure mode. EMC installation quality directly affects operational safety in both applications.</div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

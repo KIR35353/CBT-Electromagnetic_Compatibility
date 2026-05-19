@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>Environmental Requirements | Section 6 — Marine and Mobile Applications</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.outer { padding: 10px 16px 0; display: flex; flex-direction: column; gap: 10px; }
+.stat-row { display: flex; gap: 10px; }
+.stat-card { flex: 1; background: #fff; border: 1.5px solid #c8d8e8; border-top: 4px solid #002060; border-radius: 8px; padding: 10px 12px 8px; display: flex; flex-direction: column; gap: 4px; text-align: center; }
+.stat-navy  { border-top-color: #002060; }
+.stat-blue  { border-top-color: #1d5fa8; }
+.stat-amber { border-top-color: #cc8800; background: #fffbf2; }
+.stat-green { border-top-color: #1a7040; background: #f4fdf7; }
+.stat-super { font-size: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.6px; color: #778899; margin-bottom: 2px; }
+.stat-val { font-size: 22px; font-weight: bold; line-height: 1.1; color: #002060; }
+.stat-green .stat-val { color: #1a5c30; }
+.stat-amber .stat-val { color: #7a5000; }
+.stat-unit { font-size: 12px; font-weight: bold; color: #8899aa; margin-left: 2px; }
+.stat-label { font-size: 9px; font-weight: bold; color: #1a3660; text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px; }
+.stat-context { font-size: 7.5px; color: #778899; line-height: 1.5; margin-top: 2px; }
+.detail-row { display: flex; gap: 10px; }
+.support-panel { flex: 1; background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.support-banner { background: #1a3660; color: #88aacc; padding: 5px 14px; font-size: 9px; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; flex-shrink: 0; }
+.support-body { flex: 1; padding: 8px 12px; font-size: 9px; color: #334466; line-height: 1.65; display: flex; flex-direction: column; gap: 5px; }
+.support-body strong { color: #002060; }
+.row-item { display: flex; align-items: flex-start; gap: 8px; padding: 4px 6px; background: #f8fafb; border-radius: 4px; border-left: 3px solid #c8d8e8; }
+.row-item-b { border-left-color: #1d5fa8; }
+.row-item-a { border-left-color: #cc8800; }
+.row-item-g { border-left-color: #1a7040; }
+.row-item-n { border-left-color: #002060; }
+.key-concept-bar { background: #fff4ee; border: 1px solid #e8c0a8; border-left: 4px solid #cc3d00; border-radius: 7px; padding: 8px 18px 8px 22px; }
+.key-concept-head { font-size: 11px; font-weight: bold; color: #8b2000; margin-bottom: 3px; }
+.key-concept-text { font-size: 10px; color: #334466; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">Environmental Requirements — Marine and Mobile</div>
+  <div class="header-tag">Section 6 — Marine &amp; Mobile Applications</div>
+</div>
+<div class="outer">
+  <div class="stat-row">
+    <div class="stat-card stat-blue">
+      <div class="stat-super">Ingress protection minimum</div>
+      <div class="stat-val">IP54</div>
+      <div class="stat-label">Marine Machinery Space IP Rating</div>
+      <div class="stat-context">IP44 is absolute minimum. IP54 (dust protected + splash) is required for engine rooms and open deck machinery spaces on commercial vessels. E-frac outdoor equipment: IP54 minimum; consider IP65 for coastal / offshore wellsites.</div>
+    </div>
+    <div class="stat-card stat-amber">
+      <div class="stat-super">Temperature range — e-frac mobile</div>
+      <div class="stat-val">−40 / +70<span class="stat-unit">°C</span></div>
+      <div class="stat-label">Ambient Operating Range</div>
+      <div class="stat-context">E-frac trailers must operate in winter Permian Basin / Bakken conditions (−40 °C ambient start) and summer desert heat (+70 °C inside an unventilated trailer). Drive and motor specification must cover the full range without derating.</div>
+    </div>
+    <div class="stat-card stat-green">
+      <div class="stat-super">Vibration test standard</div>
+      <div class="stat-val">IEC 60068-2-6</div>
+      <div class="stat-label">Sinusoidal Vibration Type Test</div>
+      <div class="stat-context">Marine classification societies and e-frac operators require equipment to be type-tested to IEC 60068-2-6 (or equivalent) sinusoidal vibration test. Road transport vibration profile (5–50 Hz, 2g) must also be confirmed — separate from operational vibration.</div>
+    </div>
+    <div class="stat-card stat-navy">
+      <div class="stat-super">Salt-fog/humidity test</div>
+      <div class="stat-val">IEC 60068-2-52</div>
+      <div class="stat-label">Salt Mist / Corrosion Type Test</div>
+      <div class="stat-context">Cyclic salt-mist testing required for marine equipment. Class societies (ABS, DNV, BV) require 5% NaCl salt mist type-test per IEC 60068-2-52 or equivalent. All connectors, glands, and enclosures must survive 48–96 hour salt spray without insulation degradation.</div>
+    </div>
+  </div>
+
+  <div class="detail-row">
+    <div class="support-panel">
+      <div class="support-banner">Marine Environmental Checklist</div>
+      <div class="support-body">
+        <div class="row-item row-item-b">
+          <div><strong>Humidity:</strong> IEC 60068-2-78 — 40 °C / 93% RH cyclic damp heat. Marine engine rooms regularly operate at &gt; 85% RH during port calls in tropical regions. All PCB assemblies in the drive should be conformally coated.</div>
+        </div>
+        <div class="row-item row-item-a">
+          <div><strong>Shock:</strong> IEC 60068-2-27 — 15g peak, 11 ms half-sine. Required for coastal vessels subject to wave impact and for any equipment installed above the waterline on push boats operating in choppy river conditions.</div>
+        </div>
+        <div class="row-item row-item-g">
+          <div><strong>Classification society type-approval:</strong> ABS, DNV, LR, or BV type-approval is required if the vessel is classed. Verify the drive manufacturer's type-approval certificate covers the specific drive model, power rating, and IP rating specified.</div>
+        </div>
+        <div class="row-item row-item-n">
+          <div><strong>Cable insulation:</strong> Marine cables must be LSZH (Low Smoke Zero Halogen) and fire-retardant per IEC 60332. Standard PVC cables from industrial applications are not acceptable on classified vessels.</div>
+        </div>
+      </div>
+    </div>
+    <div class="support-panel">
+      <div class="support-banner">E-Frac Mobile Equipment Specifics</div>
+      <div class="support-body">
+        <div class="row-item row-item-b">
+          <div><strong>Flex-rated cables:</strong> All motor cables on mobile trailers must be flex-rated (IEC 60245 or equivalent) — standard fixed-installation cables fail from fatigue cracking after repeated trailer moves. Specify minimum bend radius ≥ 6× cable diameter at trailer cable entry glands.</div>
+        </div>
+        <div class="row-item row-item-a">
+          <div><strong>Trailer vibration:</strong> Drive enclosure mounting must account for road transport vibration. Use vibration-isolating mounts on the drive cabinet legs. Check manufacturer vibration survival spec — not all standard drives are rated for transport on flatbed trailers at highway speed.</div>
+        </div>
+        <div class="row-item row-item-g">
+          <div><strong>IEEE 519 — harmonic distortion:</strong> At the wellsite generator bus, current harmonic distortion (THD-I) must not exceed 5% (IEEE 519:2022 limits for &lt; 1 kV systems). Active front-end (AFE) drives or passive 12-pulse rectifiers are required at large pump spreads to meet this limit.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-concept-bar">
+    <div class="key-concept-head">Key Concept</div>
+    <div class="key-concept-text">Marine and mobile environments impose environmental requirements that go well beyond standard industrial specifications. Minimum requirements: <strong>IP54 enclosures, IEC 60068-2-52 salt mist, IEC 60068-2-6 vibration, −40 °C to +70 °C temperature range</strong> for e-frac. Verify classification society type-approval for classed vessels. Use LSZH cables on marine vessels.</div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>

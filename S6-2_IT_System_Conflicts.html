@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<title>IT System Conflicts | Section 6 — Marine and Mobile Applications</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafb; font-family: Arial, Helvetica, sans-serif; width: 1040px; min-height: 510px; overflow: hidden; }
+.header { background: #002060; color: #fff; height: 50px; display: flex; align-items: center; padding: 0 24px; justify-content: space-between; }
+.header-title { font-size: 13px; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
+.header-tag { background: #1a3660; border: 1px solid #3d7fbd; border-radius: 12px; padding: 4px 16px; font-size: 10px; font-weight: bold; color: #88aacc; letter-spacing: 0.5px; white-space: nowrap; }
+.body-layout { display: flex; height: calc(510px - 50px); }
+.layers-panel { width: 530px; flex-shrink: 0; padding: 10px 12px 8px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+.conflict-box { background: #fff4ee; border: 1.5px solid #cc3d00; border-radius: 6px; padding: 6px 12px; font-size: 9px; color: #5a2000; line-height: 1.6; }
+.conflict-box strong { color: #8b2000; }
+.layer { display: flex; align-items: stretch; border-radius: 7px; overflow: hidden; border: 1.5px solid #c8d8e8; }
+.layer-num { width: 30px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: #fff; }
+.layer-body { flex: 1; padding: 8px 12px; display: flex; flex-direction: column; gap: 3px; background: #fff; }
+.layer-title { font-size: 9.5px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3px; color: #1a3660; }
+.layer-sub { font-size: 8px; font-weight: bold; color: #778899; letter-spacing: 0.3px; }
+.layer-desc { font-size: 8.5px; color: #334466; line-height: 1.6; }
+.layer-desc strong { color: #002060; }
+.pro-con { display: flex; gap: 8px; margin-top: 3px; }
+.pro { font-size: 8px; background: #edfaf2; border-radius: 4px; padding: 2px 7px; color: #1a5c30; border: 1px solid #a0cca8; }
+.con { font-size: 8px; background: #fff8f2; border-radius: 4px; padding: 2px 7px; color: #8b4000; border: 1px solid #d4a888; }
+.layer-blue   .layer-num { background: #1d5fa8; }
+.layer-amber  .layer-num { background: #cc8800; }
+.layer-green  .layer-num { background: #1a7040; }
+.notes-panel { flex: 1; padding: 10px 14px 10px 6px; display: flex; flex-direction: column; gap: 8px; }
+.note-card { background: #fff; border: 1.5px solid #c8d8e8; border-radius: 8px; overflow: hidden; flex: 1; }
+.note-banner { background: #1a3660; color: #88aacc; padding: 5px 12px; font-size: 9px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; }
+.note-body { padding: 8px 12px; font-size: 9px; color: #334466; line-height: 1.7; }
+.note-body strong { color: #002060; }
+.note-item { display: flex; align-items: flex-start; gap: 6px; padding: 3px 0; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+.dot-blue  { background: #1d5fa8; }
+.dot-amber { background: #cc8800; }
+.dot-green { background: #1a7040; }
+.dot-red   { background: #cc3d00; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">IT System vs. VSD Y-Capacitors</div>
+  <div class="header-tag">Section 6 — Marine &amp; Mobile Applications</div>
+</div>
+<div class="body-layout">
+  <div class="layers-panel">
+
+    <div class="conflict-box">
+      <strong>The Conflict:</strong> 46 CFR §143.570 requires IT (ungrounded) distribution on metallic towing vessels. AC drives have <strong>Y-filter capacitors</strong> connected between each phase and PE — they create a reference-to-ground and allow CM current to flow to PE. This is a deliberate connection to ground, prohibited on an IT system.
+    </div>
+
+    <div class="layer layer-blue">
+      <div class="layer-num">1</div>
+      <div class="layer-body">
+        <div class="layer-title">Y-Capacitor Bypass Switch</div>
+        <div class="layer-sub">Simplest solution — available on many marine-approved drives as standard</div>
+        <div class="layer-desc">The drive is supplied with an internal switch or removable link that disconnects the Y-capacitors from PE. The drive operates without the Y-caps — <strong>conducted emission performance is degraded</strong>, but the IT system integrity is maintained. An external EMC filter may be required to compensate.</div>
+        <div class="pro-con"><span class="pro">&#10003; Low cost, no extra hardware</span><span class="con">&#9888; Higher CM emissions — needs external filter</span></div>
+      </div>
+    </div>
+
+    <div class="layer layer-amber">
+      <div class="layer-num">2</div>
+      <div class="layer-body">
+        <div class="layer-title">Isolation Transformer (1:1 Galvanic Isolation)</div>
+        <div class="layer-sub">Creates a local TN reference for the drive without involving the vessel IT system</div>
+        <div class="layer-desc">A 1:1 isolation transformer is installed between the vessel IT bus and the drive input. The <strong>secondary of the transformer provides a local TN reference</strong> — the drive's Y-capacitors connect to this secondary neutral, which is referenced to the drive cabinet frame (not the vessel hull). The vessel IT system remains unaffected.</div>
+        <div class="pro-con"><span class="pro">&#10003; Full EMC filter performance maintained</span><span class="con">&#9888; Cost, size, weight — significant for large drives</span></div>
+      </div>
+    </div>
+
+    <div class="layer layer-green">
+      <div class="layer-num">3</div>
+      <div class="layer-body">
+        <div class="layer-title">Delta-Filter Topology Drive</div>
+        <div class="layer-sub">Advanced filter design — no Y-capacitors required</div>
+        <div class="layer-desc">Some drive manufacturers offer an alternative EMC filter topology using <strong>delta (phase-to-phase) capacitors</strong> instead of Y-capacitors. Delta caps attenuate DM noise without creating a reference-to-ground. No Y-cap bypass switch or isolation transformer is needed. This is the preferred solution for marine propulsion systems designed from scratch.</div>
+        <div class="pro-con"><span class="pro">&#10003; IT compatible without compromise</span><span class="con">&#9888; Higher cost, not all makes available</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="notes-panel">
+    <div class="note-card">
+      <div class="note-banner">Verifying IT System Integrity After VSD Installation</div>
+      <div class="note-body">
+        <div class="note-item"><div class="dot dot-blue"></div><div>After installing a VSD on an IT system vessel, the <strong>insulation monitoring device (IMD)</strong> — required by 46 CFR §143.570(e) — must be checked. If the IMD alarms immediately after drive energisation, the Y-capacitors are still connected to PE and must be disconnected or bypassed.</div></div>
+        <div class="note-item"><div class="dot dot-amber"></div><div>The IMD measures the insulation resistance between each live conductor and the hull. Y-capacitors present a low-impedance AC path to PE — which the IMD sees as a ground fault. <strong>The IMD will alarm even though no true fault exists</strong> — but this masks a real future fault. Do not disable the IMD to eliminate the alarm.</div></div>
+        <div class="note-item"><div class="dot dot-green"></div><div>When using Solution 1 (Y-cap bypass) with an external filter: specify a <strong>delta-topology external EMC filter</strong> (no Y-caps in the filter either) to avoid recreating the same IT conflict at the filter. Some standard panel-mount EMC filters include Y-caps — verify before installation.</div></div>
+        <div class="note-item"><div class="dot dot-red"></div><div>Document the Y-cap management solution in the Subchapter M Electrical Plan submitted to USCG for the Certificate of Inspection. The inspector will verify the approach.</div></div>
+      </div>
+    </div>
+    <div class="note-card">
+      <div class="note-banner">E-Frac Mobile Equipment — IT System Note</div>
+      <div class="note-body">
+        <div class="note-item"><div class="dot dot-blue"></div><div>E-frac spreads are typically <strong>TN-S or TT systems</strong> (grounded neutral from the generator) — not IT systems. The Y-capacitor conflict does not apply. However, Y-caps in VFDs introduce high CM current on the generator PE conductor, which can cause nuisance trips of <strong>residual current devices (RCDs)</strong> in the wellsite distribution system.</div></div>
+        <div class="note-item"><div class="dot dot-amber"></div><div>Verify with the wellsite operator whether RCDs are present in the distribution. If so, use type-B RCDs (rated for mixed AC/DC residual current) and confirm the VFD CM leakage current is within the RCD's trip threshold (typically 300 mA for industrial RCDs).</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    document.documentElement.style.overflow = 'hidden';
+    function scaleToFit() {
+      var s = Math.min(window.innerWidth / 1040, window.innerHeight / 510);
+      document.body.style.transform = 'scale(' + s + ')'; document.body.style.transformOrigin = '0 0';
+    }
+    scaleToFit(); window.addEventListener('resize', scaleToFit);
+  })();
+</script>
+</body>
+</html>
